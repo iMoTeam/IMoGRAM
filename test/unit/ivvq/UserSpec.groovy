@@ -1,6 +1,7 @@
 package ivvq
 
 import grails.test.mixin.TestFor
+import org.springframework.mock.web.MockMultipartFile
 import spock.lang.Specification
 
 /**
@@ -24,7 +25,7 @@ class UserSpec extends Specification {
         user.username = "toto"
         user.email = "toto@toto.com"
         user.password = "pwd1234"
-        user.profilePhoto = null
+        user.profilePhoto = "1234567" as byte[]
 
 
         when:"trying to validate the user"
@@ -75,7 +76,7 @@ class UserSpec extends Specification {
         isValid == false
         where:
         aFirstName    | aLastName | aUsername | aPassword | anEmail | aPhoto
-         "firstName" |"lastName" | "toto1"   | "toto1234" | "toto"  | null
-        "firstName" | "firstName" | ""        | "toto"    | "toto" | null
+         "firstName" |"lastName" | "toto1"   | "toto1234" | "toto"  | "1234567" as byte[]
+        "firstName" | "firstName" | ""        | "toto"    | "toto" | "1234567" as byte[]
     }
 }
