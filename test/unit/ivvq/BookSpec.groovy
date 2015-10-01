@@ -47,5 +47,6 @@ class BookSpec extends Specification {
         "La route" |    new Date()   |     ""     |    null
         "Word War" |    new Date()   |    null    |    ""
            ""       |    new Date()   |    "Max"   |    ""
+           "test"  |    new Date()   |    "Max"   |    ""
     }
 }
