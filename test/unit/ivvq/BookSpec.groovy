@@ -29,6 +29,7 @@ class BookSpec extends Specification {
         "Eva"       |    new Date()   |  "Simon"  |  "Plutot qu'une consciencieuse biographie."
         "La route" |    new Date()   |  "Cormac" |    null
         "Word War" |    new Date()   |    "Max"   |    ""
+        "Word "     |    new Date()   |    "Max"   |    ""
     }
 
     @Unroll
