@@ -9,6 +9,9 @@
 # web application files
 /web-app/WEB-INF/classes
 
+# Database files
+*.db
+
 # default HSQL database files for production mode
 /prodDb.*
 
