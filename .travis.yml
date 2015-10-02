@@ -5,3 +5,7 @@ script: ./grailsw refresh-dependencies
   && ./grailsw "test-app unit:"
   && ./grailsw refresh-dependencies
   && ./grailsw "test-app functional:"
+
+  deploy:
+  provider: heroku
+  api_key: 7cf2c57e-3333-43e0-bbfa-1172c957e0d2
