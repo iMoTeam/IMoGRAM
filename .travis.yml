@@ -7,4 +7,4 @@ deploy:
     api_key: 7cf2c57e-3333-43e0-bbfa-1172c957e0d2
     app: 
        master:iMoGRAM
-       sprint1-Config-25:iMoGRAM
+       sprint1-Config-25:iMoGRAM-test
