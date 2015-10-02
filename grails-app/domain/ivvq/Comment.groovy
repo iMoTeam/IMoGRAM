@@ -1,11 +1,12 @@
 package ivvq
 
 class Comment {
-    String username
+    User user
     Date date
+    String title
     String comment
     static constraints = {
-        username blank: false
         comment blank: false, minSize: 20
+        title blank: false
     }
 }

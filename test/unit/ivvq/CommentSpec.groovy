@@ -15,29 +15,31 @@ class CommentSpec extends Specification {
     def cleanup() {
     }
 
-    void "test a valid comment"(String aUsername, Date aDate, String aComment) {
+    void "test a valid comment"(User aUser, String aTitle, Date aDate, String aComment) {
         given:"a comment correctly set"
-        Comment comment = new Comment(username: aUsername, date: aDate, comment: aComment);
+        Comment comment = new Comment(user: aUser, title: aTitle, date: aDate, comment: aComment);
 
         expect:"the comment is valid"
         comment.validate() == true
 
         where:
-        aUsername    |      aDate      |   aComment
-        "Eva"       |    new Date()   |  "Interesting movie, I love it !"
+        aUser        |      aTitle    |     aDate      |   aComment
+        Mock(User)   |      "Cool !" |    new Date()  |  "Interesting movie, I love it !"
     }
 
-    void "test a invalid comment"(String aUsername, Date aDate, String aComment) {
+    void "test a invalid comment"(User aUser, String aTitle, Date aDate, String aComment) {
         given:"a comment incorrectly set"
-        Comment comment = new Comment(username: aUsername, date: aDate, comment: aComment)
+        Comment comment = new Comment(user: aUser, date: aDate, comment: aComment, title: aTitle)
 
         expect:"the comment is invalid"
         comment.validate() == false
 
         where:
-        aUsername    |      aDate      |   aComment
-           null     |    new Date()   |  "Interesting movie, I love it !"
-           "Eva"    |    new Date()   |  ""
-           "Eva"    |    new Date()   |  null
+          aUser      |      aTitle    |     aDate      |   aComment
+           null     |    "cool !"   |   new Date()   |  "Interesting movie, I love it !"
+        Mock(User)   |    "cool !"   |   new Date()   |  ""
+        Mock(User)   |    "cool !"   |   new Date()   |  null
+        Mock(User)   |    ""          |   new Date()   |  "Interesting movie, I love it !"
+        Mock(User)   |    null        |   new Date()   |  "Interesting movie, I love it !"
     }
 }
