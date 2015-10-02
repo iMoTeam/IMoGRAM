@@ -1,11 +1,10 @@
 language: groovy
 jdk:
   - oraclejdk7
-script: ./grailsw refresh-dependencies && ./grailsw test-app
+script: 
+      - ./grailsw refresh-dependencies
+      - ./grailsw test-app -coverage
 deploy:
     provider: heroku
     api_key: 7cf2c57e-3333-43e0-bbfa-1172c957e0d2
-    app: 
-       master:iMoGRAM
-       sprint1-Config-25:iMoGRAM-test
-    on: sprint1-Config-25
+    app: imogram
