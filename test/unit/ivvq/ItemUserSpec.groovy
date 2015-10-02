@@ -25,6 +25,7 @@ class ItemUserSpec extends Specification {
         itemUser.book = aBook
         itemUser.movie = aMovie
         itemUser.comments = aComments
+        itemUser.favourite = aFavourite
 
         when: "the itemUser is validated"
         def valid = itemUser.validate()
@@ -33,10 +34,10 @@ class ItemUserSpec extends Specification {
         valid == expectedState
 
         where:
-        aUser|aSong|aBook|aMovie|aComments|expectedState
-        Mock(User)|Mock(Song)|null|null|null|true
-        Mock(User)|null|Mock(Book)|null|null|true
-        Mock(User)|null|null|Mock(Movie)|null|true
+        aUser|aSong|aBook|aMovie|aComments|aFavourite|expectedState
+        Mock(User)|Mock(Song)|null|null|null|false|true
+        Mock(User)|null|Mock(Book)|null|null|false|true
+        Mock(User)|null|null|Mock(Movie)|null|false|true
 
     }
 
