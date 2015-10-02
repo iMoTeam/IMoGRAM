@@ -23,7 +23,7 @@ class SongSpec extends Specification {
         song.artist = "Chris Brown"
         song.description = "A single released after Chris was un jailed"
         song.releaseDate = Mock(Date)
-        song.image = "1234567" as byte[]
+        song.image = "1234567"
 
 
         when:"trying to validate the song"
@@ -42,7 +42,7 @@ class SongSpec extends Specification {
         song.title = "IDFWU"
         song.description = "Big sean's hit song after break up"
         song.releaseDate = null
-       song.image = null
+        song.image = null
 
         and: "with a blank artist"
         song.artist = ""
@@ -73,8 +73,8 @@ class SongSpec extends Specification {
         isValid == false
         where:
         aTitle  |   anArtist | aDescription | aReleaseDate | anImage
-        null    | "Ariana"   | "hit song"   | Mock(Date)    | "1234567" as byte[]
-        ""   | ""   | "hit song"   | Mock(Date)             | "1234567" as byte[]
-        "Lollipop"    | ""   | "this guy mad"   | Mock(Date) | "1234567" as byte[]
+        null    | "Ariana"   | "hit song"   | Mock(Date)    | "1234567"
+        ""   | ""   | "hit song"   | Mock(Date)             | "1234567"
+        "Lollipop"    | ""   | "this guy mad"   | Mock(Date) | "1234567"
     }
 }

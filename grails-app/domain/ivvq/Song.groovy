@@ -6,12 +6,13 @@ class Song {
     String artist
     String description
     Date releaseDate
-    byte[] image
+    String image
     static constraints = {
         title blank: false
         artist blank: false
         description nullable: true
         releaseDate nullable: true
+        image blank: true
         image nullable: true
     }
 }
