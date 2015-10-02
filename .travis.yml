@@ -3,7 +3,7 @@ jdk:
   - oraclejdk7
 script: 
       - ./grailsw refresh-dependencies
-      - ./grailsw test-app -coverage
+      - ./grailsw test-app -echoOut -echoErr -coverage -xml
 after_success:
       - ./grailsw coveralls
 deploy:
