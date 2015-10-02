@@ -6,10 +6,13 @@ class ItemUser {
     Movie movie
     Song song
     Book book
+    boolean favourite = false
 
     static hasMany = [comments: Comment]
 
     static constraints = {
-        user nullable: false
+        movie nullable: true
+        song nullable: true
+        book nullable:  true
     }
 }
