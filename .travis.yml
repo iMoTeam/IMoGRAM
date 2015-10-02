@@ -8,3 +8,4 @@ deploy:
     app: 
        master:iMoGRAM
        sprint1-Config-25:iMoGRAM-test
+    on: sprint1-Config-25
