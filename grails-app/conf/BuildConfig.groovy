@@ -68,7 +68,7 @@ grails.project.dependency.resolution = {
         compile ":rest-client-builder:2.0.0"
 
         // Coveralls plugin
-        build(':coveralls:0.1.3', ':rest-client-builder:1.0.3') {
+        build(':coveralls:0.1.3') {
             export = false
         }
 
