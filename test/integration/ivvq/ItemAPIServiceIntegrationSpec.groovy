@@ -17,7 +17,7 @@ class ItemAPIServiceIntegrationSpec extends Specification {
     def cleanup() {
     }
 
-    void "test movie API with a given url"() {
+    void "test the movie API with a given url"() {
 
         given: "an IMDB id that belongs to a unique movie"
         String imdbID = "tt0369610"
@@ -27,5 +27,17 @@ class ItemAPIServiceIntegrationSpec extends Specification {
 
         then: "the title of the current movie is Jurassic World"
         json.Title == "Jurassic World"
+    }
+
+    void "test the book API with a given url"() {
+
+        given: "a google id that belongs to a unique book"
+        String googleID = "SteVfQT2WY0C"
+
+        when: "calling the book API with the given id"
+        JSONElement json = itemAPIService.bookAPI(googleID)
+
+        then: "the title of the current book is Da Vinci Code"
+        json.title == "Da Vinci Code"
     }
 }

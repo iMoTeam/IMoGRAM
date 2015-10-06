@@ -34,4 +34,26 @@ class DataFillingService {
 
         currentMovie
     }
+
+    Book jsonToBookSave(String googleID) {
+
+        JSONElement json = itemAPIService.bookAPI(googleID)
+
+        Book cuurentBook = new Book()
+
+        cuurentBook.isbn13 = json.volumeInfo.industryIdentifiers[1].identifier
+        cuurentBook.title = json.volumeInfo.title
+        // TODO Cast with a real date format
+        cuurentBook.publishedDate = json.volumeInfo.publishedDate
+        // TODO Save all the autors
+        cuurentBook.author = json.volumeInfo.authors[0]
+        cuurentBook.publisher = json.volumeInfo.publisher
+        cuurentBook.description = json.volumeInfo.description
+        cuurentBook.image = json.volumeInfo.imageLinks.thumbnail
+        cuurentBook.pageCount = json.volumeInfo.pageCount
+
+        cuurentBook.save(flush: true)
+
+        cuurentBook
+    }
 }

@@ -1,16 +1,23 @@
 package ivvq
 
 class Book {
-    String name
-    Date dateEdition
-    String writer
-    String extrait
+    String isbn13
+    String title
+    String publishedDate
+    String author
+    String publisher
+    String description
     String image
-    static constraints = {
-        name blank: false
-        extrait nullable: true
-        writer blank: false
-        image nullable: true
+    Integer pageCount
 
+    static constraints = {
+        isbn13 matches: "978[0-9]{10}", blank: false, unique: true
+        title blank: false
+        description nullable: true
+        author blank: false
+        pageCount nullable: false, min: 0
+        publishedDate nullable: false
+        image blank: true, nullable: true
+        publisher blank: false
     }
 }

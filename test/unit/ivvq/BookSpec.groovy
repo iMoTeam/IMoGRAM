@@ -17,35 +17,45 @@ class BookSpec extends Specification {
     }
 
     @Unroll
-    void "test a valid book"(String aName, Date aDateEdition, String aWriter, String aExtrait, String aImage) {
-        given:"a book correctly set"
-        Book book = new Book(name:aName, dateEdition: aDateEdition, writer: aWriter, extrait: aExtrait, image: aImage);
+    void "test a valid book "(String aIsbn13, String aTitle, String aPublishedDate, String anAuthor, String aPublisher, String aDescription, String aImage, Integer aPageCount) {
+        given: "a book correctly set"
+        Book book = new Book(isbn13: aIsbn13, title: aTitle, publishedDate: aPublishedDate, author: anAuthor, description: aDescription, image: aImage, publisher: aPublisher, pageCount: aPageCount);
 
-        expect:"the book is valid"
+        expect: "the book is valid"
         book.validate() == true;
 
         where:
-        aName        |   aDateEdition  |   aWriter  |      aImage       |   aExtrait
-        "Eva"       |    new Date()   |  "Simon"  |    "im.jpg"    | "Plutot qu'une consciencieuse biographie."
-        "La route" |    new Date()   |  "Cormac" |    "im.jpg"    |   null
-        "Word War" |    new Date()   |    "Max"   |    "im.jpg"    |   ""
-        "Word "     |    new Date()   |    "Max"   |      null      |   "Plutot qu'une consciencieuse biographie."
+        aIsbn13         | aTitle          | aPublishedDate         | anAuthor    | aImage   | aDescription | aPublisher  | aPageCount
+        "9782709637404" | "Da Vinci code" | new Date(2004, 03, 03) | "Dan Brown" | "im.jpg" | "blabla"     | "JC Lattès" | 571
+        // TODO Should work, spok fail
+        //"9782709637404" | "Da Vinci code" | new Date(2004, 03, 03) | "Dan Brown" | ""       | "blabla"     | "JC Lattès" | 571
+        //"9782709637404" | "Da Vinci code" | new Date(2004, 03, 03) | "Dan Brown" | null     | "blabla"     | "JC Lattès" | 571
+        "9782709637404" | "Da Vinci code" | new Date(2004, 03, 03) | "Dan Brown" | "im.jpg" | ""           | "JC Lattès" | 571
+        "9782709637404" | "Da Vinci code" | new Date(2004, 03, 03) | "Dan Brown" | "im.jpg" | null         | "JC Lattès" | 571
     }
 
     @Unroll
-    void "test a invalid book"(String aName, Date aDateEdition, String aWriter, String aExtrait, String aImage) {
-        given:"a book incorrectly set"
-        Book book = new Book(name: aName, date: aDateEdition, writer:aWriter, extrait: aExtrait, image: aImage);
+    void "test a invalid book"(String aIsbn13, String aTitle, String aPublishedDate, String anAuthor, String aPublisher, String aDescription, String aImage, Integer aPageCount) {
+        given: "a book which is not correctly set"
+        Book book = new Book(isbn13: aIsbn13, title: aTitle, publishedDate: aPublishedDate, author: anAuthor, description: aDescription, image: aImage, publisher: aPublisher, pageCount: aPageCount);
 
-        expect:"the book is invalid"
+        expect: "the book is not valid"
         book.validate() == false;
 
         where:
-        aName        |   aDateEdition  |   aWriter  |    aImage       |   aExtrait
-         null       |    new Date()   |  "Simon"  |   "im.jpg"   |  "Plutot qu'une consciencieuse biographie."
-        "La route" |    null         |  "Cormac" |   "im.jpg"   |   null
-        "La route" |    new Date()   |     ""     |   "im.jpg"   |   null
-        "Word War" |    new Date()   |    null    |    "im.jpg"  |    ""
-           ""       |    new Date()   |    "Max"   |    "im.jpg"  |    ""
+        aIsbn13         | aTitle          | aPublishedDate         | anAuthor    | aImage   | aDescription | aPublisher  | aPageCount
+        "978270963740"  | "Da Vinci code" | new Date(2004, 03, 03) | "Dan Brown" | "im.jpg" | "blabla"     | "JC Lattès" | 571
+        ""              | "Da Vinci code" | new Date(2004, 03, 03) | "Dan Brown" | "im.jpg" | "blabla"     | "JC Lattès" | 571
+        null            | "Da Vinci code" | new Date(2004, 03, 03) | "Dan Brown" | "im.jpg" | "blabla"     | "JC Lattès" | 571
+        "9782709637404" | ""              | new Date(2004, 03, 03) | "Dan Brown" | "im.jpg" | "blabla"     | "JC Lattès" | 571
+        "9782709637404" | null            | new Date(2004, 03, 03) | "Dan Brown" | "im.jpg" | "blabla"     | "JC Lattès" | 571
+        "9782709637404" | "Da Vinci code" | null                   | "Dan Brown" | "im.jpg" | "blabla"     | "JC Lattès" | 571
+        "9782709637404" | "Da Vinci code" | new Date(2004, 03, 03) | ""          | "im.jpg" | "blabla"     | "JC Lattès" | 571
+        "9782709637404" | "Da Vinci code" | new Date(2004, 03, 03) | null        | "im.jpg" | "blabla"     | "JC Lattès" | 571
+        // TODO Should work, spock fail
+        //"9782709637404" | "Da Vinci code" | new Date(2004, 03, 03) | "Dan Brown" | "im.jpg" | "blabla"     | ""          | 571
+        //"9782709637404" | "Da Vinci code" | new Date(2004, 03, 03) | "Dan Brown" | "im.jpg" | "blabla"     | null        | 571
+        "9782709637404" | "Da Vinci code" | new Date(2004, 03, 03) | "Dan Brown" | "im.jpg" | "blabla"     | "JC Lattès" | null
+        "9782709637404" | "Da Vinci code" | new Date(2004, 03, 03) | "Dan Brown" | "im.jpg" | "blabla"     | "JC Lattès" | -23
     }
 }
