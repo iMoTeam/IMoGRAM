@@ -40,7 +40,7 @@ body {
 	background: #ffffff;
 	color: #333333;
 	margin: 0 auto;
-	max-width: 960px;
+	/*max-width: 960px;*/
 	overflow-x: hidden; /* prevents box-shadow causing a horizontal scrollbar in firefox when viewport < 960px wide */
 	   -moz-box-shadow: 0 0 0.3em #255b17;
 	-webkit-box-shadow: 0 0 0.3em #255b17;
@@ -48,8 +48,25 @@ body {
 }
 
 #grailsLogo {
-	background-color: #abbf78;
+	background-color: #FFFFFF;
 }
+
+/*a.button::before {
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-box-shadow: #959595 0 2px 5px;
+	-moz-box-shadow: #959595 0 2px 5px;
+	border-radius: 3px;
+	box-shadow: #959595 0 2px 5px;
+	content: "";
+	display: block;
+	height: 100%;
+	left: 0;
+	padding: 2px 0 0;
+	position: absolute;
+	top: 0;
+	width: 100%; }*/
+
 
 /* replace with .no-boxshadow body if you have modernizr available */
 .ie6 body,
@@ -65,7 +82,8 @@ body {
 }
 
 a:link, a:visited, a:hover {
-	color: #48802c;
+	/*color: #48802c;*/
+	color:#FFF;
 }
 
 a:hover, a:active {
@@ -91,7 +109,7 @@ img {
 
 #grailsLogo a {
 	display: inline-block;
-	margin: 1em;
+	/*margin: 1em;*/
 }
 
 .content {
@@ -108,7 +126,7 @@ img {
 }
 
 .footer {
-	background: #abbf78;
+	background: #FFFFFF;
 	color: #000;
 	clear: both;
 	font-size: 0.8em;
@@ -409,19 +427,20 @@ tr {
 	border: 0;
 }
 
-tr>td:first-child, tr>th:first-child {
+/*tr>td:first-child, tr>th:first-child {
 	padding-left: 1.25em;
 }
 
 tr>td:last-child, tr>th:last-child {
 	padding-right: 1.25em;
-}
+}*/
 
 td, th {
 	line-height: 1.5em;
-	padding: 0.5em 0.6em;
+	/*padding: 0.5em 0.6em;*/
 	text-align: left;
 	vertical-align: top;
+	width: 100px;
 }
 
 th {
@@ -475,9 +494,9 @@ th.desc a {
 	background: #ffffff;
 }
 
-th:hover, tr:hover {
+/*th:hover, tr:hover {
 	background: #E1F2B6;
-}
+}*/
 
 /* PAGINATION */
 
@@ -593,4 +612,66 @@ th:hover, tr:hover {
 a.skip {
 	position: absolute;
 	left: -9999px;
+}
+
+
+
+
+.animate
+{
+	transition: all 0.1s;
+	-webkit-transition: all 0.1s;
+}
+
+.action-button
+{
+	position: relative;
+	padding: 10px 40px;
+	margin: 0px 10px 10px 0px;
+	float: left;
+	border-radius: 10px;
+	font-family: 'Pacifico', cursive;
+	font-size: 25px;
+	color: #FFF;
+	text-decoration: none;
+}
+
+.blue
+{
+	background-color: #3498DB;
+	border-bottom: 5px solid #2980B9;
+	text-shadow: 0px -2px #2980B9;
+}
+
+.red
+{
+	background-color: #E74C3C;
+	border-bottom: 5px solid #BD3E31;
+	text-shadow: 0px -2px #BD3E31;
+}
+
+.green
+{
+	background-color: #82BF56;
+	border-bottom: 5px solid #669644;
+	text-shadow: 0px -2px #669644;
+}
+
+.yellow
+{
+	background-color: #F2CF66;
+	border-bottom: 5px solid #D1B358;
+	text-shadow: 0px -2px #D1B358;
+}
+
+.action-button:active
+{
+	transform: translate(0px,5px);
+	-webkit-transform: translate(0px,5px);
+	border-bottom: 1px solid;
+}
+
+#rechercher {
+	border: 2px dashed #D1C7AC;
+	width: 520px;
 }
