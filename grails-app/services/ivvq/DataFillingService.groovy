@@ -48,8 +48,8 @@ class DataFillingService {
         // TODO Save all the autors
         cuurentBook.author = json.volumeInfo.authors[0]
         cuurentBook.publisher = json.volumeInfo.publisher
-        cuurentBook.description = json.volumeInfo.description
-        cuurentBook.image = json.volumeInfo.imageLinks.thumbnail
+        cuurentBook.description = "description" //json.volumeInfo.description
+        cuurentBook.image = "image" //json.volumeInfo.imageLinks.thumbnail
         cuurentBook.pageCount = json.volumeInfo.pageCount
 
         cuurentBook.save(flush: true)

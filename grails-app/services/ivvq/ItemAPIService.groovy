@@ -25,7 +25,7 @@ class ItemAPIService {
     def bookAPI(String googleID) {
 
         //String api_key = "eGnBLXtKoqpJHrEhdaGjbw"
-        String urlAPI = "https://www.googleapis.com/books/v1/volumes/" + googleID
+            String urlAPI = "https://www.googleapis.com/books/v1/volumes/" + googleID
 
         RestResponse response = rest.get(urlAPI) {
 

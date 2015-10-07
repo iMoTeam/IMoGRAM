@@ -4,7 +4,7 @@ class ItemUser {
 
     User user
     Movie movie
-    Song song
+    TVShow tvShow
     Book book
     boolean favourite = false
 
@@ -12,7 +12,7 @@ class ItemUser {
 
     static constraints = {
         movie nullable: true
-        song nullable: true
+        tvShow nullable: true
         book nullable:  true
     }
 }

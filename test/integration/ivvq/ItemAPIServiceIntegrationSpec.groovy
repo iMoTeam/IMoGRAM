@@ -38,6 +38,6 @@ class ItemAPIServiceIntegrationSpec extends Specification {
         JSONElement json = itemAPIService.bookAPI(googleID)
 
         then: "the title of the current book is Da Vinci Code"
-        json.title == "Da Vinci Code"
+        json.volumeInfo.title == "Da Vinci code"
     }
 }

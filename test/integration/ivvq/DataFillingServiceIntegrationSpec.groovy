@@ -36,7 +36,7 @@ class DataFillingServiceIntegrationSpec extends Specification {
 
     void "test that the BOOK is correctly added to the database"() {
 
-        given: "an IMDB id that belongs to a unique movie"
+        given: "an google id that belongs to a unique book"
         String googleID = "SteVfQT2WY0C"
 
         when: "the json is loaded and the book is saved"

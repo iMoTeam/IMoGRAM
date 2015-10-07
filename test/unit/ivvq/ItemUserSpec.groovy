@@ -21,7 +21,7 @@ class ItemUserSpec extends Specification {
     void "test on the itemUser constraints are valids"() {
         given: "an itemUser"
         itemUser.user = aUser
-        itemUser.song = aSong
+        itemUser.tvShow = aTvShow
         itemUser.book = aBook
         itemUser.movie = aMovie
         itemUser.comments = aComments
@@ -34,10 +34,10 @@ class ItemUserSpec extends Specification {
         valid == expectedState
 
         where:
-        aUser|aSong|aBook|aMovie|aComments|aFavourite|expectedState
-        Mock(User)|Mock(Song)|null|null|null|false|true
-        Mock(User)|null|Mock(Book)|null|null|false|true
-        Mock(User)|null|null|Mock(Movie)|null|false|true
+        aUser      | aTvShow      | aBook      | aMovie      | aComments | aFavourite | expectedState
+        Mock(User) | Mock(TVShow) | null       | null        | null      | false      | true
+        Mock(User) | null         | Mock(Book) | null        | null      | false      | true
+        Mock(User) | null         | null       | Mock(Movie) | null      | false      | true
 
     }
 
