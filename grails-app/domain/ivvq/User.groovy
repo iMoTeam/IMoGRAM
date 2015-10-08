@@ -8,7 +8,6 @@ class User {
     String password
     byte[] profilePhoto
 
-
     static constraints = {
         email email: true
         username blank: false
@@ -16,5 +15,5 @@ class User {
         firstName blank: false
         lastName blank: false
         profilePhoto nullable: true;
+        }
     }
-}
