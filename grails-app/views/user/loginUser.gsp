@@ -6,7 +6,7 @@
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="ivvq.User" %>
+<%@ page import="ivvq.UserController" %>
 <html>
 <head>
     <meta name="layout" content="main"/>
@@ -15,7 +15,7 @@
 
 <body>
 <h1 align="center" style="color: rgba(255, 239, 252, 0)">Saisissez vos informations </h1>
-<g:form controller="UserController" action="create">
+<g:form controller="user" action="loggedInUser">
     <fieldset class="form">
         <div class="fieldcontain ${hasErrors(bean: userInstance, field: 'username', 'error')} required">
             <label for="username">
@@ -26,15 +26,15 @@
 
         </div>
         <div class="fieldcontain ${hasErrors(bean: userInstance, field: 'password', 'error')} required">
-            <label for="motDePasse1">
+            <label for="password">
                 <g:message code="user.password.label" default="Mot de Passe" />
                 <span class="required-indicator">*</span>
             </label>
-            <g:textField name="motDePasse1" />
+            <g:textField name="password" required="" value="${userInstance?.password}" />
         </div>
         <br>
         <div style="float: none">
-            <g:submitButton name="Valider" value="Valider" style="background-color: #999999"/>
+            <g:submitButton name="Se Connecter" value="Valider" style="background-color: #999999"/>
         </div>
     </fieldset>
 </g:form>

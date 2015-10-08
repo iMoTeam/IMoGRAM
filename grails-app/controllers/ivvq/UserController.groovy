@@ -9,7 +9,7 @@ import grails.transaction.Transactional
 class UserController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
-
+    UserService userService
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         respond User.list(params), model:[userInstanceCount: User.count()]
@@ -127,7 +127,23 @@ class UserController {
 
     }
     @Transactional
-    def userLogin() {
+    def loginUser() {
 
     }
+
+    @Transactional
+    def loggedInUser() {
+        String username = params.username
+        String password = params.password
+        def user = userService.getUserLoggingIn(username,password)
+        if(user != null) {
+            session["currentUser"] = null
+            def currentUser = session["currentUser"]
+            session["currentUser"] = user
+        }
+        //render "kilili" + username + ""+password + "yereee " + user.email
+        redirect(uri:'/')
+    }
+
+
 }
