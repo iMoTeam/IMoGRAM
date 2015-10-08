@@ -12,10 +12,10 @@ class RoleSpec extends Specification {
     Role role
 
     def setup() {
+        role = new Role()
     }
 
     def cleanup() {
-        role = new Role()
     }
 
     void "test that constraints of a Role are valids"() {
