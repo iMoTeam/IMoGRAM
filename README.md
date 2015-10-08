@@ -7,6 +7,8 @@
 iMoGRAM is an international website project. Our first goal with this project will be to give to users possibilities to discover books, music or movies that they had never seen. Through a research system very useful with a great number of criterias, users could find only what they like,and if they want to change to discover another style, the research will give to them enough results to spend their time until the winter !
 Moreover, it is possible for users to follow other users and comments any books, music or movies with other people, allowing users to develop their network through our website.
 
+Our website: http://imogram.herokuapp.com/
+
 |           Environment           | Version                               |
 |  ---                            |                ---                    |
 | Development Framework           | Grails 2.3.11                         |
