@@ -1,6 +1,8 @@
 package ivvq
 
 import grails.transaction.Transactional
+import net.sf.json.JSONObject
+import org.codehaus.groovy.grails.web.json.JSONArray
 import org.codehaus.groovy.grails.web.json.JSONElement
 
 @Transactional
@@ -55,5 +57,76 @@ class DataFillingService {
         cuurentBook.save(flush: true)
 
         cuurentBook
+    }
+
+    TVShow jsonToTVShowSave(String imdbID) {
+
+        TVShow currentTVShow = new TVShow()
+        ArrayClass tempString = new ArrayClass()
+
+        String requestSummury = imdbID + "?extended=full"
+        JSONElement json = itemAPIService.tvshowAPI(requestSummury)
+
+        String requestCast = imdbID + "/people"
+        JSONElement jsonCast = itemAPIService.tvshowAPI(requestCast)
+
+        String requestSeason = imdbID + "/seasons?extended=episodes"
+        JSONElement jsonSeason = itemAPIService.tvshowAPI(requestSeason)
+
+        // Fill the shwo sumary first
+        if (json != null) {
+
+            currentTVShow.imdbID = imdbID
+            currentTVShow.title = json.title
+            currentTVShow.releaseDate = json.first_aired
+            currentTVShow.runtime = json.runtime
+            currentTVShow.network = json.network
+            currentTVShow.overview = "test"
+
+            for (int i = 0 ; i<json.genres.size() ; i++) {
+                currentTVShow.addToGenres(new ArrayClass(title: json.genres[i]).save(flush: true))
+            }
+
+            currentTVShow.airedEpisodes = json.aired_episodes
+            currentTVShow.country = json.country
+
+            // Casts filling
+            for (int i = 0 ; i<jsonCast.cast.size() ; i++) {
+                Role r = new Role()
+
+                r.realName = jsonCast.cast[i].person.name
+                r.role = jsonCast.cast[i].character
+                r.save(flush: true)
+
+                currentTVShow.addToActors(r)
+            }
+
+            // Crew filling (only the production crew)
+            for (int i = 0 ; i<jsonCast.crew.production.size() ; i++) {
+                String name = jsonCast.crew.production[i].person.name
+                currentTVShow.addToCrews(new ArrayClass(title: name).save(flush: true))
+            }
+
+            //Seasons fillng
+            for (int i = 1 ; i<jsonSeason.size() ; i++) {
+                Season currentSeason = new Season()
+
+                currentSeason.seasonSize = jsonSeason[i].episodes.size()
+
+                for (int j = 0 ; j<currentSeason.seasonSize ; j++) {
+                    String epTitle = jsonSeason[i].episodes[j].title
+                    currentSeason.addToEpisodes(new ArrayClass(title: epTitle).save(flush: true))
+                }
+
+                currentSeason.save(flush:true)
+                currentTVShow.addToSeasons(currentSeason)
+            }
+
+            currentTVShow.save(flush: true)
+
+            return currentTVShow
+        }
+        else
+            null
     }
 }
