@@ -126,4 +126,8 @@ class UserController {
 
 
     }
+    @Transactional
+    def userLogin() {
+
+    }
 }
