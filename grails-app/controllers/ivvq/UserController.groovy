@@ -101,4 +101,29 @@ class UserController {
             '*'{ render status: NOT_FOUND }
         }
     }
+    /**
+     * Insert a new user into the database
+     * @return
+     */
+    @Transactional
+    def insertNewUser() {
+        String firstName = params.firstName
+        String lastName = params.lastName
+        String email = params.email
+        String username = params.pseudo
+        String motDePasse1 = params.motDePasse1
+        String motDePasse2 = params.motDePasse2
+        String photo = params.photoProfil
+
+        User newUser = new User(firstName: firstName, lastName: lastName, email: email,
+                password: motDePasse1, username: username,  profilePhoto: null)
+
+        if(!newUser.validate()) {
+            newUser.errors.allErrors.each {
+                println it
+            }
+        }
+
+
+    }
 }
