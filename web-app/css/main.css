@@ -658,10 +658,17 @@ a.skip {
 }
 
 .yellow
+ {
+	 background-color: #F2CF66;
+	 border-bottom: 5px solid #D1B358;
+	 text-shadow: 0px -2px #D1B358;
+ }
+
+.purple
 {
-	background-color: #F2CF66;
-	border-bottom: 5px solid #D1B358;
-	text-shadow: 0px -2px #D1B358;
+	background-color: #D074F2;
+	border-bottom: 5px solid #690C8B;
+	text-shadow: 0px -2px #690C8B;
 }
 
 .action-button:active
@@ -672,6 +679,8 @@ a.skip {
 }
 
 #rechercher {
+	margin-top: 5px;
 	border: 2px dashed #D1C7AC;
 	width: 520px;
+	height: 30px;
 }

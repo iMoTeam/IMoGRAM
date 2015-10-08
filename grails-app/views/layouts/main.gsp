@@ -23,15 +23,16 @@
 			<table>
 				<tr>
 					<td rowspan="2"><a href="./images/logo.jpg"><img src="${resource(dir: 'images', file: 'logo.jpg')}" alt="imo_logo"/></a></td>
-					<td><a href="#" class="action-button shadow animate blue">Films</a></td>
-					<td><a href="#" class="action-button shadow animate red">Musiques</a></td>
+					<td><a href="#" class="action-button shadow animate purple">Films</a></td>
+					<td><a href="#" class="action-button shadow animate red">S&eacute;ries</a></td>
 					<td><a href="#" class="action-button shadow animate yellow">Livres</a></td>
 					<td><a href="#" class="action-button shadow animate green">Connexion</a></td>
 					<td><a href="#" class="action-button shadow animate green">Inscription</a></td>
 				</tr>
 				<tr>
 					<td colspan="3"><input id="rechercher" type="text"  name="rechercher" value="" /></td>
-					<td><input type="submit" value="Valider"/></td>
+					<td><a href="#" class="action-button shadow animate blue">&nbsp;&nbsp;Valider&nbsp;&nbsp;&nbsp;</a></td>
+					<td><a href="#" class="action-button shadow animate blue">&nbsp;&nbsp;&nbsp;&nbsp;Filtrer&nbsp;&nbsp;&nbsp;</a></td>
 				</tr>
 			</table>
 		</div>
