@@ -62,6 +62,7 @@ class DataFillingService {
     TVShow jsonToTVShowSave(String imdbID) {
 
         TVShow currentTVShow = new TVShow()
+        ArrayClass tempString = new ArrayClass()
 
         String requestSummury = imdbID + "?extended=full"
         JSONElement json = itemAPIService.tvshowAPI(requestSummury)
@@ -80,40 +81,45 @@ class DataFillingService {
             currentTVShow.releaseDate = json.first_aired
             currentTVShow.runtime = json.runtime
             currentTVShow.network = json.network
-            currentTVShow.overview = json.overview
+            currentTVShow.overview = "test"
 
             for (int i = 0 ; i<json.genres.size() ; i++) {
-                currentTVShow.genres.add(json.genres[i])
+                currentTVShow.addToGenres(new ArrayClass(title: json.genres[i]).save(flush: true))
             }
 
             currentTVShow.airedEpisodes = json.aired_episodes
             currentTVShow.country = json.country
 
             // Casts filling
-            currentTVShow.casts = new HashMap<String, String>()
             for (int i = 0 ; i<jsonCast.cast.size() ; i++) {
-                String trueName = jsonCast.cast[i].person.name
-                String caracterName = jsonCast.cast[i].character
+                Role r = new Role()
 
-                currentTVShow.casts[trueName] = caracterName
+                r.realName = jsonCast.cast[i].person.name
+                r.role = jsonCast.cast[i].character
+                r.save(flush: true)
+
+                currentTVShow.addToActors(r)
             }
 
             // Crew filling (only the production crew)
-            for (int i = 0 ; i<currentTVShow.crew.size() ; i++) {
-                currentTVShow.crew.add(jsonCast.crew.production[i].person.name)
+            for (int i = 0 ; i<jsonCast.crew.production.size() ; i++) {
+                String name = jsonCast.crew.production[i].person.name
+                currentTVShow.addToCrews(new ArrayClass(title: name).save(flush: true))
             }
 
             //Seasons fillng
-            currentTVShow.seasons = new HashMap<Integer, String[]>()
             for (int i = 1 ; i<jsonSeason.size() ; i++) {
-                Integer seasonSize = jsonSeason[i].episodes.size()
-                String[] currentSeason = new String[seasonSize]
+                Season currentSeason = new Season()
 
-                for (int j = 0 ; j<seasonSize ; j++) {
-                    currentSeason[j] = jsonSeason[i].episodes[j].title
+                currentSeason.seasonSize = jsonSeason[i].episodes.size()
+
+                for (int j = 0 ; j<currentSeason.seasonSize ; j++) {
+                    String epTitle = jsonSeason[i].episodes[j].title
+                    currentSeason.addToEpisodes(new ArrayClass(title: epTitle).save(flush: true))
                 }
 
-                currentTVShow.seasons[i] = currentSeason
+                currentSeason.save(flush:true)
+                currentTVShow.addToSeasons(currentSeason)
             }
 
             currentTVShow.save(flush: true)

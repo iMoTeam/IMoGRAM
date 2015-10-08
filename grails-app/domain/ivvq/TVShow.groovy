@@ -11,16 +11,15 @@ class TVShow {
     Integer airedEpisodes
     String country
 
-    Map<String, String> casts
-    Map<Integer, String[]> seasons
-
     static hasMany = [
-            genres: String,
-            crew: String,
+            actors: Role,
+            crews: ArrayClass,
+            seasons: Season,
+            genres: ArrayClass
     ]
 
     static constraints = {
-        imdbID matches: "tt[0-9]{7}", blank: false, unique: true
+        imdbID matches: "tt[0-9]{7}", blank: false
         title blank: false
         releaseDate blank: false
         runtime blank: false
@@ -29,7 +28,5 @@ class TVShow {
         genres blank: false
         airedEpisodes min:0, nullable: false
         country blank: false
-        casts empty: false
-
     }
 }

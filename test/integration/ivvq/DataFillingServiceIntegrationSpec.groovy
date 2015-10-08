@@ -52,7 +52,7 @@ class DataFillingServiceIntegrationSpec extends Specification {
         Book.findByIsbn13(9782709637404) != null
     }
 
-    void "test that the tv show is correctly added to the database"() {
+    void "test that the TVSHOW is correctly added to the database"() {
 
         given: "a imdb id that belongs to a unique tv show"
         String imdbID = "tt0944947"
@@ -61,12 +61,12 @@ class DataFillingServiceIntegrationSpec extends Specification {
         TVShow tvShow = dataFillingService.jsonToTVShowSave(imdbID)
 
         then: "the book has no errors"
-        !book.hasErrors()
+        !tvShow.hasErrors()
 
         and: "Book's title is correct"
-        book.title == "Da Vinci code"
+        tvShow.title == "Game of Thrones"
 
         and: "The book is added to the database"
-        Book.findByIsbn13(9782709637404) != null
+        TVShow.findByImdbID("tt0944947") != null
     }
 }
