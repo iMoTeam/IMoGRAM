@@ -1,6 +1,8 @@
 package ivvq
 
 import grails.transaction.Transactional
+import net.sf.json.JSONObject
+import org.codehaus.groovy.grails.web.json.JSONArray
 import org.codehaus.groovy.grails.web.json.JSONElement
 
 @Transactional
@@ -55,5 +57,70 @@ class DataFillingService {
         cuurentBook.save(flush: true)
 
         cuurentBook
+    }
+
+    TVShow jsonToTVShowSave(String imdbID) {
+
+        TVShow currentTVShow = new TVShow()
+
+        String requestSummury = imdbID + "?extended=full"
+        JSONElement json = itemAPIService.tvshowAPI(requestSummury)
+
+        String requestCast = imdbID + "/people"
+        JSONElement jsonCast = itemAPIService.tvshowAPI(requestCast)
+
+        String requestSeason = imdbID + "/seasons?extended=episodes"
+        JSONElement jsonSeason = itemAPIService.tvshowAPI(requestSeason)
+
+        // Fill the shwo sumary first
+        if (json != null) {
+
+            currentTVShow.imdbID = imdbID
+            currentTVShow.title = json.title
+            currentTVShow.releaseDate = json.first_aired
+            currentTVShow.runtime = json.runtime
+            currentTVShow.network = json.network
+            currentTVShow.overview = json.overview
+
+            for (int i = 0 ; i<json.genres.size() ; i++) {
+                currentTVShow.genres.add(json.genres[i])
+            }
+
+            currentTVShow.airedEpisodes = json.aired_episodes
+            currentTVShow.country = json.country
+
+            // Casts filling
+            currentTVShow.casts = new HashMap<String, String>()
+            for (int i = 0 ; i<jsonCast.cast.size() ; i++) {
+                String trueName = jsonCast.cast[i].person.name
+                String caracterName = jsonCast.cast[i].character
+
+                currentTVShow.casts[trueName] = caracterName
+            }
+
+            // Crew filling (only the production crew)
+            for (int i = 0 ; i<currentTVShow.crew.size() ; i++) {
+                currentTVShow.crew.add(jsonCast.crew.production[i].person.name)
+            }
+
+            //Seasons fillng
+            currentTVShow.seasons = new HashMap<Integer, String[]>()
+            for (int i = 1 ; i<jsonSeason.size() ; i++) {
+                Integer seasonSize = jsonSeason[i].episodes.size()
+                String[] currentSeason = new String[seasonSize]
+
+                for (int j = 0 ; j<seasonSize ; j++) {
+                    currentSeason[j] = jsonSeason[i].episodes[j].title
+                }
+
+                currentTVShow.seasons[i] = currentSeason
+            }
+
+            currentTVShow.save(flush: true)
+
+            return currentTVShow
+        }
+        else
+            null
     }
 }

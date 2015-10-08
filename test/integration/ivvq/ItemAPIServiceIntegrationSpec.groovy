@@ -40,4 +40,16 @@ class ItemAPIServiceIntegrationSpec extends Specification {
         then: "the title of the current book is Da Vinci Code"
         json.volumeInfo.title == "Da Vinci code"
     }
+
+    void "test the tvshow API with a given url"() {
+
+        given: "a tv show id that belongs to a unique book"
+        String tvID = "4589"
+
+        when: "calling the tv show API with the given id"
+        JSONElement json = itemAPIService.tvshowAPI(tvID)
+
+        then: "the title of the current book is Da Vinci Code"
+        json != null
+    }
 }
