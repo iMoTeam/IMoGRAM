@@ -141,7 +141,6 @@ class UserController {
             def currentUser = session["currentUser"]
             session["currentUser"] = user
         }
-        //render "kilili" + username + ""+password + "yereee " + user.email
         redirect(uri:'/')
     }
 
