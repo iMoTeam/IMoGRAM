@@ -9,7 +9,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title><g:layoutTitle default="Grails"/></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="shortcut icon" href="${resource(dir: 'images', file: 'favicon.ico')}" type="image/x-icon">
+		<link rel="shortcut icon" href="${resource(dir: 'images', file: 'icon.ico')}" >
 		<link rel="apple-touch-icon" href="${resource(dir: 'images', file: 'apple-touch-icon.png')}">
 		<link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: 'apple-touch-icon-retina.png')}">
 		<link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
@@ -19,7 +19,23 @@
 		<r:layoutResources />
 	</head>
 	<body>
-		<div id="grailsLogo" role="banner"><a href="http://grails.org"><img src="${resource(dir: 'images', file: 'grails_logo.png')}" alt="Grails"/></a></div>
+		<div id="grailsLogo" role="banner">
+			<table>
+				<tr>
+					<td rowspan="2"><a href="./images/logo.jpg"><img src="${resource(dir: 'images', file: 'logo.jpg')}" alt="imo_logo"/></a></td>
+					<td><a href="#" class="action-button shadow animate purple">Films</a></td>
+					<td><a href="#" class="action-button shadow animate red">S&eacute;ries</a></td>
+					<td><a href="#" class="action-button shadow animate yellow">Livres</a></td>
+					<td><a href="#" class="action-button shadow animate green">Connexion</a></td>
+					<td><a href="#" class="action-button shadow animate green">Inscription</a></td>
+				</tr>
+				<tr>
+					<td colspan="3"><input id="rechercher" type="text"  name="rechercher" value="" /></td>
+					<td><a href="#" class="action-button shadow animate blue">&nbsp;&nbsp;Valider&nbsp;&nbsp;&nbsp;</a></td>
+					<td><a href="#" class="action-button shadow animate blue">&nbsp;&nbsp;&nbsp;&nbsp;Filtrer&nbsp;&nbsp;&nbsp;</a></td>
+				</tr>
+			</table>
+		</div>
 		<g:layoutBody/>
 		<div class="footer" role="contentinfo"></div>
 		<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
