@@ -12,7 +12,7 @@ class ItemAPIService {
 
     def movieAPI(String imdbID) {
 
-
+        if (Movie.findByImdbID(imdbID))
         String urlAPI = 'http://www.omdbapi.com/?plot=short&r=json&i=' + imdbID
 
         RestResponse response = rest.get(urlAPI) {

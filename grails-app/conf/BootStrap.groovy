@@ -1,3 +1,5 @@
+import ivvq.SaveAPIException
+
 class BootStrap {
 
     def dataFillingService
@@ -10,11 +12,19 @@ class BootStrap {
 
         // Load the movies from their imdbIDs
         moviesToLoad.each {
-            dataFillingService.jsonToMovieSave(it)
+            try {
+                dataFillingService.jsonToMovieSave(it)
+            } catch (SaveAPIException e) {
+                log.error(e.message)
+            }
         }
 
         bookToLoad.each {
-            //dataFillingService.jsonToBookSave(it)
+            try {
+                dataFillingService.jsonToBookSave(it)
+            } catch (SaveAPIException e) {
+                log.error(e.message)
+            }
         }
     }
 

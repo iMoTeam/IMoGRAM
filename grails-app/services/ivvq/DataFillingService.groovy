@@ -4,6 +4,7 @@ import grails.transaction.Transactional
 import net.sf.json.JSONObject
 import org.codehaus.groovy.grails.web.json.JSONArray
 import org.codehaus.groovy.grails.web.json.JSONElement
+import org.xml.sax.SAXException
 
 @Transactional
 class DataFillingService {
@@ -34,29 +35,37 @@ class DataFillingService {
 
         currentMovie.save(flush: true)
 
-        currentMovie
+        if (!currentMovie.hasErrors() && Movie.findByImdbID(imdbID) != null) {
+            return currentMovie
+        } else {
+            throw new SaveAPIException("An error has occured while saving this movie : " + imdbID)
+        }
     }
 
     Book jsonToBookSave(String googleID) {
 
         JSONElement json = itemAPIService.bookAPI(googleID)
 
-        Book cuurentBook = new Book()
+        Book currentBook = new Book()
 
-        cuurentBook.isbn13 = json.volumeInfo.industryIdentifiers[1].identifier
-        cuurentBook.title = json.volumeInfo.title
+        currentBook.isbn13 = json.volumeInfo.industryIdentifiers[1].identifier
+        currentBook.title = json.volumeInfo.title
         // TODO Cast with a real date format
-        cuurentBook.publishedDate = json.volumeInfo.publishedDate
+        currentBook.publishedDate = json.volumeInfo.publishedDate
         // TODO Save all the autors
-        cuurentBook.author = json.volumeInfo.authors[0]
-        cuurentBook.publisher = json.volumeInfo.publisher
-        cuurentBook.description = "description" //json.volumeInfo.description
-        cuurentBook.image = "image" //json.volumeInfo.imageLinks.thumbnail
-        cuurentBook.pageCount = json.volumeInfo.pageCount
+        currentBook.author = json.volumeInfo.authors[0]
+        currentBook.publisher = json.volumeInfo.publisher
+        currentBook.description = "description" //json.volumeInfo.description
+        currentBook.image = "image" //json.volumeInfo.imageLinks.thumbnail
+        currentBook.pageCount = json.volumeInfo.pageCount
 
-        cuurentBook.save(flush: true)
+        currentBook.save(flush: true)
 
-        cuurentBook
+        if (!currentBook.hasErrors() && Book.findByIsbn13(currentBook.isbn13) != null) {
+            return currentBook
+        } else {
+            throw new SaveAPIException("An error has occured while saving this movie : " + imdbID)
+        }
     }
 
     TVShow jsonToTVShowSave(String imdbID) {
