@@ -2,27 +2,27 @@ package ivvq
 
 
 import grails.test.mixin.*
+import org.codehaus.groovy.grails.web.json.JSONElement
 import spock.lang.*
 
-@TestFor(BookController)
-@Mock(Book)
-class BookControllerSpec extends Specification {
-
+@TestFor(MovieController)
+@Mock(Movie)
+class MovieControllerSpec extends Specification {
     def populateValidParams(params) {
         assert params != null
-        // TODO: Populate valid properties like...
-        params["isbn13"] = '9782709637404'
-        params["title"] = 'Da Vinci code'
-        params["publishedDate"] = '2004-03-03'
-        params["author"] = 'Dan Brown'
-        params["publisher"] = 'JC Lattès'
-        params["description"] = '\\u003cp\\u003e« \\u003ci\\u003eDa Vinci Code\\u003c/i\\u003e est un livre envoûtant, ' +
-                'idéal pour les passionnés d\'histoire, les amateurs de conspirations, les mordus du mystère, ' +
-                'pour tous ceux qui aiment les grands récits que l\'on ne parvient pas à lâcher. J\'ai adoré ce roman.' +
-                ' »\\u003cbr\\u003eHarlan Coben\\u003c/p\\u003e\\u003cp\\u003eDe passage à Paris, Robert Langdon, professeur ' +
-                'à Havard et spécialiste de symbologie, est appelé d\'urgence au Louvre, en pleine nuit. '
-        params["image"] = 'image'
-        params["pageCount"] = '571'
+
+        params["imdbID"] = 'tt1219289'
+        params["title"] = 'Limitless'
+        params["releaseDate"] = new Date(2015, 03, 03);
+        params["runtime"] = '105min'
+        params["genre"] = 'Mystery, Sci-Fi, Thriller'
+        params["director"] = 'Neil Burger'
+        params["writers"] = 'Leslie Dixon (screenplay), Alan Glynn (novel)'
+        params["actors"] = 'Bradley Cooper, Robert De Niro, Abbie Cornish, Andrew Howard'
+        params["country"] = 'USA'
+        params["plot"] = 'With the help of a mysterious pill that enables the user to access 100 percent of his brain abilities,' +
+                ' a struggling writer becomes a financial wizard, but it also puts him in a new world with lots of dangers.'
+        params["poster"] = 'http://ia.media-imdb.com/images/M/MV5BMTY3NjczNzc5Nl5BMl5BanBnXkFtZTcwMzA2MzQyNA@@._V1_SX300.jpg'
     }
 
     void "Test the index action returns the correct model"() {
@@ -31,8 +31,8 @@ class BookControllerSpec extends Specification {
         controller.index()
 
         then: "The model is correct"
-        !model.bookInstanceList
-        model.bookInstanceCount == 0
+        !model.movieInstanceList
+        model.movieInstanceCount == 0
     }
 
     void "Test the create action returns the correct model"() {
@@ -40,32 +40,32 @@ class BookControllerSpec extends Specification {
         controller.create()
 
         then: "The model is correctly created"
-        model.bookInstance != null
+        model.movieInstance != null
     }
 
     void "Test the save action correctly persists an instance"() {
 
         when: "The save action is executed with an invalid instance"
         request.contentType = FORM_CONTENT_TYPE
-        def book = new Book()
-        book.validate()
-        controller.save(book)
+        def movie = new Movie()
+        movie.validate()
+        controller.save(movie)
 
         then: "The create view is rendered again with the correct model"
-        model.bookInstance != null
+        model.movieInstance != null
         view == 'create'
 
         when: "The save action is executed with a valid instance"
         response.reset()
         populateValidParams(params)
-        book = new Book(params)
+        movie = new Movie(params)
 
-        controller.save(book)
+        controller.save(movie)
 
         then: "A redirect is issued to the show action"
-        response.redirectedUrl == '/book/show/1'
+        response.redirectedUrl == '/movie/show/1'
         controller.flash.message != null
-        Book.count() == 1
+        Movie.count() == 1
     }
 
     void "Test that the show action returns the correct model"() {
@@ -77,11 +77,11 @@ class BookControllerSpec extends Specification {
 
         when: "A domain instance is passed to the show action"
         populateValidParams(params)
-        def book = new Book(params)
-        controller.show(book)
+        def movie = new Movie(params)
+        controller.show(movie)
 
         then: "A model is populated containing the domain instance"
-        model.bookInstance == book
+        model.movieInstance == movie
     }
 
     void "Test that the edit action returns the correct model"() {
@@ -93,11 +93,11 @@ class BookControllerSpec extends Specification {
 
         when: "A domain instance is passed to the edit action"
         populateValidParams(params)
-        def book = new Book(params)
-        controller.edit(book)
+        def movie = new Movie(params)
+        controller.edit(movie)
 
         then: "A model is populated containing the domain instance"
-        model.bookInstance == book
+        model.movieInstance == movie
     }
 
     void "Test the update action performs an update on a valid domain instance"() {
@@ -106,28 +106,28 @@ class BookControllerSpec extends Specification {
         controller.update(null)
 
         then: "A 404 error is returned"
-        response.redirectedUrl == '/book/index'
+        response.redirectedUrl == '/movie/index'
         flash.message != null
 
 
         when: "An invalid domain instance is passed to the update action"
         response.reset()
-        def book = new Book()
-        book.validate()
-        controller.update(book)
+        def movie = new Movie()
+        movie.validate()
+        controller.update(movie)
 
         then: "The edit view is rendered again with the invalid instance"
         view == 'edit'
-        model.bookInstance == book
+        model.movieInstance == movie
 
         when: "A valid domain instance is passed to the update action"
         response.reset()
         populateValidParams(params)
-        book = new Book(params).save(flush: true)
-        controller.update(book)
+        movie = new Movie(params).save(flush: true)
+        controller.update(movie)
 
         then: "A redirect is issues to the show action"
-        response.redirectedUrl == "/book/show/$book.id"
+        response.redirectedUrl == "/movie/show/$movie.id"
         flash.message != null
     }
 
@@ -137,23 +137,23 @@ class BookControllerSpec extends Specification {
         controller.delete(null)
 
         then: "A 404 is returned"
-        response.redirectedUrl == '/book/index'
+        response.redirectedUrl == '/movie/index'
         flash.message != null
 
         when: "A domain instance is created"
         response.reset()
         populateValidParams(params)
-        def book = new Book(params).save(flush: true)
+        def movie = new Movie(params).save(flush: true)
 
         then: "It exists"
-        Book.count() == 1
+        Movie.count() == 1
 
         when: "The domain instance is passed to the delete action"
-        controller.delete(book)
+        controller.delete(movie)
 
         then: "The instance is deleted"
-        Book.count() == 0
-        response.redirectedUrl == '/book/index'
+        Movie.count() == 0
+        response.redirectedUrl == '/movie/index'
         flash.message != null
     }
 }

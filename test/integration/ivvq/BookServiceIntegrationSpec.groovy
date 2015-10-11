@@ -11,10 +11,7 @@ class BookServiceIntegrationSpec extends Specification {
 
     def bookService
     def dataFillingService
-    BookController controller
     def setup() {
-        controller = new BookController()
-        controller.bookService = bookService
     }
     def populateparams(){
         def params = [stringToSearch: '9782709637404']
