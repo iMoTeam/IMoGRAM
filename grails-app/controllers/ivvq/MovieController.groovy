@@ -105,7 +105,7 @@ class MovieController {
  * Searches movies corresponding to a search string passed in params
  * @return a list of movies as search result
  */
-    def doSearchMoviess() {
+    def doSearchMovies() {
         params.max = 5
         def moviesList = movieService.searchMovies(params)
         render(view: 'index', model: [movieInstanceList:moviesList, movieInstanceCount: moviesList.totalCount])
