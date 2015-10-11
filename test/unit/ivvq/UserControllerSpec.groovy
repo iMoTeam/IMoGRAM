@@ -150,4 +150,5 @@ class UserControllerSpec extends Specification {
         response.redirectedUrl == '/user/index'
         flash.message != null
     }
+
 }
