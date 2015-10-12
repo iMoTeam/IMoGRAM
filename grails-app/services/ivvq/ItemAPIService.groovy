@@ -12,7 +12,6 @@ class ItemAPIService {
 
     def movieAPI(String imdbID) {
 
-        if (Movie.findByImdbID(imdbID))
         String urlAPI = 'http://www.omdbapi.com/?plot=short&r=json&i=' + imdbID
 
         RestResponse response = rest.get(urlAPI) {
@@ -20,7 +19,12 @@ class ItemAPIService {
             accept JSON
         }
 
-        response.json
+        // If rest response is empty
+        if (response.json.Error != null) {
+            throw new JSonAPIException("An error has occured while downloading json (Movie): " + response.json.Error)
+        } else {
+            return response.json
+        }
     }
 
     def bookAPI(String googleID) {
@@ -33,7 +37,11 @@ class ItemAPIService {
             accept JSON
         }
 
-        response.json
+        if (response.statusCode.value() != 200) {
+            throw new JSonAPIException("An error has occured while downloading json (Book): " + response.statusCode)
+        } else {
+            return response.json
+        }
     }
 
     def tvshowAPI(String request) {
@@ -49,9 +57,10 @@ class ItemAPIService {
             accept JSON
         }
 
-        if (response.statusCode.value() == 200)
-            response.json
-        else
-            null
+        if (response.statusCode.value() != 200) {
+            throw new JSonAPIException("An error has occured while downloading json (TV Show): " + response.statusCode)
+        } else {
+            return response.json
+        }
     }
 }

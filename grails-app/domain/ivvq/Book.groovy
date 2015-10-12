@@ -1,6 +1,9 @@
 package ivvq
 
 class Book {
+    // Allow to check faster if a book has been added to the database
+    String googleID
+
     String isbn13
     String title
     String publishedDate
@@ -11,6 +14,7 @@ class Book {
     Integer pageCount
 
     static constraints = {
+        googleID matches: "[0-9][a-zA-Z]", blank: false
         isbn13 matches: "978[0-9]{10}", blank: false, unique: true
         title blank: false
         description nullable: true
