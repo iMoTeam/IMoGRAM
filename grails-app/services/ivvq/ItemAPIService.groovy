@@ -21,7 +21,7 @@ class ItemAPIService {
 
         // If rest response is empty
         if (response.json.Error != null) {
-            throw new JSonAPIException("An error has occured while downloading json (Movie): " + response.json.Error)
+            throw new JSonAPIException("An error has occured while downloading json (Movie): " + imdbID)
         } else {
             return response.json
         }
@@ -38,7 +38,7 @@ class ItemAPIService {
         }
 
         if (response.statusCode.value() != 200) {
-            throw new JSonAPIException("An error has occured while downloading json (Book): " + response.statusCode)
+            throw new JSonAPIException("An error has occured while downloading json (Book): " + googleID)
         } else {
             return response.json
         }

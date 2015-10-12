@@ -23,25 +23,26 @@ class DataFillingService {
         }
 
         Movie currentMovie = new Movie()
-
+        JSONElement json
+        
         try {
-            JSONElement json = itemAPIService.movieAPI(imdbID)
-
-            currentMovie.imdbID = json.imdbID
-            currentMovie.title = json.Title
-            currentMovie.releaseDate = new Date(2015, 03, 03);
-            currentMovie.runtime = json.Runtime
-            currentMovie.genre = json.Genre
-            currentMovie.director = json.Director
-            currentMovie.writers = json.Writer
-            currentMovie.actors = json.Actors
-            currentMovie.country = json.Country
-            currentMovie.plot = json.Plot
-            currentMovie.poster = json.Poster
+            json = itemAPIService.movieAPI(imdbID)
         } catch (JSonAPIException e) {
             log.error(e.message)
             return
         }
+
+        currentMovie.imdbID = json.imdbID
+        currentMovie.title = json.Title
+        currentMovie.releaseDate = new Date(2015, 03, 03);
+        currentMovie.runtime = json.Runtime
+        currentMovie.genre = json.Genre
+        currentMovie.director = json.Director
+        currentMovie.writers = json.Writer
+        currentMovie.actors = json.Actors
+        currentMovie.country = json.Country
+        currentMovie.plot = json.Plot
+        currentMovie.poster = json.Poster
 
         currentMovie.save(flush: true)
 
@@ -60,25 +61,30 @@ class DataFillingService {
         }
 
         Book currentBook = new Book()
+        JSONElement json
 
         try {
-            JSONElement json = itemAPIService.bookAPI(googleID)
-
-            currentBook.isbn13 = json.volumeInfo.industryIdentifiers[1].identifier
-            currentBook.title = json.volumeInfo.title
-            // TODO Cast with a real date format
-            currentBook.publishedDate = json.volumeInfo.publishedDate
-            // TODO Save all the autors
-            currentBook.author = json.volumeInfo.authors[0]
-            currentBook.publisher = json.volumeInfo.publisher
-            currentBook.description = "description" //json.volumeInfo.description
-            currentBook.image = "image" //json.volumeInfo.imageLinks.thumbnail
-            currentBook.pageCount = json.volumeInfo.pageCount
-
+            json = itemAPIService.bookAPI(googleID)
         } catch (JSonAPIException e) {
             log.error(e.message)
             return
         }
+
+        currentBook.googleID = googleID
+
+        // Checking if a isbn exist for this book
+        def isIsbnPresent = json?.volumeInfo?.industryIdentifiers
+        currentBook.isbn13 = isIsbnPresent != null ? isIsbnPresent[1]?.identifier : null
+
+        currentBook.title = json.volumeInfo.title
+        // TODO Cast with a real date format
+        currentBook.publishedDate = json.volumeInfo.publishedDate
+        currentBook.author = json.volumeInfo.authors[0]
+        currentBook.publisher = json.volumeInfo.publisher
+        // TODO Change Varachar(255)
+        currentBook.description = "description" //json.volumeInfo.description
+        currentBook.image = "image" //json.volumeInfo.imageLinks.thumbnail
+        currentBook.pageCount = json.volumeInfo.pageCount
 
         currentBook.save(flush: true)
 
