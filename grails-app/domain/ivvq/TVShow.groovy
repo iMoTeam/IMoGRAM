@@ -26,7 +26,7 @@ class TVShow {
         network blank: false
         overview blank: false
         genres blank: false
-        airedEpisodes min:0, nullable: false
+        airedEpisodes min:0
         country blank: false
     }
 }

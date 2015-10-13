@@ -17,33 +17,33 @@ class BookSpec extends Specification {
     }
 
     @Unroll
-    void "test a valid book"(String aGoogleID, String aIsbn13, String aTitle, String aPublishedDate, String anAuthor, String aPublisher, String aDescription, String aImage, Integer aPageCount) {
+    void "test a valid book"() {
 
-        given: "a book which is not correctly set"
-        Book book = new Book(googleID: aGoogleID, isbn13: aIsbn13, title: aTitle, publishedDate: aPublishedDate, author: anAuthor, description: aDescription, image: aImage, publisher: aPublisher, pageCount: aPageCount);
+        given: "a book which is correctly set"
+        Book book = new Book(googleID: aGoogleID, isbn13: aIsbn13, title: aTitle, publishedDate: aPublishedDate, author: anAuthor, description: aDescription, image: aImage, publisher: aPublisher, pageCount: aPageCount)
 
-        expect: "the book is not valid"
-        book.validate() == true;
+        expect: "the book is valid"
+        book.validate() == true
 
         where:
         aGoogleID      | aIsbn13         | aTitle          | aPublishedDate         | anAuthor    | aImage | aDescription | aPublisher  | aPageCount
         "SteVfQT2WY0C" | "9782709637404" | "Da Vinci code" | new Date(2004, 03, 03) | "Dan Brown" | "img"  | "blabla"     | "JC Lattès" | 571
         "SteVfQT2WY0C" | ""              | "Da Vinci code" | new Date(2004, 03, 03) | "Dan Brown" | "img" | "blabla" | "JC Lattès" | 571
         "SteVfQT2WY0C" | null            | "Da Vinci code" | new Date(2004, 03, 03) | "Dan Brown" | "img" | "blabla" | "JC Lattès" | 571
-        "SteVfQT2WY0C" | "9782709637404" | "Da Vinci code" | new Date(2004, 03, 03) | "Dan Brown" | ""    | "blabla" | "JC Lattès" | 571
-        "SteVfQT2WY0C" | "9782709637404" | "Da Vinci code" | new Date(2004, 03, 03) | "Dan Brown" | null  | "blabla" | "JC Lattès" | 571
+        "SteVfQT2WY0C" | "9782709637404" | "Da Vinci code" | new Date(2004, 03, 03) | "Dan Brown" | ""  | "blabla"     | "JC Lattès" | 571
+        "SteVfQT2WY0C" | "9782709637404" | "Da Vinci code" | new Date(2004, 03, 03) | "Dan Brown" | null  | "blabla"     | "JC Lattès" | 571
         "SteVfQT2WY0C" | "9782709637404" | "Da Vinci code" | new Date(2004, 03, 03) | "Dan Brown" | "img" | ""       | "JC Lattès" | 571
         "SteVfQT2WY0C" | "9782709637404" | "Da Vinci code" | new Date(2004, 03, 03) | "Dan Brown" | "img" | null     | "JC Lattès" | 571
     }
 
     @Unroll
-    void "test a invalid book"(String aGoogleID, String aIsbn13, String aTitle, String aPublishedDate, String anAuthor, String aPublisher, String aDescription, String aImage, Integer aPageCount) {
+    void "test a invalid book"() {
 
         given: "a book which is not correctly set"
         Book book = new Book(googleID: aGoogleID, isbn13: aIsbn13, title: aTitle, publishedDate: aPublishedDate, author: anAuthor, description: aDescription, image: aImage, publisher: aPublisher, pageCount: aPageCount);
 
         expect: "the book is not valid"
-        book.validate() == false;
+        book.validate() == false
 
         where:
         aGoogleID      | aIsbn13         | aTitle          | aPublishedDate         | anAuthor    | aImage   | aDescription | aPublisher  | aPageCount
@@ -56,7 +56,6 @@ class BookSpec extends Specification {
         "SteVfQT2WY0C" | "9782709637404" | "Da Vinci code" | null                   | "Dan Brown" | "im.jpg" | "blabla"     | "JC Lattès" | 571
         "SteVfQT2WY0C" | "9782709637404" | "Da Vinci code" | new Date(2004, 03, 03) | ""          | "im.jpg" | "blabla"     | "JC Lattès" | 571
         "SteVfQT2WY0C" | "9782709637404" | "Da Vinci code" | new Date(2004, 03, 03) | null        | "im.jpg" | "blabla"     | "JC Lattès" | 571
-        // TODO Should work, spock fail
         "SteVfQT2WY0C" | "9782709637404" | "Da Vinci code" | new Date(2004, 03, 03) | "Dan Brown" | "im.jpg" | "blabla"     | ""          | 571
         "SteVfQT2WY0C" | "9782709637404" | "Da Vinci code" | new Date(2004, 03, 03) | "Dan Brown" | "im.jpg" | "blabla"     | null        | 571
         "SteVfQT2WY0C" | "9782709637404" | "Da Vinci code" | new Date(2004, 03, 03) | "Dan Brown" | "im.jpg" | "blabla"     | "JC Lattès" | null
