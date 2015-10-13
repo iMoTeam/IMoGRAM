@@ -22,9 +22,7 @@ class Movie {
         releaseDate blank: false
         writers blank: false
         actors blank: false
-        country nullable: false
         plot blank: false
-        poster nullable: false
         genre blank: false
     }
 }

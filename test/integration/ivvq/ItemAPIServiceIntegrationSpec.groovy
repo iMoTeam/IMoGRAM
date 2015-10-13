@@ -20,13 +20,13 @@ class ItemAPIServiceIntegrationSpec extends Specification {
     void "test the movie API with a given url"() {
 
         given: "an IMDB id that belongs to a unique movie"
-        String imdbID = "tt0369610"
+        String imdbID = "tt1219289"
 
         when: "calling the movie API with the given id"
         JSONElement json = itemAPIService.movieAPI(imdbID)
 
         then: "the title of the current movie is Jurassic World"
-        json.Title == "Jurassic World"
+        json.Title == "Limitless"
     }
 
     void "test the book API with a given url"() {
@@ -44,7 +44,7 @@ class ItemAPIServiceIntegrationSpec extends Specification {
     void "test the tvshow API with a given url"() {
 
         given: "a tv show id that belongs to a unique book"
-        String tvID = "4589"
+        String tvID = "tt0944947"
 
         when: "calling the tv show API with the given id"
         JSONElement json = itemAPIService.tvshowAPI(tvID)
