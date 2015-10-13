@@ -19,7 +19,7 @@ class DataFillingService {
 
         // Movie already added to the database
         if (Movie.findByImdbID(imdbID) != null) {
-            return null
+            throw new ItemAlreadyExistException("Movie already saved in the database : " + imdbID)
         }
 
         Movie currentMovie = new Movie()
@@ -57,7 +57,7 @@ class DataFillingService {
 
         // Book already added to the database
         if (Book.findByGoogleID(googleID) != null) {
-            return
+            throw new ItemAlreadyExistException("Book already saved in the database : " + googleID)
         }
 
         Book currentBook = new Book()
@@ -99,7 +99,7 @@ class DataFillingService {
 
         // TV Show already added to the database
         if (TVShow.findByImdbID(imdbID) != null) {
-            return null
+            throw new ItemAlreadyExistException("Tv show already saved in the database : " + imdbID)
         }
 
         TVShow currentTVShow = new TVShow()
