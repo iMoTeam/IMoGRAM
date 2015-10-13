@@ -17,11 +17,10 @@ class Book {
         googleID matches: "[0-9|a-z|A-Z]{12}", blank: false, unique: true
         isbn13 matches: "978[0-9]{10}", nullable: true
         title blank: false
-        description blank: true
+        description blank: true, nullable: true
         author blank: false
-        pageCount nullable: false, min: 0
-        publishedDate nullable: false
-        image blank: true
+        pageCount min: 0
+        image nullable: true, blank: true
         publisher blank: false
     }
 }
