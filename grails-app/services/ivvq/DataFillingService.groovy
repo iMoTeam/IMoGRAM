@@ -24,7 +24,7 @@ class DataFillingService {
 
         Movie currentMovie = new Movie()
         JSONElement json
-        
+
         try {
             json = itemAPIService.movieAPI(imdbID)
         } catch (JSonAPIException e) {
