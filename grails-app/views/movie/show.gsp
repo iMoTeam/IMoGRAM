@@ -30,35 +30,31 @@
                             <td><img src="${movieInstance.poster}" alt="${movieInstance.title}"></td>
                         </g:if>
 
-                        <g:if test="${movieInstance?.title}">
-                            <td><span class="property-value" aria-labelledby="title-label"><g:fieldValue bean="${movieInstance}" field="title"/></span></td>
-                        </g:if>
+						<td>
+                            <g:if test="${movieInstance?.title}">
+                                <h2><g:fieldValue bean="${movieInstance}" field="title"/></h2>
+                            </g:if>
 
-                        <g:if test="${movieInstance?.runtime}">
-                            <li class="fieldcontain">
-                                <td><span class="property-value" aria-labelledby="runtime-label"><g:fieldValue bean="${movieInstance}" field="runtime"/></span></td>
-                            </li>
-                        </g:if>
+                            <g:if test="${movieInstance?.runtime}">
+                                <li class="fieldcontain">
+                                    <g:fieldValue bean="${movieInstance}" field="runtime"/>
+                                </li>
+                            </g:if>
+
+                            <g:if test="${movieInstance?.director}">
+                                <li class="fieldcontain">
+                                    <g:fieldValue bean="${movieInstance}" field="director"/>
+                                </li>
+                            </g:if>
+
+                            <g:if test="${movieInstance?.releaseDate}">
+                                <li class="fieldcontain">
+                                    <g:fieldValue bean="${movieInstance}" field="releaseDate"/>
+                                </li>
+                            </g:if>
+                        </td>
                     </tr>
                 </table>
-			
-				<g:if test="${movieInstance?.director}">
-				<li class="fieldcontain">
-					<span id="director-label" class="property-label"><g:message code="movie.director.label" default="Director" /></span>
-					
-						<span class="property-value" aria-labelledby="director-label"><g:fieldValue bean="${movieInstance}" field="director"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${movieInstance?.releaseDate}">
-				<li class="fieldcontain">
-					<span id="releaseDate-label" class="property-label"><g:message code="movie.releaseDate.label" default="Release Date" /></span>
-					
-						<span class="property-value" aria-labelledby="releaseDate-label"><g:fieldValue bean="${movieInstance}" field="releaseDate"/></span>
-					
-				</li>
-				</g:if>
 			
 				<g:if test="${movieInstance?.writers}">
 				<li class="fieldcontain">
