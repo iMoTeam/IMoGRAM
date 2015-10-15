@@ -21,40 +21,32 @@
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
+
 			<ol class="property-list movie">
-			
-				<g:if test="${movieInstance?.imdbID}">
-				<li class="fieldcontain">
-					<span id="imdbID-label" class="property-label"><g:message code="movie.imdbID.label" default="Imdb ID" /></span>
-					
-						<span class="property-value" aria-labelledby="imdbID-label"><g:fieldValue bean="${movieInstance}" field="imdbID"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${movieInstance?.title}">
-				<li class="fieldcontain">
-					<span id="title-label" class="property-label"><g:message code="movie.title.label" default="Title" /></span>
-					
-						<span class="property-value" aria-labelledby="title-label"><g:fieldValue bean="${movieInstance}" field="title"/></span>
-					
-				</li>
-				</g:if>
+
+                <table>
+                    <tr>
+                        <g:if test="${movieInstance?.poster}">
+                            <td><img src="${movieInstance.poster}" alt="${movieInstance.title}"></td>
+                        </g:if>
+
+                        <g:if test="${movieInstance?.title}">
+                            <td><span class="property-value" aria-labelledby="title-label"><g:fieldValue bean="${movieInstance}" field="title"/></span></td>
+                        </g:if>
+
+                        <g:if test="${movieInstance?.runtime}">
+                            <li class="fieldcontain">
+                                <td><span class="property-value" aria-labelledby="runtime-label"><g:fieldValue bean="${movieInstance}" field="runtime"/></span></td>
+                            </li>
+                        </g:if>
+                    </tr>
+                </table>
 			
 				<g:if test="${movieInstance?.director}">
 				<li class="fieldcontain">
 					<span id="director-label" class="property-label"><g:message code="movie.director.label" default="Director" /></span>
 					
 						<span class="property-value" aria-labelledby="director-label"><g:fieldValue bean="${movieInstance}" field="director"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${movieInstance?.runtime}">
-				<li class="fieldcontain">
-					<span id="runtime-label" class="property-label"><g:message code="movie.runtime.label" default="Runtime" /></span>
-					
-						<span class="property-value" aria-labelledby="runtime-label"><g:fieldValue bean="${movieInstance}" field="runtime"/></span>
 					
 				</li>
 				</g:if>
@@ -112,23 +104,7 @@
 					
 				</li>
 				</g:if>
-			
-				<g:if test="${movieInstance?.poster}">
-				<li class="fieldcontain">
-					<span id="poster-label" class="property-label"><g:message code="movie.poster.label" default="Poster" /></span>
-					
-						<span class="property-value" aria-labelledby="poster-label"><g:fieldValue bean="${movieInstance}" field="poster"/></span>
-					
-				</li>
-				</g:if>
-			
 			</ol>
-			<g:form url="[resource:movieInstance, action:'delete']" method="DELETE">
-				<fieldset class="buttons">
-					<g:link class="edit" action="edit" resource="${movieInstance}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
-					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
-				</fieldset>
-			</g:form>
 		</div>
 	</body>
 </html>
