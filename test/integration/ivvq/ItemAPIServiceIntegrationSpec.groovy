@@ -11,7 +11,14 @@ class ItemAPIServiceIntegrationSpec extends Specification {
 
     def itemAPIService
 
+    String imdbMovie
+    String googleID
+    String imdbTv
+
     def setup() {
+        imdbMovie = "tt1219289"
+        googleID = "SteVfQT2WY0C"
+        imdbTv = "tt0944947"
     }
 
     def cleanup() {
@@ -19,20 +26,14 @@ class ItemAPIServiceIntegrationSpec extends Specification {
 
     void "test the movie API with a given url"() {
 
-        given: "an IMDB id that belongs to a unique movie"
-        String imdbID = "tt1219289"
-
         when: "calling the movie API with the given id"
-        JSONElement json = itemAPIService.movieAPI(imdbID)
+        JSONElement json = itemAPIService.movieAPI(imdbMovie)
 
         then: "the title of the current movie is Jurassic World"
         json.Title == "Limitless"
     }
 
     void "test the book API with a given url"() {
-
-        given: "a google id that belongs to a unique book"
-        String googleID = "SteVfQT2WY0C"
 
         when: "calling the book API with the given id"
         JSONElement json = itemAPIService.bookAPI(googleID)
@@ -43,14 +44,11 @@ class ItemAPIServiceIntegrationSpec extends Specification {
 
     void "test the tvshow API with a given url"() {
 
-        given: "a tv show id that belongs to a unique book"
-        String tvID = "tt0944947"
-
         when: "calling the tv show API with the given id"
-        JSONElement json = itemAPIService.tvshowAPI(tvID, tvID)
+        JSONElement json = itemAPIService.tvshowAPI(imdbTv, imdbTv)
 
         then: "the title of the current book is Da Vinci Code"
-        json != null
+        json.title == "Game of Thrones"
     }
 
     void "test than an exception is thrown when json can't be download"() {

@@ -10,7 +10,14 @@ class DataFillingServiceIntegrationSpec extends Specification {
 
     def dataFillingService
 
+    String imdbMovie
+    String googleID
+    String imdbTv
+
     def setup() {
+        imdbMovie = "tt1219289"
+        googleID = "SteVfQT2WY0C"
+        imdbTv = "tt0944947"
     }
 
     def cleanup() {
@@ -18,11 +25,8 @@ class DataFillingServiceIntegrationSpec extends Specification {
 
     void "test that the MOVIE is correctly added to the database"() {
 
-        given: "an IMDB id that belongs to a unique movie"
-        String imdbID = "tt1219289"
-
         when: "the json is loaded and the movie is saved"
-        Movie movie = dataFillingService.jsonToMovieSave(imdbID)
+        Movie movie = dataFillingService.jsonToMovieSave(imdbMovie)
 
         then: "the movie has no errors"
         !movie.hasErrors()
@@ -31,13 +35,10 @@ class DataFillingServiceIntegrationSpec extends Specification {
         movie.title == "Limitless"
 
         and: "The movie is added to the database"
-        Movie.findByImdbID(imdbID) != null
+        Movie.findByImdbID(imdbMovie) != null
     }
 
     void "test that the BOOK is correctly added to the database"() {
-
-        given: "an google id that belongs to a unique book"
-        String googleID = "SteVfQT2WY0C"
 
         when: "the json is loaded and the book is saved"
         Book book = dataFillingService.jsonToBookSave(googleID)
@@ -49,16 +50,13 @@ class DataFillingServiceIntegrationSpec extends Specification {
         book.title == "Da Vinci code"
 
         and: "The book is added to the database"
-        Book.findByGoogleID("SteVfQT2WY0C") != null
+        Book.findByGoogleID(googleID) != null
     }
 
     void "test that the TVSHOW is correctly added to the database"() {
 
-        given: "a imdb id that belongs to a unique tv show"
-        String imdbID = "tt0944947"
-
         when: "the json is loaded and the tv show is saved"
-        TVShow tvShow = dataFillingService.jsonToTVShowSave(imdbID)
+        TVShow tvShow = dataFillingService.jsonToTVShowSave(imdbTv)
 
         then: "the book has no errors"
         !tvShow.hasErrors()
@@ -67,15 +65,12 @@ class DataFillingServiceIntegrationSpec extends Specification {
         tvShow.title == "Game of Thrones"
 
         and: "The book is added to the database"
-        TVShow.findByImdbID("tt0944947") != null
+        TVShow.findByImdbID(imdbTv) != null
     }
 
 
     void "test than an exception is thrown when items already exist"() {
         given: "Each item saved"
-        String imdbMovie = "tt0107290"
-        String googleID = "SteVfQT2WY0C"
-        String imdbTv = "tt0773262"
         Movie movieSaved = dataFillingService.jsonToMovieSave(imdbMovie)
         Book bookSaved = dataFillingService.jsonToBookSave(googleID)
         TVShow tvShowSaved = dataFillingService.jsonToTVShowSave(imdbTv)
