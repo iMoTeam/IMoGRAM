@@ -114,8 +114,8 @@
 
 <h1  style="color:#E74C3C;">S&eacute;ries</h1>
 <hr class="separCate">
-<g:each var="s" in="${TVShow.list().subList(0, 3)}">
-    <table>
+<table>
+    <g:each var="s" in="${TVShow.list().subList(0, 3)}">
         <tr>
 			<td rowspan="4">
 				<a href="#">
@@ -138,14 +138,14 @@
         <tr>
             <td>${s.overview}</td>
         </tr>
-    </table>
+    </g:each>
+</table>
     <hr class="separ">
-</g:each>
 
 <h1 style="color:#F2CF66;">Livres</h1>
 <hr class="separCate">
-<g:each var="b" in="${Book.list().subList(0, 3)}">
-    <table>
+<table>
+    <g:each var="b" in="${Book.list().subList(0, 3)}">
         <tr>
 			<td rowspan="4">
 				<a href="#">
@@ -168,8 +168,8 @@
         <tr>
             <td>${b.description}</td>
         </tr>
-    </table>
+    </g:each>
+</table>
     <hr class="separ">
-</g:each>
 </body>
 </html>
