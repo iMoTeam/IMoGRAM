@@ -49,7 +49,7 @@ class DataFillingServiceIntegrationSpec extends Specification {
         book.title == "Da Vinci code"
 
         and: "The book is added to the database"
-        Book.findByIsbn13(9782709637404) != null
+        Book.findByGoogleID("SteVfQT2WY0C") != null
     }
 
     void "test that the TVSHOW is correctly added to the database"() {
@@ -68,5 +68,37 @@ class DataFillingServiceIntegrationSpec extends Specification {
 
         and: "The book is added to the database"
         TVShow.findByImdbID("tt0944947") != null
+    }
+
+
+    void "test than an exception is thrown when items already exist"() {
+        given: "Each item saved"
+        String imdbMovie = "tt0107290"
+        String googleID = "SteVfQT2WY0C"
+        String imdbTv = "tt0773262"
+        Movie movieSaved = dataFillingService.jsonToMovieSave(imdbMovie)
+        Book bookSaved = dataFillingService.jsonToBookSave(googleID)
+        TVShow tvShowSaved = dataFillingService.jsonToTVShowSave(imdbTv)
+
+        when: " a movie with the same imdb ID is saved"
+        Movie tryToSaveMovie = dataFillingService.jsonToMovieSave(imdbMovie)
+
+        then: "an exception is thrown because the movie already exist"
+        ItemAlreadyExistException eMovie = thrown(Exception)
+        eMovie.message == "Movie already saved in the database : " + imdbMovie
+
+        when: " a tv show with the same imdb ID is saved"
+        TVShow tryToSaveTvShow = dataFillingService.jsonToTVShowSave(imdbTv)
+
+        then: "an exception is thrown because the movie already exist"
+        ItemAlreadyExistException eTv = thrown(Exception)
+        eTv.message == "Tv show already saved in the database : " + imdbTv
+
+        /*when: " a book with the same google ID is saved"
+        Book tryToSaveBook = dataFillingService.jsonToBookSave(googleId)
+
+        then: "an exception is thrown because the book already exist"
+        Exception eBook = thrown(Exception)
+        log.info(eBook.message)*/
     }
 }

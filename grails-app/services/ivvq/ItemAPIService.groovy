@@ -44,7 +44,10 @@ class ItemAPIService {
         }
     }
 
-    def tvshowAPI(String request) {
+    /*
+     * the imdb ID is passed to handle properly the exception
+     */
+    def tvshowAPI(String request, String imdbTv) {
 
         String api_key = "3c486bec651c7a338941bbeaea332cef3ec4f601b9869702686644e7bf1fdda2"
         String urlAPI = "https://api-v2launch.trakt.tv/shows/" + request
@@ -58,7 +61,7 @@ class ItemAPIService {
         }
 
         if (response.statusCode.value() != 200) {
-            throw new JSonAPIException("An error has occured while downloading json (TV Show): " + response.statusCode)
+            throw new JSonAPIException("An error has occured while downloading json (TV Show): " + imdbTv)
         } else {
             return response.json
         }
