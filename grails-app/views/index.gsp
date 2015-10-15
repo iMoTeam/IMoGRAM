@@ -87,7 +87,16 @@
 <g:each var="m" in="${Movie.list().subList(0, 2)}">
 	<table>
 		<tr>
-			<td rowspan="4"><a href="#"><img  style="width: 100px;" src="${m.poster}"/></a></td>
+			<td rowspan="4">
+				<a href="#">
+					<g:if test="${!m.poster.contains("jpg") && !m.poster.contains("png")}">
+						<img  style="width: 100px;" src="./images/film.jpg"/>
+					</g:if>
+					<g:else>
+						<img  style="width: 100px;" src="${m.poster}"/>
+					</g:else>
+				</a>
+			</td>
 			<td><a href="#" class="linkDesc" style="color: black;"><h2>${m.title}</h2></a></td>
 		</tr>
 		<tr>
@@ -108,7 +117,16 @@
 <g:each var="s" in="${TVShow.list().subList(0, 3)}">
     <table>
         <tr>
-            <td rowspan="4"><a href="#"><img  style="width: 100px;" src="${s.overview}"/></a></td>
+			<td rowspan="4">
+				<a href="#">
+					<g:if test="${!s.overview.contains("jpg") && !s.overview.contains("png")}">
+						<img  style="width: 100px;" src="./images/serie.jpg"/>
+					</g:if>
+					<g:else>
+						<img  style="width: 100px;" src="${s.overview}"/>
+					</g:else>
+				</a>
+			</td>
             <td><a href="#" class="linkDesc" style="color: black;"><h2>${s.title}(${s.releaseDate.substring(0, 4)})</h2></a></td>
         </tr>
         <tr>
@@ -129,7 +147,16 @@
 <g:each var="b" in="${Book.list().subList(0, 3)}">
     <table>
         <tr>
-            <td rowspan="4"><a href="#"><img  style="width: 100px;" src="${b.image}"/></a></td>
+			<td rowspan="4">
+				<a href="#">
+					<g:if test="${!b.image.contains("jpg") && !b.image.contains("png")}">
+						<img  style="width: 100px;" src="./images/livre.png"/>
+					</g:if>
+					<g:else>
+						<img  style="width: 100px;" src="${b.image}"/>
+					</g:else>
+				</a>
+			</td>
             <td><a href="#" class="linkDesc" style="color: black;"><h2>${b.title}(${b.publishedDate.substring(0, 4)})</h2></a></td>
         </tr>
         <tr>
