@@ -13,7 +13,6 @@ class UniversalController {
         params.max = 5
         def moviesList = movieService.searchMovies(params)
         def booksList = bookService.searchBooks(params)
-        def resultsList = moviesList + booksList
         render(view: 'index', model: [bookInstanceList:booksList, bookInstanceCount: booksList.totalCount,movieInstanceList:moviesList, movieInstanceCount: moviesList.totalCount])
     }
 }
