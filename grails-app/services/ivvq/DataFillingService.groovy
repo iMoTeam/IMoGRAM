@@ -15,7 +15,7 @@ class DataFillingService {
 
     }
 
-    Movie jsonToMovieSave(String imdbID) {
+    Movie jsonToMovieSave(String imdbID) throws JSonAPIException{
 
         // Movie already added to the database
         if (Movie.findByImdbID(imdbID) != null) {
@@ -25,12 +25,7 @@ class DataFillingService {
         Movie currentMovie = new Movie()
         JSONElement json
 
-        try {
-            json = itemAPIService.movieAPI(imdbID)
-        } catch (JSonAPIException e) {
-            log.error(e.message)
-            return
-        }
+        json = itemAPIService.movieAPI(imdbID)
 
         currentMovie.imdbID = json.imdbID
         currentMovie.title = json.Title
@@ -50,6 +45,7 @@ class DataFillingService {
             return currentMovie
         } else {
             throw new SaveAPIException("An error has occured while saving this movie : " + imdbID)
+            return
         }
     }
 
@@ -63,12 +59,7 @@ class DataFillingService {
         Book currentBook = new Book()
         JSONElement json
 
-        try {
-            json = itemAPIService.bookAPI(googleID)
-        } catch (JSonAPIException e) {
-            log.error(e.message)
-            return
-        }
+        json = itemAPIService.bookAPI(googleID)
 
         currentBook.googleID = googleID
 
@@ -104,23 +95,17 @@ class DataFillingService {
 
         TVShow currentTVShow = new TVShow()
 
-        try {
-            String requestSummury = imdbID + "?extended=full"
-            JSONElement json = itemAPIService.tvshowAPI(requestSummury)
-            currentTVShow = fillSummury(currentTVShow, json)
+        String requestSummury = imdbID + "?extended=full"
+        JSONElement json = itemAPIService.tvshowAPI(requestSummury, imdbID)
+        currentTVShow = fillSummury(currentTVShow, json)
 
-            String requestCast = imdbID + "/people"
-            JSONElement jsonCast = itemAPIService.tvshowAPI(requestCast)
-            currentTVShow = fillPeople(currentTVShow, jsonCast)
+        String requestCast = imdbID + "/people"
+        JSONElement jsonCast = itemAPIService.tvshowAPI(requestCast, imdbID)
+        currentTVShow = fillPeople(currentTVShow, jsonCast)
 
-            String requestSeason = imdbID + "/seasons?extended=episodes"
-            JSONElement jsonSeason = itemAPIService.tvshowAPI(requestSeason)
-            currentTVShow = fillSeasons(currentTVShow, jsonSeason)
-
-        } catch (JSonAPIException e) {
-            log.error(e.message)
-            return
-        }
+        String requestSeason = imdbID + "/seasons?extended=episodes"
+        JSONElement jsonSeason = itemAPIService.tvshowAPI(requestSeason, imdbID)
+        currentTVShow = fillSeasons(currentTVShow, jsonSeason)
 
         currentTVShow.save(flush: true)
 

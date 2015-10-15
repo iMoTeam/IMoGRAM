@@ -1,4 +1,8 @@
+import ivvq.ItemAlreadyExistException
+import ivvq.JSonAPIException
 import ivvq.SaveAPIException
+
+import java.util.jar.JarException
 
 class BootStrap {
 
@@ -7,7 +11,7 @@ class BootStrap {
     def init = { servletContext ->
 
         String[] moviesToLoad = ["tt0107290", "tt0369610"]
-        String[] bookToLoad = ["SteVfQT2WY0C", "YnBRB84BHscC", "4hNrYIhNqUEC", "Ii1RBAAAQBAJ",
+        String[] bookToLoad = ["SteVfQT2WY0C", "SteVfQT2WY0C", "4hNrYIhNqUEC", "Ii1RBAAAQBAJ",
                                "PawQ51UXVGEC", "ERghoa8HhNoC", "jSouIA8hsw4C", "nTKNAgAAQBAJ", "FsGJGAAACAAJ", "JhMUvnUr29UC", "qJHlSKugbPMC"]
         String[] tvShowToLoad = ["tt0303461", "tt1439629", "tt0944947", "tt0903747", "tt1520211", "tt0773262"]
 
@@ -17,6 +21,10 @@ class BootStrap {
                 dataFillingService.jsonToMovieSave(it)
             } catch (SaveAPIException e) {
                 log.error(e.message)
+            } catch (ItemAlreadyExistException ie) {
+                log.error(ie.message)
+            } catch (JSonAPIException je) {
+                log.error(je.message)
             }
         }
 
@@ -25,14 +33,22 @@ class BootStrap {
                 dataFillingService.jsonToBookSave(it)
             } catch (SaveAPIException e) {
                 log.error(e.message)
+            } catch (ItemAlreadyExistException ie) {
+                log.error(ie.message)
+            } catch (JSonAPIException je) {
+                log.error(je.message)
             }
-        }
+        }*/
 
-        tvShowToLoad.each {
+        /*tvShowToLoad.each {
             try {
                 dataFillingService.jsonToTVShowSave(it)
             } catch (SaveAPIException e) {
                 log.error(e.message)
+            } catch (ItemAlreadyExistException ie) {
+                log.error(ie.message)
+            } catch (JSonAPIException je) {
+                log.error(je.message)
             }
         }*/
     }

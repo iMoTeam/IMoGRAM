@@ -19,7 +19,7 @@ class TVShow {
     ]
 
     static constraints = {
-        imdbID matches: "tt[0-9]{7}", blank: false
+        imdbID matches: "tt[0-9]{7}", blank: false, unique: true
         title blank: false
         releaseDate blank: false
         runtime blank: false
