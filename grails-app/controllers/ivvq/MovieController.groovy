@@ -108,7 +108,7 @@ class MovieController {
     def doSearchMovies() {
         params.max = 5
         def moviesList = movieService.searchMovies(params)
-        render(view: 'index', model: [movieInstanceList:moviesList, movieInstanceCount: moviesList.totalCount])
+        render(view: 'searchResults', model: [movieInstanceList:moviesList, movieInstanceCount: moviesList.totalCount])
 
     }
 }

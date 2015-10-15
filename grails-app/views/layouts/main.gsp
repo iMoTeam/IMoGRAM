@@ -26,12 +26,21 @@
 					<td><a href="#" class="action-button shadow animate purple">Films</a></td>
 					<td><a href="#" class="action-button shadow animate red">S&eacute;ries</a></td>
 					<td><a href="#" class="action-button shadow animate yellow">Livres</a></td>
-					<td><a href="#" class="action-button shadow animate green">Connexion</a></td>
-					<td><a href="#" class="action-button shadow animate green">Inscription</a></td>
+					<td><a href="${createLink(controller:'user', action:'loginUser')}" class="action-button shadow animate green">Connexion</a></td>
+					<td><a href="${createLink(controller:'user', action:'create')}" class="action-button shadow animate green">Inscription</a></td>
 				</tr>
 				<tr>
-					<td colspan="3"><input id="rechercher" type="text"  name="rechercher" value="" /></td>
-					<td><a href="#" class="action-button shadow animate blue">&nbsp;&nbsp;Valider&nbsp;&nbsp;&nbsp;</a></td>
+					<td colspan="3">
+                  <g:form controller="universal" action="doSearchAll" method="post" >
+                      <fieldset class="form">
+                        <input id="rechercher" type="text"  name="stringToSearch" />
+                      </fieldset>
+                    </td>
+					<td>
+                        <g:actionSubmit class="action-button shadow animate blue" controller="universal" action="doSearchAll" value="Valider"/>
+                    </td>
+
+                  </g:form>
 					<td><a href="#" class="action-button shadow animate blue">&nbsp;&nbsp;&nbsp;&nbsp;Filtrer&nbsp;&nbsp;&nbsp;</a></td>
 				</tr>
 			</table>

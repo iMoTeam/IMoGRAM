@@ -14,7 +14,7 @@ class BootStrap {
         }
 
         bookToLoad.each {
-            //dataFillingService.jsonToBookSave(it)
+            dataFillingService.jsonToBookSave(it)
         }
     }
 
