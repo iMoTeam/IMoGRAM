@@ -12,7 +12,7 @@ class BootStrap {
         String[] tvShowToLoad = ["tt0303461", "tt1439629", "tt0944947", "tt0903747", "tt1520211", "tt0773262"]
 
         // Loading Datas
-        /*moviesToLoad.each {
+        moviesToLoad.each {
             try {
                 dataFillingService.jsonToMovieSave(it)
             } catch (SaveAPIException e) {
@@ -34,7 +34,7 @@ class BootStrap {
             } catch (SaveAPIException e) {
                 log.error(e.message)
             }
-        }*/
+        }
     }
 
     def destroy = {
