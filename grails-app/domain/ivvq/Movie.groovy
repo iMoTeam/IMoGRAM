@@ -14,6 +14,10 @@ class Movie {
     String plot
     String poster
 
+    static mapping = {
+        plot sqlType: "text"
+    }
+
     static constraints = {
         imdbID matches: "tt[0-9]{7}", blank: false, unique: true
         title blank: false

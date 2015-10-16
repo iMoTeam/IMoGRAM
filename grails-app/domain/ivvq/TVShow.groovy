@@ -11,6 +11,10 @@ class TVShow {
     Integer airedEpisodes
     String country
 
+    static mapping = {
+        overview sqlType: "text"
+    }
+
     static hasMany = [
             actors: Role,
             crews: ArrayClass,
