@@ -6,6 +6,7 @@ class ItemUser {
     Movie movie
     TVShow tvShow
     Book book
+    boolean coupCoeur = false
     boolean favourite = false
 
     static hasMany = [comments: Comment]

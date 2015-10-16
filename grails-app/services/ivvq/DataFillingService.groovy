@@ -15,6 +15,7 @@ class DataFillingService {
 
     }
 
+
     Movie jsonToMovieSave(String imdbID) throws JSonAPIException{
 
         // Movie already added to the database
@@ -72,7 +73,6 @@ class DataFillingService {
         currentBook.publishedDate = json.volumeInfo.publishedDate
         currentBook.author = json.volumeInfo.authors[0]
         currentBook.publisher = json.volumeInfo.publisher
-        // TODO Change Varachar(255)
         currentBook.description = "description" //json.volumeInfo.description
         currentBook.image = "image" //json.volumeInfo.imageLinks.thumbnail
         currentBook.pageCount = json.volumeInfo.pageCount

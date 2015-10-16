@@ -17,4 +17,15 @@ class UserService {
         }
         return User.findByUsernameAndPassword(username,password)
     }
+
+    List<ItemUser> getAllUserItem(User user) {
+
+        List<ItemUser> collections = null
+
+        if (User.findByUsername(user.username)) {
+            collections = ItemUser.findAllByUser(user)
+        }
+
+        return collections
+    }
 }
