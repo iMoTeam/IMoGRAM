@@ -6,6 +6,9 @@ import org.codehaus.groovy.grails.web.json.JSONArray
 import org.codehaus.groovy.grails.web.json.JSONElement
 import org.xml.sax.SAXException
 
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+
 @Transactional
 class DataFillingService {
 
@@ -68,13 +71,11 @@ class DataFillingService {
         currentBook.isbn13 = isIsbnPresent != null ? isIsbnPresent[1]?.identifier : null
 
         currentBook.title = json.volumeInfo.title
-        // TODO Cast with a real date format
         currentBook.publishedDate = json.volumeInfo.publishedDate
         currentBook.author = json.volumeInfo.authors[0]
         currentBook.publisher = json.volumeInfo.publisher
-        // TODO Change Varachar(255)
-        currentBook.description = "description" //json.volumeInfo.description
-        currentBook.image = "image" //json.volumeInfo.imageLinks.thumbnail
+        currentBook.description = json.volumeInfo.description
+        currentBook.image = json.volumeInfo.imageLinks != null ? json.volumeInfo.imageLinks.thumbnail : null
         currentBook.pageCount = json.volumeInfo.pageCount
 
         currentBook.save(flush: true)
@@ -95,14 +96,22 @@ class DataFillingService {
 
         TVShow currentTVShow = new TVShow()
 
-        String requestSummury = imdbID + "?extended=full"
-        JSONElement json = itemAPIService.tvshowAPI(requestSummury, imdbID)
-        currentTVShow = fillSummury(currentTVShow, json)
+        // Image loading
+        String request = imdbID + "?extended=images"
+        JSONElement json = itemAPIService.tvshowAPI(request, imdbID)
+        currentTVShow.image = json.images.poster != null ? json.images.poster.thumb : null
 
+        // Summury loading
+        String requestSummury = imdbID + "?extended=full"
+        JSONElement jsonSummury = itemAPIService.tvshowAPI(requestSummury, imdbID)
+        currentTVShow = fillSummury(currentTVShow, jsonSummury)
+
+        //Cast + crew loading
         String requestCast = imdbID + "/people"
         JSONElement jsonCast = itemAPIService.tvshowAPI(requestCast, imdbID)
         currentTVShow = fillPeople(currentTVShow, jsonCast)
 
+        // Seasons loading
         String requestSeason = imdbID + "/seasons?extended=episodes"
         JSONElement jsonSeason = itemAPIService.tvshowAPI(requestSeason, imdbID)
         currentTVShow = fillSeasons(currentTVShow, jsonSeason)
@@ -123,8 +132,7 @@ class DataFillingService {
         currentTVShow.releaseDate = json.first_aired
         currentTVShow.runtime = json.runtime
         currentTVShow.network = json.network
-        //TODO Change VARCHAR 255
-        currentTVShow.overview = "test"
+        currentTVShow.overview = json.overview
 
         for (int i = 0; i < json.genres.size(); i++) {
             currentTVShow.addToGenres(new ArrayClass(title: json.genres[i]).save(flush: true))

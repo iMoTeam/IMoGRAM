@@ -13,6 +13,11 @@ class Book {
     String image
     Integer pageCount
 
+    static mapping = {
+        description sqlType: "text"
+        image sqlType: "text"
+    }
+
     static constraints = {
         googleID matches: "[0-9|a-z|A-Z]{12}", blank: false, unique: true
         isbn13 matches: "978[0-9]{10}", nullable: true
