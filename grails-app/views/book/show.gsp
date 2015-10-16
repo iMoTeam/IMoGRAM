@@ -10,7 +10,6 @@
 	<body>
 		<a href="#show-book" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
 		<div id="show-book" class="content scaffold-show" role="main">
-			<h1><g:message code="default.show.label" args="[entityName]" /></h1>
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
@@ -53,7 +52,7 @@
 			
 				<g:if test="${bookInstance?.isbn13}">
 				<li class="fieldcontain">
-					<span id="isbn13-label" class="property-label"><g:message code="book.isbn13.label" default="Isbn13" /></span>
+					<span id="isbn13-label" class="property-label">ISBN13</span>
 					
 						<span class="property-value" aria-labelledby="isbn13-label"><g:fieldValue bean="${bookInstance}" field="isbn13"/></span>
 					
@@ -62,7 +61,7 @@
 			
 				<g:if test="${bookInstance?.description}">
 				<li class="fieldcontain">
-					<span id="description-label" class="property-label"><g:message code="book.description.label" default="Description" /></span>
+					<span id="description-label" class="property-label">Résumé</span>
 					
 						<span class="property-value" aria-labelledby="description-label"><g:fieldValue bean="${bookInstance}" field="description"/></span>
 					
