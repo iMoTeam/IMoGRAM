@@ -25,7 +25,6 @@ class TVShow {
         runtime blank: false
         network blank: false
         overview blank: false
-        genres blank: false
         airedEpisodes min:0
         country blank: false
     }

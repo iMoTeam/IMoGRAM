@@ -10,8 +10,14 @@ class TVShowControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
-        // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
+        params["imdbID"] = "tt0107290"
+        params["title"] = "The Movie"
+        params["releaseDate"] = "22-09-15"
+        params["runtime"] = "127"
+        params["network"] = "OCS"
+        params["overview"] = "Résume"
+        params["airedEpisodes"] = 50
+        params["country"] = "Madagascar"
     }
 
     void "Test the index action returns the correct model"() {
