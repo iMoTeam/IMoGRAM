@@ -10,9 +10,11 @@ class TVShow {
     String overview
     Integer airedEpisodes
     String country
+    String image
 
     static mapping = {
         overview sqlType: "text"
+        image sqlType: "text"
     }
 
     static hasMany = [
@@ -32,5 +34,6 @@ class TVShow {
         genres blank: false
         airedEpisodes min:0
         country blank: false
+        image nullable: true, blank: true
     }
 }

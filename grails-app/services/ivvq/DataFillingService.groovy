@@ -96,19 +96,22 @@ class DataFillingService {
 
         TVShow currentTVShow = new TVShow()
 
+        // Image loading
         String request = imdbID + "?extended=images"
         JSONElement json = itemAPIService.tvshowAPI(request, imdbID)
+        currentTVShow.image = json.images.poster != null ? json.images.poster.thumb : null
 
-        String requestSummury = imdbID + "?extended=full&extended=images"
+        // Summury loading
+        String requestSummury = imdbID + "?extended=full"
         JSONElement jsonSummury = itemAPIService.tvshowAPI(requestSummury, imdbID)
         currentTVShow = fillSummury(currentTVShow, jsonSummury)
 
-        json.images.poster.thumb
-
+        //Cast + crew loading
         String requestCast = imdbID + "/people"
         JSONElement jsonCast = itemAPIService.tvshowAPI(requestCast, imdbID)
         currentTVShow = fillPeople(currentTVShow, jsonCast)
 
+        // Seasons loading
         String requestSeason = imdbID + "/seasons?extended=episodes"
         JSONElement jsonSeason = itemAPIService.tvshowAPI(requestSeason, imdbID)
         currentTVShow = fillSeasons(currentTVShow, jsonSeason)
