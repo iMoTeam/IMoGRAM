@@ -14,7 +14,7 @@ class UserController {
         User currentUser = session["currentUser"]
 
         if (currentUser == null) {
-
+            redirect(uri:'/')
         }
 
         List<ItemUser> items = userService.getAllUserItem(currentUser)

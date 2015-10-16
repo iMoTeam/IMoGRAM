@@ -36,25 +36,27 @@ class TVShowSpec extends Specification {
         valid == expectedState
 
         where:
-        aImdbID     | aTitle  | aReleaseDate  | aRuntime | aNetwork | aOverview | anAiredEpisode | aCountry | expectedState
-        "tt4545341" | "title" | "12 Jun 2015" | "124"    | "HBO"    | "blabla"  | 50             | "us"     | true
-        "tt454531"  | "title" | "12 Jun 2015" | "124"    | "HBO"    | "blabla"  | 50             | "us"     | false
-        ""          | "title" | "12 Jun 2015" | "124"    | "HBO"    | "blabla"  | 50             | "us"     | false
-        null        | "title" | "12 Jun 2015" | "124"    | "HBO"    | "blabla"  | 50             | "us"     | false
-        "tt4545341" | ""      | "12 Jun 2015" | "124"    | "HBO"    | "blabla"  | 50             | "us"     | false
-        "tt4545341" | null    | "12 Jun 2015" | "124"    | "HBO"    | "blabla"  | 50             | "us"     | false
-        "tt4545341" | "title" | ""            | "124"    | "HBO"    | "blabla"  | 50             | "us"     | false
-        "tt4545341" | "title" | null          | "124"    | "HBO"    | "blabla"  | 50             | "us"     | false
-        "tt4545341" | "title" | "12 Jun 2015" | ""       | "HBO"    | "blabla"  | 50             | "us"     | false
-        "tt4545341" | "title" | "12 Jun 2015" | null     | "HBO"    | "blabla"  | 50             | "us"     | false
-        "tt4545341" | "title" | "12 Jun 2015" | "124"    | ""       | "blabla"  | 50             | "us"     | false
-        "tt4545341" | "title" | "12 Jun 2015" | "124"    | null     | "blabla"  | 50             | "us"     | false
-        "tt4545341" | "title" | "12 Jun 2015" | "124"    | "HBO"    | ""        | 50             | "us"     | false
-        "tt4545341" | "title" | "12 Jun 2015" | "124"    | "HBO"    | null      | 50             | "us"     | false
-        "tt4545341" | "title" | "12 Jun 2015" | "124"    | "HBO"    | "blabla"  | -12            | "us"     | false
-        "tt4545341" | "title" | "12 Jun 2015" | "124"    | "HBO"    | "blabla"  | null           | "us"     | false
-        "tt4545341" | "title" | "12 Jun 2015" | "124"    | "HBO"    | "blabla"  | 50             | ""       | false
-        "tt4545341" | "title" | "12 Jun 2015" | "124"    | "HBO"    | "blabla"  | 50             | null     | false
+        aImdbID     | aTitle  | aReleaseDate  | aRuntime | aNetwork | aOverview | anAiredEpisode | aCountry | image       | expectedState
+        "tt4545341" | "title" | "12 Jun 2015" | "124"    | "HBO"    | "blabla"  | 50             | "us"     | "image.jpg" | true
+        "tt4545341" | "title" | "12 Jun 2015" | "124"    | "HBO"    | "blabla"  | 50             | "us"     | ""          | true
+        "tt4545341" | "title" | "12 Jun 2015" | "124"    | "HBO"    | "blabla"  | 50             | "us"     | null        | true
+        "tt454531"  | "title" | "12 Jun 2015" | "124"    | "HBO"    | "blabla"  | 50             | "us"     | "image.jpg" | false
+        ""          | "title" | "12 Jun 2015" | "124"    | "HBO"    | "blabla"  | 50             | "us"     | "image.jpg" | false
+        null        | "title" | "12 Jun 2015" | "124"    | "HBO"    | "blabla"  | 50             | "us"     | "image.jpg" | false
+        "tt4545341" | ""      | "12 Jun 2015" | "124"    | "HBO"    | "blabla"  | 50             | "us"     | "image.jpg" | false
+        "tt4545341" | null    | "12 Jun 2015" | "124"    | "HBO"    | "blabla"  | 50             | "us"     | "image.jpg" | false
+        "tt4545341" | "title" | ""            | "124"    | "HBO"    | "blabla"  | 50             | "us"     | "image.jpg" | false
+        "tt4545341" | "title" | null          | "124"    | "HBO"    | "blabla"  | 50             | "us"     | "image.jpg" | false
+        "tt4545341" | "title" | "12 Jun 2015" | ""       | "HBO"    | "blabla"  | 50             | "us"     | "image.jpg" | false
+        "tt4545341" | "title" | "12 Jun 2015" | null     | "HBO"    | "blabla"  | 50             | "us"     | "image.jpg" | false
+        "tt4545341" | "title" | "12 Jun 2015" | "124"    | ""       | "blabla"  | 50             | "us"     | "image.jpg" | false
+        "tt4545341" | "title" | "12 Jun 2015" | "124"    | null     | "blabla"  | 50             | "us"     | "image.jpg" | false
+        "tt4545341" | "title" | "12 Jun 2015" | "124"    | "HBO"    | ""        | 50             | "us"     | "image.jpg" | false
+        "tt4545341" | "title" | "12 Jun 2015" | "124"    | "HBO"    | null      | 50             | "us"     | "image.jpg" | false
+        "tt4545341" | "title" | "12 Jun 2015" | "124"    | "HBO"    | "blabla"  | -12            | "us"     | "image.jpg" | false
+        "tt4545341" | "title" | "12 Jun 2015" | "124"    | "HBO"    | "blabla"  | null           | "us"     | "image.jpg" | false
+        "tt4545341" | "title" | "12 Jun 2015" | "124"    | "HBO"    | "blabla"  | 50             | ""       | "image.jpg" | false
+        "tt4545341" | "title" | "12 Jun 2015" | "124"    | "HBO"    | "blabla"  | 50             | null     | "image.jpg" | false
 
 
 
