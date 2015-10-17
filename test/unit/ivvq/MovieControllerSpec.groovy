@@ -10,8 +10,17 @@ class MovieControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
-        // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
+        params["imdbID"] = "tt4545341"
+        params["title"] = "title"
+        params["releaseDate"] = "22-09-15"
+        params["runtime"] = "127 min"
+        params["genre"] = "Snuff"
+        params["director"] = "Michael Bay"
+        params["writers"] = "M. Pokora"
+        params["actors"] = "Jackie Chan"
+        params["country"] = "Kinder"
+        params["plot"] = "Il était une fois la vie"
+        params["poster"] = "Image"
     }
 
     void "Test the index action returns the correct model"() {
