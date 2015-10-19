@@ -18,6 +18,7 @@ class UserController {
         }
 
         List<ItemUser> items = userService.getAllUserItem(currentUser)
+        [items: items as List<ItemUser>]
     }
 
     @Transactional
