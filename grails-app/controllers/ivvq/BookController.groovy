@@ -1,6 +1,5 @@
 package ivvq
 
-
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
@@ -8,6 +7,8 @@ import grails.transaction.Transactional
 class BookController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+
+    BookService bookService
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -99,5 +100,16 @@ class BookController {
             }
             '*' { render status: NOT_FOUND }
         }
+    }
+
+    /**
+     * Searches books corresponding to a search string passed in params
+     * @return a list of books as search result
+     */
+    def doSearchBooks() {
+        params.max = 5
+        def booksList = bookService.searchBooks(params)
+        render(view: 'index', model: [bookInstanceList:booksList, bookInstanceCount: booksList.totalCount])
+
     }
 }

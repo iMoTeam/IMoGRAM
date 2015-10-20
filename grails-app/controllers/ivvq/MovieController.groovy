@@ -9,6 +9,9 @@ class MovieController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
+    MovieService movieService
+
+
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         respond Movie.list(params), model: [movieInstanceCount: Movie.count()]
@@ -99,5 +102,16 @@ class MovieController {
             }
             '*' { render status: NOT_FOUND }
         }
+    }
+
+/**
+ * Searches movies corresponding to a search string passed in params
+ * @return a list of movies as search result
+ */
+    def doSearchMovies() {
+        params.max = 5
+        def moviesList = movieService.searchMovies(params)
+        render(view: 'searchResults', model: [movieInstanceList:moviesList, movieInstanceCount: moviesList.totalCount])
+
     }
 }
