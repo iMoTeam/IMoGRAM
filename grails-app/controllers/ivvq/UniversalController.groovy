@@ -15,12 +15,11 @@ class UniversalController {
  */
     def doSearchAll() {
         params.max = 5
-        //def moviesList = movieService.searchMovies(params)
-        List<Book> booksList = bookService.searchBooks(params["stringToSearch"])
-        println(booksList)
-        //def tvShowList = TVShowService.searchTVShow(params)
-        render(view: 'index', model: [bookInstanceList:booksList, bookInstanceCount: booksList.size()/*,
-                                      movieInstanceList:moviesList, movieInstanceCount: moviesList.totalCount,
-                                      tvShowInstanceList:tvShowList, tvShowInstanceCount: tvShowList.totalCount*/])
+        def moviesList = movieService.searchMovies(params)
+        List<Book> booksList = bookService.searchBooks(params)
+        def tvShowList = TVShowService.searchTVShow(params)
+        render(view: 'index', model: [bookInstanceList:booksList, bookInstanceCount: booksList.size(),
+                                      movieInstanceList:moviesList, movieInstanceCount: moviesList.size(),
+                                      tvShowInstanceList:tvShowList, tvShowInstanceCount: tvShowList.size()])
     }
 }
