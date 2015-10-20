@@ -6,7 +6,7 @@ import grails.transaction.Transactional
 class MovieService {
 
     def searchMovies(def params) {
-        String stringToSearch = params['stringToSearch']
+        String stringToSearch
         if(params.stringToSearch != null){
             stringToSearch = params.stringToSearch
             stringToSearch = stringToSearch.trim()

@@ -5,14 +5,14 @@ import grails.transaction.Transactional
 @Transactional
 class BookService {
 
-    def searchBooks(def params) {
-        String stringToSearch = params['stringToSearch']
-     if(params.stringToSearch != null){
-             stringToSearch = params.stringToSearch
+    List<Book> searchBooks(String search) {
+        String stringToSearch = search
+     /*if(search != null){
+             stringToSearch = search
              stringToSearch = stringToSearch.trim()
-         }
+         }*/
         def criteria = Book.createCriteria()
-        def res = criteria.list (max:params.max,offset:params.offset){
+        def res = criteria.list (){
             if (stringToSearch) {
                or {
                    like 'title', "%${stringToSearch}%"

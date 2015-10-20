@@ -1,10 +1,13 @@
 package ivvq
 
+import grails.transaction.Transactional
+
+@Transactional(readOnly = true)
 class UniversalController {
 
     MovieService movieService
     BookService bookService
-    TVShowService tvShowService
+    TVShowService TVShowService
 
 /**
  * Searches movies,books corresponding to a search string passed in params
@@ -12,11 +15,12 @@ class UniversalController {
  */
     def doSearchAll() {
         params.max = 5
-        def moviesList = movieService.searchMovies(params)
-        def booksList = bookService.searchBooks(params)
-        def tvShowList = tvShowService.searchTVShow(params)
-        render(view: 'index', model: [bookInstanceList:booksList, bookInstanceCount: booksList.totalCount,
+        //def moviesList = movieService.searchMovies(params)
+        List<Book> booksList = bookService.searchBooks(params["stringToSearch"])
+        println(booksList)
+        //def tvShowList = TVShowService.searchTVShow(params)
+        render(view: 'index', model: [bookInstanceList:booksList, bookInstanceCount: booksList.size()/*,
                                       movieInstanceList:moviesList, movieInstanceCount: moviesList.totalCount,
-                                      tvShowInstanceList:tvShowList, tvShowInstanceCount: tvShowList.totalCount])
+                                      tvShowInstanceList:tvShowList, tvShowInstanceCount: tvShowList.totalCount*/])
     }
 }
