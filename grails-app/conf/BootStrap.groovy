@@ -9,13 +9,13 @@ class BootStrap {
                                //"PawQ51UXVGEC", "ERghoa8HhNoC", "jSouIA8hsw4C", "nTKNAgAAQBAJ", "FsGJGAAACAAJ", "JhMUvnUr29UC", "qJHlSKugbPMC"]
 
         // Load the movies from their imdbIDs
-        moviesToLoad.each {
+        /*moviesToLoad.each {
             dataFillingService.jsonToMovieSave(it)
         }
 
         bookToLoad.each {
             dataFillingService.jsonToBookSave(it)
-        }
+        }*/
     }
 
     def destroy = {
