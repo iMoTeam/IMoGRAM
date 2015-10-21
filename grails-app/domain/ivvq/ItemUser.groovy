@@ -6,7 +6,8 @@ class ItemUser {
     Movie movie
     TVShow tvShow
     Book book
-    boolean favourite = false
+    Integer rating
+    boolean favourite
 
     static hasMany = [comments: Comment]
 
@@ -14,5 +15,6 @@ class ItemUser {
         movie nullable: true
         tvShow nullable: true
         book nullable:  true
+        rating nullable: true, min: 0, max: 10
     }
 }
