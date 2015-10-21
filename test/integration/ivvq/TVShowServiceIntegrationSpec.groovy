@@ -35,5 +35,8 @@ class TVShowServiceIntegrationSpec extends Specification {
 
         and: "it contains the tvShow added to database"
         list*.imdbID.contains("tt0944947")
+
+        and: "It's title is Game of Thrones"
+        list[0].title == 'Game of Thrones'
     }
 }
