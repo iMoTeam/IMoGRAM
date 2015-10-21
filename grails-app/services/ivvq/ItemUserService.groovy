@@ -12,7 +12,6 @@ class ItemUserService {
     def getNbItemByUser(User use) {
 
         List<ItemUser> items = ItemUser.findAllByUser(user)
-
         def result = [book: 0, movie: 0, tvShow: 0]
 
         items.each {
@@ -26,5 +25,16 @@ class ItemUserService {
         }
 
         return result
+    }
+
+    List<ItemUser> getAllUserItemDAO(User user) {
+
+        List<ItemUser> collections = null
+
+        if (User.findByUsername(user.username)) {
+            collections = ItemUser.findAllByUser(user)
+        }
+
+        return collections
     }
 }

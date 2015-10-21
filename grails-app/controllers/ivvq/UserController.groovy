@@ -9,6 +9,7 @@ class UserController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
     UserService userService
+    def itemUserService
 
     def index(Integer max) {
         User currentUser = session["currentUser"]
@@ -17,7 +18,7 @@ class UserController {
             redirect(uri:'/')
         } else {
 
-            List<ItemUser> items = userService.getAllUserItemDAO(currentUser)
+            List<ItemUser> items = itemUserService.getAllUserItemDAO(currentUser)
             [items: items as List<ItemUser>]
         }
     }
@@ -28,8 +29,6 @@ class UserController {
         String password = params.password
         def user = userService.getUserLoggingIn(username,password)
         if(user != null) {
-            session["currentUser"] = null
-            def currentUser = session["currentUser"]
             session["currentUser"] = user
         }
         redirect(uri:'/')

@@ -17,15 +17,4 @@ class UserService {
         }
         return User.findByUsernameAndPassword(username,password)
     }
-
-    List<ItemUser> getAllUserItemDAO(User user) {
-
-        List<ItemUser> collections = null
-
-        if (User.findByUsername(user.username)) {
-            collections = ItemUser.findAllByUser(user)
-        }
-
-        return collections
-    }
 }
