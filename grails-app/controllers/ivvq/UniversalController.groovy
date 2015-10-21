@@ -30,8 +30,10 @@ class UniversalController {
     def doSearchBooks() {
         params.max = 5
         def booksList = bookService.searchBooks(params)
-        render(view: 'index', model: [bookInstanceList:booksList, bookInstanceCount: booksList.size()])
-
+        render(view: '/results', model: [bookInstanceList:booksList, bookInstanceCount: booksList.size()])
+        //params.bookInstanceList = booksList
+        //println(booksList.get(0).author)
+        //redirect(uri: "/results", params: [bookInstanceList: booksList])
     }
 
     /**
@@ -41,14 +43,18 @@ class UniversalController {
     def doSearchMovies() {
         params.max = 5
         def moviesList = movieService.searchMovies(params)
-        render(view: 'index', model: [movieInstanceList:moviesList, movieInstanceCount: moviesList.size()])
+        render(view: '/index', model: [movieInstanceList:moviesList, movieInstanceCount: moviesList.size()])
 
     }
 
     def doSearchTvShow() {
         params.max = 5
         def tvShowList = TVShowService.searchTVShow(params)
-        render(view: 'index', model: [tvShowInstanceList: tvShowList, tvShowInstanceCount: tvShowList.size()])
+        render(view: '/index', model: [tvShowInstanceList: tvShowList, tvShowInstanceCount: tvShowList.size()])
+    }
+
+    def results() {
+
     }
 
 

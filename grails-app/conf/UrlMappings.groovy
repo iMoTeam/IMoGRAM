@@ -7,7 +7,9 @@ class UrlMappings {
             }
         }
 
+        //"/results"(controller: "universal", action: "doSearchAll")
         "/"(view:"/index")
+        "/results"(view: "/results")
         "500"(view:'/error')
 	}
 }
