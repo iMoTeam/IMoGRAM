@@ -31,7 +31,6 @@ class TVShow {
         runtime blank: false
         network blank: false
         overview blank: false
-        genres blank: false
         airedEpisodes min:0
         country blank: false
         image nullable: true, blank: true

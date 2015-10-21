@@ -2,8 +2,6 @@ import ivvq.ItemAlreadyExistException
 import ivvq.JSonAPIException
 import ivvq.SaveAPIException
 
-import java.util.jar.JarException
-
 class BootStrap {
 
     def dataFillingService
@@ -53,6 +51,7 @@ class BootStrap {
                 log.error(je.message)
             }
         }
+
     }
 
     def destroy = {
