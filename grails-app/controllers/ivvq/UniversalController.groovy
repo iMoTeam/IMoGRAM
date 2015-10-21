@@ -41,13 +41,14 @@ class UniversalController {
     def doSearchMovies() {
         params.max = 5
         def moviesList = movieService.searchMovies(params)
-        render(view: 'searchResults', model: [movieInstanceList:moviesList, movieInstanceCount: moviesList.size()])
+        render(view: 'index', model: [movieInstanceList:moviesList, movieInstanceCount: moviesList.size()])
 
     }
 
     def doSearchTvShow() {
-
+        params.max = 5
         def tvShowList = TVShowService.searchTVShow(params)
+        render(view: 'index', model: [tvShowInstanceList: tvShowList, tvShowInstanceCount: tvShowList.size()])
     }
 
 

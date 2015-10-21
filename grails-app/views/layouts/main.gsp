@@ -23,9 +23,9 @@
 	<table>
 		<tr>
 			<td rowspan="2"><a href="./images/logo.jpg"><img src="${resource(dir: 'images', file: 'logo.jpg')}" alt="imo_logo"/></a></td>
-			<td><a href="#" class="action-button shadow animate purple">Films</a></td>
-			<td><a href="#" class="action-button shadow animate red">S&eacute;ries</a></td>
-			<td><a href="#" class="action-button shadow animate yellow">Livres</a></td>
+			<td><a href="${createLink(controller:'universal', action:'doSearchMovies')}" class="action-button shadow animate purple">Films</a></td>
+			<td><a href="${createLink(controller:'universal', action:'doSearchTvShow')}" class="action-button shadow animate red">S&eacute;ries</a></td>
+			<td><a href="${createLink(controller:'universal', action:'doSearchBooks')}" class="action-button shadow animate yellow">Livres</a></td>
             <td><a href="${createLink(controller:'user', action:'loginUser')}" class="action-button shadow animate green">Connexion</a></td>
             <td><a href="${createLink(controller:'user', action:'create')}" class="action-button shadow animate green">Inscription</a></td>
 		</tr>
