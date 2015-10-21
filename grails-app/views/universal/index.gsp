@@ -43,6 +43,16 @@
             </tr>
         </g:each>
     </div>
+    <div>
+        <g:each in="${tvShowInstanceList}" status="i" var="tvShowInstance">
+            <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+
+                <td>${fieldValue(bean: tvShowInstance, field: "image")}</td>
+                <td>${fieldValue(bean: tvShowInstance, field: "title")}</td>
+                <td>${fieldValue(bean: tvShowInstance, field: "overview")}</td>
+            </tr>
+        </g:each>
+    </div>
 
     </tbody>
 </table>
