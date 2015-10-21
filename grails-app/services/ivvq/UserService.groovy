@@ -18,7 +18,7 @@ class UserService {
         return User.findByUsernameAndPassword(username,password)
     }
 
-    List<ItemUser> getAllUserItem(User user) {
+    List<ItemUser> getAllUserItemDAO(User user) {
 
         List<ItemUser> collections = null
 

@@ -15,10 +15,11 @@ class UserController {
 
         if (currentUser == null) {
             redirect(uri:'/')
-        }
+        } else {
 
-        List<ItemUser> items = userService.getAllUserItem(currentUser)
-        [items: items as List<ItemUser>]
+            List<ItemUser> items = userService.getAllUserItemDAO(currentUser)
+            [items: items as List<ItemUser>]
+        }
     }
 
     @Transactional
