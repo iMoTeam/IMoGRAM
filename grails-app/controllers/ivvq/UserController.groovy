@@ -36,13 +36,9 @@ class UserController {
 
         userInstance.save flush: true
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'user.label', default: 'User'), userInstance.id])
-                redirect userInstance
-            }
-            '*' { respond userInstance, [status: CREATED] }
-        }
+            flash.message = "iMoGram vous souhaite la bienvenu!!"
+            redirect(action: "loginUser", id: params.id)
+
     }
 
     def edit(User userInstance) {
@@ -114,8 +110,12 @@ class UserController {
             session["currentUser"] = null
             def currentUser = session["currentUser"]
             session["currentUser"] = user
+            redirect(uri:'/')
         }
-        redirect(uri:'/')
+        else {
+            flash.error = "Erreur de connexion: Verifier votre identifiant et Mot de passe, inscrivez vous sinon!!"
+            redirect(action: "loginUser", id: params.id)
+        }
     }
 
 
