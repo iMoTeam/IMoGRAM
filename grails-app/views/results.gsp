@@ -5,7 +5,9 @@
   Time: 20:18
 --%>
 
-<%@ page import="ivvq.*" %>
+<%@ page import="ivvq.Book" %>
+<%@ page import="ivvq.TVShow" %>
+<%@ page import="ivvq.Movie" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -97,14 +99,14 @@
     <table>
         <tr>
             <td rowspan="4">
-                <a href="#">
+                <g:link controller="TVShow" action="show" id="${m.id}">
                     <g:if test="${!m.poster}">
                         <img  style="width: 100px;" src="./images/film.jpg"/>
                     </g:if>
                     <g:else>
                         <img  style="width: 100px;" src="${m.poster}"/>
                     </g:else>
-                </a>
+                </g:link>
             </td>
             <td><a href="#" class="linkDesc" style="color: black;"><h2>${m.title}</h2></a></td>
         </tr>
@@ -129,14 +131,14 @@
         <g:each var="s" in="${tvShowInstanceList}">
             <tr>
                 <td rowspan="4">
-                    <a href="#">
+                <g:link controller="TVShow" action="show" id="${s.id}">
                         <g:if test="${!s.image}">
                             <img  style="width: 100px;" src="./images/serie.jpg"/>
                         </g:if>
                         <g:else>
                             <img  style="width: 100px;" src="${s.image}"/>
                         </g:else>
-                    </a>
+                </g:link>
                 </td>
                 <td><a href="#" class="linkDesc" style="color: black;"><h2>${s.title}(${s.releaseDate.substring(0, 4)})</h2></a></td>
             </tr>
@@ -159,26 +161,28 @@
 <hr class="separCate">
 <table>
         <g:each var="b" in="${bookInstanceList}">
+
             <tr>
-                <td rowspan="4">
-                    <a href="#">
-                        <g:if test="${!b.image}">
-                            <img  style="width: 100px;" src="./images/livre.png"/>
-                        </g:if>
-                        <g:else>
-                            <img  style="width: 100px;" src="${b?.image}"/>
-                        </g:else>
-                    </a>
-                </td>
-                <td><a href="#" class="linkDesc" style="color: black;"><h2>${b.title}(${b.publishedDate.substring(0, 4)})</h2></a></td>
-            </tr>
-            <tr>
-                <td>livre de ${b.author}</td>
-            </tr>
-            <tr>
-                <td>Sortie : ${b.publishedDate}</td>
-            </tr>
-            <tr>
+
+                    <td rowspan="4">
+                        <g:link controller="book" action="show" id="${b.id}">
+                            <g:if test="${!b.image}">
+                                <img  style="width: 175px;" src="./images/livre.png"/>
+                            </g:if>
+                            <g:else>
+                                <img  style="width: 175px;" src="${b?.image}"/>
+                            </g:else>
+                        </g:link>
+                    </td>
+                    <td><h2>${b.title}(${b.publishedDate.substring(0, 4)})</h2></td>
+                </tr>
+                <tr>
+                    <td>livre de ${b.author}</td>
+                </tr>
+                <tr>
+                    <td>Sortie : ${b.publishedDate}</td>
+                </tr>
+                <tr>
                 <td>${b.description}</td>
             </tr>
         </g:each>

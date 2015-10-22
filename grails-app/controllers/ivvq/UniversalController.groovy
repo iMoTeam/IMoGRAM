@@ -49,9 +49,5 @@ class UniversalController {
         render(view: '/results', model: [tvShowInstanceList: tvShowList, tvShowInstanceCount: tvShowList.size()])
     }
 
-    def results() {
-
-    }
-
 
 }

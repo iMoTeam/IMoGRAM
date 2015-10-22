@@ -22,7 +22,7 @@
 <div id="grailsLogo" role="banner">
 	<table>
 		<tr>
-			<td rowspan="2"><a href="./images/logo.jpg"><img src="${resource(dir: 'images', file: 'logo.jpg')}" alt="imo_logo"/></a></td>
+			<td rowspan="2"><a href="${createLink(uri: "/")}"><img src="${resource(dir: 'images', file: 'logo.jpg')}" alt="imo_logo"/></a></td>
 			<td><a href="${createLink(controller:'universal', action:'doSearchMovies')}" class="action-button shadow animate purple">Films</a></td>
 			<td><a href="${createLink(controller:'universal', action:'doSearchTvShow')}" class="action-button shadow animate red">S&eacute;ries</a></td>
 			<td><a href="${createLink(controller:'universal', action:'doSearchBooks')}" class="action-button shadow animate yellow">Livres</a></td>
