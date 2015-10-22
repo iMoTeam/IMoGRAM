@@ -89,15 +89,16 @@
 	</style>
 </head>
 <br>
+
+<g:if test="${movieInstanceList}">
 <h1 style="color:#D074F2;">Films</h1>
 <hr class="separCate">
-<g:if test="${tvShowInstanceList}">
 <g:each var="m" in="${movieInstanceList}">
     <table>
         <tr>
             <td rowspan="4">
                 <a href="#">
-                    <g:if test="${!m.poster?.contains("jpg") && !m.poster?.contains("png")}">
+                    <g:if test="${!m.poster}">
                         <img  style="width: 100px;" src="./images/film.jpg"/>
                     </g:if>
                     <g:else>
@@ -121,19 +122,19 @@
 </g:each>
 </g:if>
 
+<g:if test="${tvShowInstanceList}">
 <h1  style="color:#E74C3C;">S&eacute;ries</h1>
 <hr class="separCate">
 <table>
-    <g:if test="${tvShowInstanceList}">
         <g:each var="s" in="${tvShowInstanceList}">
             <tr>
                 <td rowspan="4">
                     <a href="#">
-                        <g:if test="${!s.overview.contains("jpg") && !s.overview.contains("png")}">
+                        <g:if test="${!s.image}">
                             <img  style="width: 100px;" src="./images/serie.jpg"/>
                         </g:if>
                         <g:else>
-                            <img  style="width: 100px;" src="${s.overview}"/>
+                            <img  style="width: 100px;" src="${s.image}"/>
                         </g:else>
                     </a>
                 </td>
@@ -149,19 +150,19 @@
                 <td>${s.overview}</td>
             </tr>
         </g:each>
-    </g:if>
 </table>
 <hr class="separ">
+</g:if>
 
+<g:if test="${bookInstanceList}">
 <h1 style="color:#F2CF66;">Livres</h1>
 <hr class="separCate">
 <table>
-    <g:if test="${bookInstanceList}">
         <g:each var="b" in="${bookInstanceList}">
             <tr>
                 <td rowspan="4">
                     <a href="#">
-                        <g:if test="${!b?.image?.contains("jpg") && !b.image?.contains("png")}">
+                        <g:if test="${!b.image}">
                             <img  style="width: 100px;" src="./images/livre.png"/>
                         </g:if>
                         <g:else>
@@ -181,8 +182,8 @@
                 <td>${b.description}</td>
             </tr>
         </g:each>
-    </g:if>
 </table>
 <hr class="separ">
+</g:if>
 </body>
 </html>
