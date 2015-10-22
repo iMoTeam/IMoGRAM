@@ -99,7 +99,7 @@
     <table>
         <tr>
             <td rowspan="4">
-                <g:link controller="TVShow" action="show" id="${m.id}">
+                <g:link controller="movie" action="show" id="${m.id}">
                     <g:if test="${!m.poster}">
                         <img  style="width: 100px;" src="./images/film.jpg"/>
                     </g:if>
