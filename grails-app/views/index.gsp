@@ -90,10 +90,10 @@
 			<td rowspan="4">
 				<a href="#">
 					<g:if test="${!m.poster.contains("jpg") && !m.poster.contains("png")}">
-						<img  style="width: 100px;" src="./images/film.jpg"/>
+						<img  style="width: 150px;" src="./images/film.jpg"/>
 					</g:if>
 					<g:else>
-						<img  style="width: 100px;" src="${m.poster}"/>
+						<img  style="width: 150px;" src="${m.poster}"/>
 					</g:else>
 				</a>
 			</td>
@@ -119,11 +119,11 @@
         <tr>
 			<td rowspan="4">
 				<a href="#">
-					<g:if test="${!s.overview.contains("jpg") && !s.overview.contains("png")}">
-						<img  style="width: 100px;" src="./images/serie.jpg"/>
+					<g:if test="${!s.image}">
+						<img  style="width: 150px;" src="./images/serie.jpg"/>
 					</g:if>
 					<g:else>
-						<img  style="width: 100px;" src="${s.overview}"/>
+						<img  style="width: 150px;" src="${s.image}"/>
 					</g:else>
 				</a>
 			</td>
@@ -149,11 +149,11 @@
         <tr>
 			<td rowspan="4">
 				<a href="#">
-					<g:if test="${!b.image.contains("jpg") && !b.image.contains("png")}">
-						<img  style="width: 100px;" src="./images/livre.png"/>
+					<g:if test="${!b.image}">
+						<img  style="width: 150px;" src="./images/livre.png"/>
 					</g:if>
 					<g:else>
-						<img  style="width: 100px;" src="${b.image}"/>
+						<img  style="width: 150px;" src="${b.image}"/>
 					</g:else>
 				</a>
 			</td>

@@ -18,7 +18,7 @@ class UniversalController {
         def moviesList = movieService.searchMovies(params)
         def booksList = bookService.searchBooks(params)
         def tvShowList = TVShowService.searchTVShow(params)
-        render(view: 'index', model: [bookInstanceList:booksList, bookInstanceCount: booksList.size(),
+        render(view: '/results', model: [bookInstanceList:booksList, bookInstanceCount: booksList.size(),
                                       movieInstanceList:moviesList, movieInstanceCount: moviesList.size(),
                                       tvShowInstanceList:tvShowList, tvShowInstanceCount: tvShowList.size()])
     }
