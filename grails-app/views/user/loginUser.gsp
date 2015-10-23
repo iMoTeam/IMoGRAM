@@ -15,11 +15,7 @@
 
 <body>
 <g:if test="${flash.error}">
-    <h3 align="center" style="color: red"><div class="alert alert-error" style="display: block">${flash.error}</div> </h3>
-</g:if>
-<g:if test="${flash.message}">
-    <h3>Hi,</h3>
-    <div class="message" style="display: block">${flash.message}</div>
+    <div class="errors" role="alert alert-error" style="display: block">${flash.error}</div>
 </g:if>
 <h1 align="center" style="color: #1A4491">Saisissez vos informations </h1>
 <g:form controller="user" action="loggedInUser">

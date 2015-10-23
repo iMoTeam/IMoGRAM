@@ -36,7 +36,7 @@ class UserController {
 
         userInstance.save flush: true
 
-            flash.message = "iMoGram vous souhaite la bienvenu!!"
+            flash.message = "iMoGram vous souhaite la bienvenue"
             redirect(action: "loginUser", id: params.id)
 
     }
@@ -107,13 +107,11 @@ class UserController {
         String password = params.password
         def user = userService.getUserLoggingIn(username,password)
         if(user != null) {
-            session["currentUser"] = null
-            def currentUser = session["currentUser"]
             session["currentUser"] = user
             redirect(uri:'/')
         }
         else {
-            flash.error = "Erreur de connexion: Verifier votre identifiant et Mot de passe, inscrivez vous sinon!!"
+            flash.error = "Erreur de connexion: identifiant ou mot de passe incorrect"
             redirect(action: "loginUser", id: params.id)
         }
     }
