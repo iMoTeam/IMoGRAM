@@ -101,10 +101,10 @@
             <td rowspan="4">
                 <g:link controller="movie" action="show" id="${m.id}">
                     <g:if test="${!m.poster}">
-                        <img  style="width: 100px;" src="../images/film.jpg"/>
+                        <img  style="width: 150px;" src="../images/film.jpg"/>
                     </g:if>
                     <g:else>
-                        <img  style="width: 100px;" src="${m.poster}"/>
+                        <img  style="width: 150px;" src="${m.poster}"/>
                     </g:else>
                 </g:link>
             </td>
@@ -130,13 +130,13 @@
 <table>
         <g:each var="s" in="${tvShowInstanceList}">
             <tr>
-                <td rowspan="4">
+                <td>
                 <g:link controller="TVShow" action="show" id="${s.id}">
                         <g:if test="${!s.image}">
-                            <img  style="width: 100px;" src="../images/serie.jpg"/>
+                            <img  style="width: 150px;" src="../images/serie.jpg"/>
                         </g:if>
                         <g:else>
-                            <img  style="width: 100px;" src="${s.image}"/>
+                            <img  style="width: 150px;" src="${s.image}"/>
                         </g:else>
                 </g:link>
                 </td>
@@ -166,10 +166,10 @@
                     <td rowspan="4">
                         <g:link controller="book" action="show" id="${b.id}">
                             <g:if test="${!b.image}">
-                                <img  style="width: 175px;" src="../images/livre.png"/>
+                                <img  style="width: 150px;" src="../images/livre.png"/>
                             </g:if>
                             <g:else>
-                                <img  style="width: 175px;" src="${b?.image}"/>
+                                <img  style="width: 150px;" src="${b?.image}"/>
                             </g:else>
                         </g:link>
                     </td>
