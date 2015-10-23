@@ -17,7 +17,9 @@
 				<table>
 					<tr>
 
-						<td>IMAGE</td>
+						<g:if test="${TVShowInstance?.image}">
+							<td><img src="${TVShowInstance.image}" alt="${TVShowInstance.title}"></td>
+						</g:if>
 
 						<td>
                             <g:if test="${TVShowInstance?.title}">

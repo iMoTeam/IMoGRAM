@@ -88,14 +88,14 @@
 	<table>
 		<tr>
 			<td rowspan="4">
-				<a href="#">
-					<g:if test="${!m.poster.contains("jpg") && !m.poster.contains("png")}">
-						<img  style="width: 100px;" src="./images/film.jpg"/>
+				<g:link controller="movie" action="show" id="${m.id}">
+					<g:if test="${!m.poster}">
+						<img  style="width: 150px;" src="./images/film.jpg"/>
 					</g:if>
 					<g:else>
-						<img  style="width: 100px;" src="${m.poster}"/>
+						<img  style="width: 150px;" src="${m.poster}"/>
 					</g:else>
-				</a>
+				</g:link>
 			</td>
 			<td><a href="#" class="linkDesc" style="color: black;"><h2>${m.title}</h2></a></td>
 		</tr>
@@ -118,14 +118,14 @@
     <g:each var="s" in="${TVShow.list().subList(0, 3)}">
         <tr>
 			<td rowspan="4">
-				<a href="#">
-					<g:if test="${!s.overview.contains("jpg") && !s.overview.contains("png")}">
-						<img  style="width: 100px;" src="./images/serie.jpg"/>
+				<g:link controller="TVShow" action="show" id="${s.id}">
+					<g:if test="${!s.image}">
+						<img  style="width: 150px;" src="./images/serie.jpg"/>
 					</g:if>
 					<g:else>
-						<img  style="width: 100px;" src="${s.overview}"/>
+						<img  style="width: 150px;" src="${s.image}"/>
 					</g:else>
-				</a>
+				</g:link>
 			</td>
             <td><a href="#" class="linkDesc" style="color: black;"><h2>${s.title}(${s.releaseDate.substring(0, 4)})</h2></a></td>
         </tr>
@@ -148,14 +148,14 @@
     <g:each var="b" in="${Book.list().subList(0, 3)}">
         <tr>
 			<td rowspan="4">
-				<a href="#">
-					<g:if test="${!b.image.contains("jpg") && !b.image.contains("png")}">
-						<img  style="width: 100px;" src="./images/livre.png"/>
+				<g:link controller="book" action="show" id="${b.id}">
+					<g:if test="${!b.image}">
+						<img  style="width: 150px;" src="./images/livre.png"/>
 					</g:if>
 					<g:else>
-						<img  style="width: 100px;" src="${b.image}"/>
+						<img  style="width: 150px;" src="${b.image}"/>
 					</g:else>
-				</a>
+				</g:link>
 			</td>
             <td><a href="#" class="linkDesc" style="color: black;"><h2>${b.title}(${b.publishedDate.substring(0, 4)})</h2></a></td>
         </tr>
