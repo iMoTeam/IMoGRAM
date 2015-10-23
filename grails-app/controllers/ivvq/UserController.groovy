@@ -36,13 +36,9 @@ class UserController {
 
         userInstance.save flush: true
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'user.label', default: 'User'), userInstance.id])
-                redirect userInstance
-            }
-            '*' { respond userInstance, [status: CREATED] }
-        }
+            flash.message = "iMoGram vous souhaite la bienvenue"
+            redirect(action: "loginUser", id: params.id)
+
     }
 
     def edit(User userInstance) {
@@ -111,11 +107,13 @@ class UserController {
         String password = params.password
         def user = userService.getUserLoggingIn(username,password)
         if(user != null) {
-            session["currentUser"] = null
-            def currentUser = session["currentUser"]
             session["currentUser"] = user
+            redirect(uri:'/')
         }
-        redirect(uri:'/')
+        else {
+            flash.error = "Erreur de connexion: identifiant ou mot de passe incorrect"
+            redirect(action: "loginUser", id: params.id)
+        }
     }
 
 

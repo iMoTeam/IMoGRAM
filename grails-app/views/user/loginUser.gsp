@@ -14,7 +14,10 @@
 </head>
 
 <body>
-<h1 align="center" style="color: rgba(255, 239, 252, 0)">Saisissez vos informations </h1>
+<g:if test="${flash.error}">
+    <div class="errors" role="alert alert-error" style="display: block">${flash.error}</div>
+</g:if>
+<h1 align="center" style="color: #1A4491">Saisissez vos informations </h1>
 <g:form controller="user" action="loggedInUser">
     <fieldset class="form">
         <div class="fieldcontain ${hasErrors(bean: userInstance, field: 'username', 'error')} required">
