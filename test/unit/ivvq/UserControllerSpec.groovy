@@ -57,7 +57,7 @@ class UserControllerSpec extends Specification {
         controller.save(user)
 
         then: "A redirect is issued to the show action"
-        response.redirectedUrl == '/user/show/1'
+        response.redirectedUrl == '/user/loginUser'
         controller.flash.message != null
         User.count() == 1
     }
