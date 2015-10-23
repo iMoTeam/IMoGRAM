@@ -130,7 +130,7 @@
 <table>
         <g:each var="s" in="${tvShowInstanceList}">
             <tr>
-                <td>
+                <td rowspan="4">
                 <g:link controller="TVShow" action="show" id="${s.id}">
                         <g:if test="${!s.image}">
                             <img  style="width: 150px;" src="../images/serie.jpg"/>
