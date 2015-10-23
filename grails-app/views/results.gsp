@@ -108,7 +108,7 @@
                     </g:else>
                 </g:link>
             </td>
-            <td><a href="#" class="linkDesc" style="color: black;"><h2>${m.title}</h2></a></td>
+            <td><a href="${createLink(controller: "movie", action: "show", id: "${m.id}")}" class="linkDesc" style="color: black;"><h2>${m.title}</h2></a></td>
         </tr>
         <tr>
             <td>Film de ${m.director}</td>
@@ -140,7 +140,7 @@
                         </g:else>
                 </g:link>
                 </td>
-                <td><a href="#" class="linkDesc" style="color: black;"><h2>${s.title}(${s.releaseDate.substring(0, 4)})</h2></a></td>
+                <td><a href="${createLink(controller: "TVShow", action: "show", id: "${s.id}")}" class="linkDesc" style="color: black;"><h2>${s.title}(${s.releaseDate.substring(0, 4)})</h2></a></td>
             </tr>
             <tr>
                 <td>S&eacute;ries de ${s.network}</td>
@@ -173,7 +173,7 @@
                             </g:else>
                         </g:link>
                     </td>
-                    <td><h2>${b.title}(${b.publishedDate.substring(0, 4)})</h2></td>
+                    <td><a href="${createLink(controller: "book", action: "show", id: "${b.id}")}" class="linkDesc" style="color: black;"><h2>${b.title}(${b.publishedDate.substring(0, 4)})</h2></a></td>
                 </tr>
                 <tr>
                     <td>livre de ${b.author}</td>
