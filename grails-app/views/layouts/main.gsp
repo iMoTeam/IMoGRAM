@@ -12,8 +12,6 @@
 	<link rel="shortcut icon" href="${resource(dir: 'images', file: 'icon.ico')}" >
 	<link rel="apple-touch-icon" href="${resource(dir: 'images', file: 'apple-touch-icon.png')}">
 	<link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: 'apple-touch-icon-retina.png')}">
-	<link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
-	<link rel="stylesheet" href="${resource(dir: 'css', file: 'mobile.css')}" type="text/css">
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="${resource(dir:"css/bootstrap",file:"bootstrap.min.css")}">
@@ -27,32 +25,38 @@
 	<g:javascript library="application"/>
 	<r:layoutResources />
 </head>
-<body>
-<div id="grailsLogo" role="banner">
-	<table>
-		<tr>
-			<td rowspan="2"><a href="${createLink(uri: "/")}"><img src="${resource(dir: 'images', file: 'logo.jpg')}" alt="imo_logo"/></a></td>
-			<td><a href="${createLink(controller:'universal', action:'doSearchMovies')}" class="action-button shadow animate purple">Films</a></td>
-			<td><a href="${createLink(controller:'universal', action:'doSearchTvShow')}" class="action-button shadow animate red">S&eacute;ries</a></td>
-			<td><a href="${createLink(controller:'universal', action:'doSearchBooks')}" class="action-button shadow animate yellow">Livres</a></td>
-            <td><a href="${createLink(controller:'user', action:'loginUser')}" class="action-button shadow animate green">Connexion</a></td>
-            <td><a href="${createLink(controller:'user', action:'create')}" class="action-button shadow animate green">Inscription</a></td>
-		</tr>
-		<tr>
-			<td colspan="3">
-			    <g:form controller="universal" action="doSearchAll" method="post" >
-			        <fieldset class="form">
-				        <input id="rechercher" type="text"  name="stringToSearch" />
-			        </fieldset>
-			</td>
-			<td>
-				<g:actionSubmit class="action-button shadow animate blue" controller="universal" action="doSearchAll" value="Valider"/>
-			</td>
-		        </g:form>
-			<td><a href="#" class="action-button shadow animate blue">&nbsp;&nbsp;&nbsp;&nbsp;Filtrer&nbsp;&nbsp;&nbsp;</a></td>
-		</tr>
-	</table>
+<body class="modal-body">
+    <div class="row">
+        <div class="col-md-2">
+            <a href="${createLink(uri: "/")}"><img src="${resource(dir: 'images', file: 'logo.jpg')}" alt="imo_logo"/></a>
+        </div>
+        <div class="col-md-2">
+            <a href="${createLink(controller:'universal', action:'doSearchMovies')}" class="btn btn-primary btn-lg btn-block">Films</a>
+        </div>
+        <div class="col-md-2">
+            <a href="${createLink(controller:'universal', action:'doSearchTvShow')}" class="btn btn-danger btn-lg btn-block">S&eacute;ries</a>
+        </div>
+        <div class="col-md-2">
+            <a href="${createLink(controller:'universal', action:'doSearchBooks')}" class="btn btn-warning btn-lg btn-block">Livres</a>
+        </div>
+        <div class="col-md-1">
+            <a href="${createLink(controller:'user', action:'loginUser')}" class="btn btn-success btn-lg btn-block">Connexion</a>
+        </div>
+        <div class="col-md-1">
+            <a href="${createLink(controller:'user', action:'create')}" class="btn btn-success btn-lg btn-block">Inscription</a>
+        </div>
+    </div>
+
+<div class="row">
+    <div class="form-group col-lg-4 col-lg-offset-4">
+        <g:form controller="universal" action="doSearchAll" method="post">
+            <input id="rechercher" type="text"  name="stringToSearch" placeholder="Tapez votre recherche..." />
+            <g:actionSubmit class="btn btn-primary" controller="universal" action="doSearchAll" value="Rechercher"/>
+            <a href="#" class="btn btn-link">Recherche avancée</a>
+        </g:form>
+    </div>
 </div>
+
 <g:layoutBody/>
 <div class="footer" role="contentinfo"></div>
 <div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
