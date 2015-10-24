@@ -20,6 +20,17 @@
     <script src="${resource(dir:"js",file:"jquery-1.11.3.min.js")}"></script>
     <script src="${resource(dir:"js/bootstrap",file:"bootstrap.min.js")}"></script>
 
+    <style>
+    html {
+        background-color: #ddd;
+        background-image: url("http://www.populationdata.net/images/satellites/Voie-Lactee.jpg");
+    }
+
+    body {
+        width: 87%;
+        margin: auto;
+    }
+    </style>
 
 	<g:layoutHead/>
 	<g:javascript library="application"/>
@@ -31,26 +42,26 @@
             <a href="${createLink(uri: "/")}"><img src="${resource(dir: 'images', file: 'logo.jpg')}" alt="imo_logo"/></a>
         </div>
         <div class="col-md-2">
-            <a href="${createLink(controller:'universal', action:'doSearchMovies')}" class="btn btn-primary btn-lg btn-block">Films</a>
+            <a href="${createLink(controller:'universal', action:'doSearchMovies')}" class="btn btn-primary btn-lg btn-block"><span class="glyphicon glyphicon-film"></span><strong> Films</strong></a>
         </div>
         <div class="col-md-2">
-            <a href="${createLink(controller:'universal', action:'doSearchTvShow')}" class="btn btn-danger btn-lg btn-block">S&eacute;ries</a>
+            <a href="${createLink(controller:'universal', action:'doSearchTvShow')}" class="btn btn-danger btn-lg btn-block"><span class="glyphicon glyphicon-sound-dolby"></span><strong> S&eacute;ries</strong></a>
         </div>
         <div class="col-md-2">
-            <a href="${createLink(controller:'universal', action:'doSearchBooks')}" class="btn btn-warning btn-lg btn-block">Livres</a>
+            <a href="${createLink(controller:'universal', action:'doSearchBooks')}" class="btn btn-warning btn-lg btn-block"><span class="glyphicon glyphicon-book"></span><strong> Livres</strong></a>
         </div>
         <div class="col-md-1">
-            <a href="${createLink(controller:'user', action:'loginUser')}" class="btn btn-success btn-lg btn-block">Connexion</a>
+            <a href="${createLink(controller:'user', action:'loginUser')}" class="btn btn-success btn-lg">Connexion</a>
         </div>
         <div class="col-md-1">
-            <a href="${createLink(controller:'user', action:'create')}" class="btn btn-success btn-lg btn-block">Inscription</a>
+            <a href="${createLink(controller:'user', action:'create')}" class="btn btn-success btn-lg">Inscription</a>
         </div>
     </div>
 
 <div class="row">
     <div class="form-group col-lg-4 col-lg-offset-4">
         <g:form controller="universal" action="doSearchAll" method="post">
-            <input id="rechercher" type="text"  name="stringToSearch" placeholder="Tapez votre recherche..." />
+            <input id="rechercher" class="input-lg" type="text"  name="stringToSearch" placeholder="Tapez votre recherche..." />
             <g:actionSubmit class="btn btn-primary" controller="universal" action="doSearchAll" value="Rechercher"/>
             <a href="#" class="btn btn-link">Recherche avancée</a>
         </g:form>
