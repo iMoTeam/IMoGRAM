@@ -9,9 +9,8 @@ class ItemUserService {
 
     }
 
-    def getNbItemByUser(User use) {
+    def getDetailsItems(List<ItemUser> items) {
 
-        List<ItemUser> items = ItemUser.findAllByUser(user)
         def result = [book: 0, movie: 0, tvShow: 0]
 
         items.each {

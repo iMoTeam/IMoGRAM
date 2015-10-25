@@ -1,6 +1,10 @@
+import ivvq.Book
 import ivvq.ItemAlreadyExistException
+import ivvq.ItemUser
 import ivvq.JSonAPIException
+import ivvq.Movie
 import ivvq.SaveAPIException
+import ivvq.User
 
 class BootStrap {
 
@@ -51,6 +55,18 @@ class BootStrap {
                 log.error(je.message)
             }
         }
+
+        def iu1 = new ItemUser(book: Book.findByGoogleID("4hNrYIhNqUEC"),user: User.findByUsername("Veoth"), rating: 7).save(flus: true)
+        def iu2 = new ItemUser(movie: Movie.findByImdbID("tt0107290"), user: User.findByUsername("Veoth"), rating: 8).save(flus: true)
+        def iu3 = new ItemUser(movie: Movie.findByImdbID("tt0137523"), user: User.findByUsername("Veoth"), rating: 3).save(flus: true)
+        def iu4 = new ItemUser(book: Book.findByGoogleID("Ii1RBAAAQBAJ"),user: User.findByUsername("Veoth"), rating: 7).save(flus: true)
+        def iu5 = new ItemUser(book: Book.findByGoogleID("PawQ51UXVGEC"),user: User.findByUsername("Veoth"), rating: 7).save(flus: true)
+        def iu6 = new ItemUser(book: Book.findByGoogleID("ERghoa8HhNoC"),user: User.findByUsername("Veoth"), rating: 7).save(flus: true)
+        def iu7 = new ItemUser(book: Book.findByGoogleID("jSouIA8hsw4C"),user: User.findByUsername("Veoth"), rating: 7).save(flus: true)
+        def iu8 = new ItemUser(book: Book.findByGoogleID("nTKNAgAAQBAJ"),user: User.findByUsername("Veoth"), rating: 7).save(flus: true)
+        def iu9 = new ItemUser(book: Book.findByGoogleID("JhMUvnUr29UC"),user: User.findByUsername("Veoth"), rating: 7).save(flus: true)
+        def iu10 = new ItemUser(movie: Movie.findByImdbID("tt0088763"), user: User.findByUsername("Veoth"), rating: 8).save(flus: true)
+        def iu11= new ItemUser(movie: Movie.findByImdbID("tt0111161"), user: User.findByUsername("Veoth"), rating: 3).save(flus: true)
 
     }
 

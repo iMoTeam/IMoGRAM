@@ -19,7 +19,9 @@ class UserController {
         } else {
 
             List<ItemUser> items = itemUserService.getAllUserItemDAO(currentUser)
-            [items: items as List<ItemUser>]
+            def detailsItems = itemUserService.getDetailsItems(items)
+
+            [items: items as List<ItemUser>, details: detailsItems as Map<String, Integer>]
         }
     }
 
@@ -27,7 +29,9 @@ class UserController {
     def loggedInUser() {
         String username = params.username
         String password = params.password
+
         def user = userService.getUserLoggingIn(username,password)
+
         if(user != null) {
             session["currentUser"] = user
         }

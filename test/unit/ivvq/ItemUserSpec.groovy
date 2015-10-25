@@ -25,6 +25,7 @@ class ItemUserSpec extends Specification {
         itemUser.book = aBook
         itemUser.movie = aMovie
         itemUser.comments = aComments
+        itemUser.rating = aRating
         itemUser.favourite = aFavourite
 
         when: "the itemUser is validated"
@@ -34,10 +35,10 @@ class ItemUserSpec extends Specification {
         valid == expectedState
 
         where:
-        aUser      | aTvShow      | aBook      | aMovie      | aComments | aFavourite | expectedState
-        Mock(User) | Mock(TVShow) | null       | null        | null      | false      | true
-        Mock(User) | null         | Mock(Book) | null        | null      | false      | true
-        Mock(User) | null         | null       | Mock(Movie) | null      | false      | true
+        aUser      | aTvShow      | aBook      | aMovie      | aComments | aFavourite | aRating | expectedState
+        Mock(User) | Mock(TVShow) | null       | null        | null      | false      | 7       | true
+        Mock(User) | null         | Mock(Book) | null        | null      | false      | 7       | true
+        Mock(User) | null         | null       | Mock(Movie) | null      | false      | 7       | true
 
     }
 
