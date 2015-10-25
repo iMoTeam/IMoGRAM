@@ -10,11 +10,10 @@
 	<body>
 		<div id="show-TVShow" class="content scaffold-show" role="main">
 			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
+				<div class="message" role="status">${flash.message}</div>
 			</g:if>
-			<ol class="property-list TVShow">
 
-				<table>
+				<table class="table">
 					<tr>
 
 						<g:if test="${TVShowInstance?.image}">
@@ -23,60 +22,43 @@
 
 						<td>
                             <g:if test="${TVShowInstance?.title}">
-                                <li class="fieldcontain">
-                                    <h2><g:fieldValue bean="${TVShowInstance}" field="title"/></h2>
-                                </li>
+                                    <h1><strong><g:fieldValue bean="${TVShowInstance}" field="title"/></strong></h1>
                             </g:if>
 
                             <g:if test="${TVShowInstance?.network}">
-                                <li class="fieldcontain">
-                                    <g:fieldValue bean="${TVShowInstance}" field="network"/>
-                                </li>
+                                <div class="row"><g:fieldValue bean="${TVShowInstance}" field="network"/></div>
                             </g:if>
 
                             <g:if test="${TVShowInstance?.runtime}">
-                                <li class="fieldcontain">
-                                    <g:fieldValue bean="${TVShowInstance}" field="runtime"/> minutes.
-                                </li>
+                                <div class="row"><g:fieldValue bean="${TVShowInstance}" field="runtime"/> minutes.</div>
                             </g:if>
 
                             <g:if test="${TVShowInstance?.airedEpisodes}">
-                                <li class="fieldcontain">
-                                    <g:fieldValue bean="${TVShowInstance}" field="airedEpisodes"/> épisodes.
-                                </li>
+                                <div class="row"> <g:fieldValue bean="${TVShowInstance}" field="airedEpisodes"/> épisodes.</div>
                             </g:if>
 
                             <g:if test="${TVShowInstance?.releaseDate}">
-                                <li class="fieldcontain">
-                                    <g:fieldValue bean="${TVShowInstance}" field="releaseDate"/>
-                                </li>
+                                <div class="row"><g:fieldValue bean="${TVShowInstance}" field="releaseDate"/></div>
                             </g:if>
 						</td>
 					</tr>
 				</table>
 			
 				<g:if test="${TVShowInstance?.overview}">
-				<li class="fieldcontain">
-					<span id="overview-label" class="property-label">Résumé</span>
+					<h2>Résumé</h2>
 					
 						<span class="property-value" aria-labelledby="overview-label"><g:fieldValue bean="${TVShowInstance}" field="overview"/></span>
-					
-				</li>
+
 				</g:if>
 			
 				<g:if test="${TVShowInstance?.genres}">
-				<li class="fieldcontain">
-					<span id="genres-label" class="property-label">Genre</span>
-					
+					<h2>Genre</h2>
 						<g:each in="${TVShowInstance.genres}" var="g">
 						<span class="property-value" aria-labelledby="genres-label"><g:link controller="arrayClass" action="show" id="${g.id}">${g?.encodeAsHTML()}</g:link></span>
 						</g:each>
-					
-				</li>
 				</g:if>
 
-			
-			</ol>
+
 		</div>
 	</body>
 </html>
