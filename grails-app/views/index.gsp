@@ -4,17 +4,9 @@
 <head>
 	<meta name="layout" content="main"/>
 	<title>Welcome to iMoGRAM</title>
-	<style>
-	.separCate {
-	height: 20px;
-	background: url(./images/hr.PNG)  center;
-	border: none;
-	}
-	</style>
-
 </head>
+<body>
 <br>
-<hr class="separCate">
 <div class="panel panel-info">
 <div class="panel-heading "><h1><strong><span class="glyphicon glyphicon-film"></span> Films</strong></h1></div>
 <table class="table">
@@ -46,9 +38,7 @@
 </g:each>
 </table>
 </div>
-<hr class="separ">
 
-<hr class="separCate">
 <div class="panel panel-danger">
 <div class="panel-heading "><h1><strong><span class="glyphicon glyphicon-sound-dolby"></span> Séries</strong></h1></div>
 <table class="table">
@@ -78,9 +68,7 @@
     </g:each>
 </table>
 </div>
-    <hr class="separ">
 
-<hr class="separCate">
 <div class="panel panel-warning">
 <div class="panel-heading "><h1><strong><span class="glyphicon glyphicon-book"></span> Livres</strong></h1></div>
 <table class="table">
@@ -110,6 +98,5 @@
     </g:each>
 </table>
 </div>
-    <hr class="separ">
 </body>
 </html>

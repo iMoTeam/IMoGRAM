@@ -22,8 +22,7 @@
 
     <style>
     html {
-        background-color: #ddd;
-        background-image: url("http://www.populationdata.net/images/satellites/Voie-Lactee.jpg");
+        background-color: #000000;
     }
 
     body {
@@ -37,7 +36,7 @@
     }
 
     .banner {
-        background-image: url("http://www.populationdata.net/images/satellites/Voie-Lactee.jpg");
+        background-color: black;
     }
     </style>
 
