@@ -58,11 +58,14 @@
         </div>
     </div>
 
+<div class="row text-primary text-center panel panel-primary">
+    <h1><em>Nous sommes les garants de votre culture.</em></h1>
+</div>
 <div class="row">
-    <div class="form-group col-lg-4 col-lg-offset-4">
+    <div class="form-group col-lg-5 col-lg-offset-4">
         <g:form controller="universal" action="doSearchAll" method="post">
             <input id="rechercher" class="input-lg" type="text"  name="stringToSearch" placeholder="Tapez votre recherche..." />
-            <g:actionSubmit class="btn btn-primary" controller="universal" action="doSearchAll" value="Rechercher"/>
+            <g:actionSubmit class="btn btn-primary btn-lg" controller="universal" action="doSearchAll" value="Rechercher"/>
             <a href="#" class="btn btn-link">Recherche avancée</a>
         </g:form>
     </div>
