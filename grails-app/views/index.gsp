@@ -10,12 +10,6 @@
 	background: url(./images/hr.PNG)  center;
 	border: none;
 	}
-
-	.red{background:#ffd2ca;}
-
-    .yellow{background:#fff9a4;}
-
-    .blue{background:#c8ecff;}
 	</style>
 
 </head>
