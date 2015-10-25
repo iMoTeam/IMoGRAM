@@ -30,16 +30,26 @@
         width: 87%;
         margin: auto;
     }
+
+    .vertical-align {
+        display: flex;
+        align-items: center;
+    }
+
+    .banner {
+        background-image: url("http://www.populationdata.net/images/satellites/Voie-Lactee.jpg");
+    }
     </style>
 
 	<g:layoutHead/>
 	<g:javascript library="application"/>
 	<r:layoutResources />
 </head>
-<body class="modal-body">
-    <div class="row">
+<body>
+<div class="banner">
+    <div class="row vertical-align">
         <div class="col-md-2">
-            <a href="${createLink(uri: "/")}"><img src="${resource(dir: 'images', file: 'logo.jpg')}" alt="imo_logo"/></a>
+            <a href="${createLink(uri: "/")}"><img src="${resource(dir: 'images', file: 'imogram.png')}" alt="imo_logo"/></a>
         </div>
         <div class="col-md-2">
             <a href="${createLink(controller:'universal', action:'doSearchMovies')}" class="btn btn-primary btn-lg btn-block"><span class="glyphicon glyphicon-film"></span><strong> Films</strong></a>
@@ -57,6 +67,7 @@
             <a href="${createLink(controller:'user', action:'create')}" class="btn btn-success btn-lg">Inscription</a>
         </div>
     </div>
+</div>
 
 <div class="row text-primary text-center panel panel-primary">
     <h1><em>Nous sommes les garants de votre culture.</em></h1>
