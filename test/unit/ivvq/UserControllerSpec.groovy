@@ -57,9 +57,25 @@ class UserControllerSpec extends Specification {
         controller.save(user)
 
         then: "A redirect is issued to the show action"
-        response.redirectedUrl == '/user/show/1'
+        response.redirectedUrl == '/user/loginUser'
         controller.flash.message != null
         User.count() == 1
+    }
+
+    void "Test that the recherche action returns the correct model"() {
+        when: "The recherche action is executed with a null domain"
+        controller.show(null)
+
+        then: "A 404 error is returned"
+        response.status == 404
+
+        when: "A domain instance is passed to the show action"
+        populateValidParams(params)
+        def user = new User(params)
+        controller.show(user)
+
+        then: "A model is populated containing the domain instance"
+        model.userInstance == user
     }
 
     void "Test that the show action returns the correct model"() {

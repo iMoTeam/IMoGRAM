@@ -27,6 +27,7 @@ class ItemUserSpec extends Specification {
         itemUser.comments = aComments
         itemUser.rating = aRating
         itemUser.favourite = aFavourite
+        itemUser.interested = anInterested
 
         when: "the itemUser is validated"
         def valid = itemUser.validate()
@@ -35,12 +36,11 @@ class ItemUserSpec extends Specification {
         valid == expectedState
 
         where:
-        aUser      | aTvShow      | aBook      | aMovie      | aComments | aFavourite | aRating | expectedState
-        Mock(User) | Mock(TVShow) | null       | null        | null      | false      | 7       | true
-        Mock(User) | null         | Mock(Book) | null        | null      | false      | 7       | true
-        Mock(User) | null         | null       | Mock(Movie) | null      | false      | 7       | true
-
+        aUser      | aTvShow      | aBook      | aMovie      | aComments | aFavourite | aRating | anInterested | expectedState
+        Mock(User) | Mock(TVShow) | null       | null        | null      | false      | 1       | false         | true
+        Mock(User) | null         | Mock(Book) | null        | null      | false      | 1       | false         | true
+        Mock(User) | null         | null       | Mock(Movie) | null      | false      | 1       | false         | true
+        Mock(User) | null         | null       | Mock(Movie) | null      | false      | null    | false         | true
+        Mock(User) | Mock(TVShow) | null       | null        | null      | false      | -10     | false         | false
     }
-
-
 }

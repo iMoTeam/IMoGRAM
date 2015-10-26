@@ -8,6 +8,7 @@ import grails.transaction.Transactional
 class UserController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static nbItemByRow = 5.0, nbItemByPage = 15
     UserService userService
     def itemUserService
 
@@ -16,26 +17,42 @@ class UserController {
 
         if (currentUser == null) {
             redirect(uri:'/')
-        } else {
-
-            List<ItemUser> items = itemUserService.getAllUserItemDAO(currentUser)
-            def detailsItems = itemUserService.getDetailsItems(items)
-
-            [items: items as List<ItemUser>, details: detailsItems as Map<String, Integer>]
         }
+
+        recherche()
+    }
+
+    /**
+     * Main action of user controller, display the list of item related to the logged user
+     */
+    def recherche() {
+        User currentUser = session["currentUser"]
+
+        def offsetTmp = params.int('offset') ?: 0
+        def items = itemUserService.getAllUserItemDAO(currentUser, nbItemByPage, offsetTmp, params.type, params.kind)
+
+        params.max = nbItemByPage
+        params.type = params.type ?: null
+        params.kind = params.kind ?: null
+
+        def nbRows = (int) Math.ceil(items.size()/nbItemByRow)
+
+        render(view : 'index', model:[items: items as List<ItemUser>, nbRows: nbRows, nbItemByRow: (int)nbItemByRow, itemsCount: items.getTotalCount(), params: params])
     }
 
     @Transactional
     def loggedInUser() {
         String username = params.username
         String password = params.password
-
         def user = userService.getUserLoggingIn(username,password)
-
         if(user != null) {
             session["currentUser"] = user
+            redirect(uri:'/')
         }
-        redirect(uri:'/')
+        else {
+            flash.error = "Erreur de connexion: identifiant ou mot de passe incorrect"
+            redirect(action: "loginUser", id: params.id)
+        }
     }
 
     def show(User userInstance) {
@@ -60,13 +77,9 @@ class UserController {
 
         userInstance.save flush: true
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'user.label', default: 'User'), userInstance.id])
-                redirect userInstance
-            }
-            '*' { respond userInstance, [status: CREATED] }
-        }
+            flash.message = "iMoGram vous souhaite la bienvenue"
+            redirect(action: "loginUser", id: params.id)
+
     }
 
     def edit(User userInstance) {

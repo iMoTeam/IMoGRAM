@@ -12,9 +12,8 @@
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
-			<ol class="property-list book">
 
-                <table>
+                <table class="table">
                     <tr>
 
                         <g:if test="${bookInstance?.image}">
@@ -23,51 +22,35 @@
 
                         <td>
                             <g:if test="${bookInstance?.title}">
-                                <li class="fieldcontain">
-                                   <h2><g:fieldValue bean="${bookInstance}" field="title"/></h2>
-                                </li>
+                                   <h2><strong><g:fieldValue bean="${bookInstance}" field="title"/></strong></h2>
                             </g:if>
 
                             <g:if test="${bookInstance?.author}">
-                                <li class="fieldcontain">
                                     <g:fieldValue bean="${bookInstance}" field="author"/>
-                                </li>
                             </g:if>
 
                             <g:if test="${bookInstance?.pageCount}">
-                                <li class="fieldcontain">
                                     <g:fieldValue bean="${bookInstance}" field="pageCount"/> pages.
-                                </li>
                             </g:if>
 
                             <g:if test="${bookInstance?.publishedDate}">
-                                <li class="fieldcontain">
                                     <g:fieldValue bean="${bookInstance}" field="publishedDate"/>
-                                </li>
                             </g:if>
                         </td>
                     </tr>
                 </table>
 			
 				<g:if test="${bookInstance?.isbn13}">
-				<li class="fieldcontain">
-					<span id="isbn13-label" class="property-label">ISBN13</span>
-					
+					<h2>ISBN13</h2>
 						<span class="property-value" aria-labelledby="isbn13-label"><g:fieldValue bean="${bookInstance}" field="isbn13"/></span>
-					
-				</li>
 				</g:if>
 			
 				<g:if test="${bookInstance?.description}">
-				<li class="fieldcontain">
-					<span id="description-label" class="property-label">Résumé</span>
+					<h2>Résumé</h2>
 					
 						<span class="property-value" aria-labelledby="description-label"><g:fieldValue bean="${bookInstance}" field="description"/></span>
-					
-				</li>
 				</g:if>
-			
-			</ol>
+
 		</div>
 	</body>
 </html>

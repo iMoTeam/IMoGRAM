@@ -102,14 +102,4 @@ class BookController {
         }
     }
 
-    /**
-     * Searches books corresponding to a search string passed in params
-     * @return a list of books as search result
-     */
-    def doSearchBooks() {
-        params.max = 5
-        def booksList = bookService.searchBooks(params)
-        render(view: 'index', model: [bookInstanceList:booksList, bookInstanceCount: booksList.totalCount])
-
-    }
 }

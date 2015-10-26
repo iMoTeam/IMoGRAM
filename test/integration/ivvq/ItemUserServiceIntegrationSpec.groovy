@@ -26,28 +26,12 @@ class ItemUserServiceIntegrationSpec extends Specification {
         User user = User.findByUsername("Veoth")
 
         when: "we try get find the items linked to this user"
-        List<ItemUser> items = itemUserService.getAllUserItemDAO(user)
+        List<ItemUser> items = itemUserService.getAllUserItemDAO(user, 20, 0, null, null)
 
         then: "The list isn't null and empty"
         items != null && !items.empty
 
         and: "the list has two Itemuser instance"
-        items.size() == 2
-    }
-
-    void "test that the details of a list items is correct"() {
-
-        given: "a list of item user"
-        List<ItemUser> list = new ArrayList<>();
-        list.push(iu1);
-        list.push(iu2);
-
-        when: "we try to get the details of this list"
-        Map<String, Integer> details = itemUserService.getDetailsItems(list);
-
-        then: "The details number is the correct set"
-        details.book == 1
-        details.movie == 1
-        details.tvShow == 0
+        items.size() == 16
     }
 }

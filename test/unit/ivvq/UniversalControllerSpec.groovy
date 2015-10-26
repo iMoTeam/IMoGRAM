@@ -129,4 +129,55 @@ class UniversalControllerSpec extends Specification {
         model.tvShowInstanceList.get(0) == tvShow
     }
 
+    void "test that the doSearchMovie search a movie"() {
+        setup:
+        controller.movieService = movieService
+
+        when: "the doSearchMovie action is executed"
+        populateValidParamsMovie(params)
+        Movie movie = new Movie(params)
+        movie.save(flush: true)
+        controller.doSearchMovies()
+
+        then: "a Movie is returned"
+        model.movieInstanceCount == 1
+
+        and: "the movie is correct"
+        model.movieInstanceList.get(0) == movie
+    }
+
+    void "test that the doSearchBook search a book"() {
+        setup:
+        controller.bookService = bookService
+
+        when: "the doSearchBook action is executed"
+        populateValidParams(params)
+        Book book = new Book(params)
+        book.save(flush: true)
+        controller.doSearchBooks()
+
+        then: "a book is returned"
+        model.bookInstanceCount == 1
+
+        and: "the book is correct"
+        model.bookInstanceList.get(0) == book
+    }
+
+    void "test that the doSearchTVShow search a TVShow"() {
+        setup:
+        controller.TVShowService = TVShowService
+
+        when: "the doSearchTVShow action is executed"
+        populateValidParamsTVShow(params)
+        TVShow tvShow = new TVShow(params)
+        tvShow.save(flush: true)
+        controller.doSearchTvShow()
+
+        then: "a TVShow is returned"
+        model.tvShowInstanceCount == 1
+
+        and: "the TVShow is correct"
+        model.tvShowInstanceList.get(0) == tvShow
+    }
+
 }
