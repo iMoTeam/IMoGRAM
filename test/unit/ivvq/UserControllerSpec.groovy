@@ -2,6 +2,7 @@ package ivvq
 
 
 import grails.test.mixin.*
+import org.codehaus.groovy.grails.web.servlet.mvc.GrailsHttpSession
 import spock.lang.*
 
 @TestFor(UserController)
@@ -21,12 +22,29 @@ class UserControllerSpec extends Specification {
 
     void "Test the index action returns the correct model"() {
 
-        /*when: "The index action is executed"
+        when: "The index action is executed"
+        controller.session["currentUser"] = new User(params)
         controller.index()
 
         then: "The model is correct"
-        !model.userInstanceList
-        model.userInstanceCount == 0*/
+        model.items != null
+        model.itemsCount != null
+
+        when: "The index action is executed but none of the users are logged in"
+        controller.index()
+
+        then: "The user is redirected to the home page"
+        response.redirectedUrl == '/'
+    }
+
+    void "Test the search action return correct model"() {
+        when: "The search action is executed with a user previously logged"
+        controller.session["currentUser"] = new User(params)
+        controller.recherche()
+
+        then: "The model is correctly set"
+        model.items != null
+        model.itemsCount != null
     }
 
     void "Test the create action returns the correct model"() {
