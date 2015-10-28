@@ -16,26 +16,52 @@ class ItemUserService {
      * @param item The item to link with the user
      * @return The ItemUser instance if it has been correctly saved
      */
-    def insertItemUser(User user, def item) {
-        def items
+    def insertItemUser(User user, def item, Integer rating, Boolean interested, Boolean favourite) {
+
+        /*
+        Exception can't be thrown for the moment because of Bootstrap and conveniency
+         */
+
         ItemUser itemToAdd = null
+
+        if (rating == null && (interested == null || !interested) && (favourite == null || !favourite)) {
+            //throw new ItemUserNotValidException("An item can't have rating, interested and favourite attrivute set to null.")
+            return null
+        }
 
         if (item instanceof Book) {
             if (ItemUser.findByBookAndUser(item, user) == null) {
                 itemToAdd = new ItemUser(user: user, book: item).save(flush: true)
+            } else {
+                //throw new ItemUserAlreadyAddedException("Cet item (id : " + item.googleID + ") existe deja pour cette utilisateur.")
+                return null
             }
         } else if (item instanceof Movie) {
             if (ItemUser.findByMovieAndUser(item, user) == null) {
                 itemToAdd = new ItemUser(user: user, movie: item).save(flush: true)
+            } else {
+                //throw new ItemUserAlreadyAddedException("Cet item (id : " + item.imdbID + ") existe deja pour cette utilisateur.")
+                return null
             }
-        } else {
+        } else if (item instanceof TVShow) {
             if (ItemUser.findByTvShowAndUser(item, user) == null) {
                 itemToAdd = new ItemUser(user: user, tvShow: item).save(flush: true)
+            } else {
+                //throw new ItemUserAlreadyAddedException("Cet item (id : " + item.imdbID + ") existe deja pour cette utilisateur.")
+                return null
             }
         }
 
-        if (itemToAdd == null) {
-            throw new ItemUserAlreadyAddedException("Cet item existe déjà pour cette utilisateur.")
+        // if no exception thrown, set the attribute
+        if (itemToAdd != null) {
+            if (interested) {
+                itemToAdd.interested = true
+            }
+            if (favourite) {
+                itemToAdd.favourite = true
+            }
+
+            itemToAdd.rating = rating
         }
 
         itemToAdd
