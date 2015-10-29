@@ -2,11 +2,21 @@ package ivvq
 
 
 import grails.test.mixin.*
+import org.codehaus.groovy.grails.web.servlet.mvc.GrailsHttpSession
+import org.springframework.transaction.PlatformTransactionManager
+import org.springframework.transaction.TransactionStatus
 import spock.lang.*
 
 @TestFor(UserController)
 @Mock(User)
 class UserControllerSpec extends Specification {
+
+    def itemUserService
+
+    def setup() {
+        itemUserService = new ItemUserService()
+        itemUserService.transactionManager = Mock(PlatformTransactionManager) {getTransaction(_) >> Mock(TransactionStatus)}
+    }
 
     def populateValidParams(params) {
         assert params != null
@@ -19,15 +29,41 @@ class UserControllerSpec extends Specification {
         params["profilePhoto"] = null
     }
 
-    void "Test the index action returns the correct model"() {
+    /*void "Test the index action returns the correct model"() {
+
+        setup:
+        controller.itemUserService = itemUserService
 
         when: "The index action is executed"
+        populateValidParams(params)
+        controller.session["currentUser"] = new User(params).save(flush: true)
         controller.index()
 
         then: "The model is correct"
-        !model.userInstanceList
-        model.userInstanceCount == 0
+        model.items != null
+        model.itemsCount != null
+
+        when: "The index action is executed but none of the users are logged in"
+        controller.index()
+
+        then: "The user is redirected to the home page"
+        response.redirectedUrl == '/'
     }
+
+    void "Test the search action return correct model"() {
+
+        setup:
+        controller.itemUserService = itemUserService
+
+        when: "The search action is executed with a user previously logged"
+        populateValidParams(params)
+        controller.session["currentUser"] = new User(params).save(flush: true)
+        controller.recherche()
+
+        then: "The model is correctly set"
+        model.items != null
+        model.itemsCount != null
+    }*/
 
     void "Test the create action returns the correct model"() {
         when: "The create action is executed"
@@ -60,6 +96,22 @@ class UserControllerSpec extends Specification {
         response.redirectedUrl == '/user/loginUser'
         controller.flash.message != null
         User.count() == 1
+    }
+
+    void "Test that the recherche action returns the correct model"() {
+        when: "The recherche action is executed with a null domain"
+        controller.show(null)
+
+        then: "A 404 error is returned"
+        response.status == 404
+
+        when: "A domain instance is passed to the show action"
+        populateValidParams(params)
+        def user = new User(params)
+        controller.show(user)
+
+        then: "A model is populated containing the domain instance"
+        model.userInstance == user
     }
 
     void "Test that the show action returns the correct model"() {

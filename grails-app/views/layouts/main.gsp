@@ -60,7 +60,12 @@
             <a href="${createLink(controller:'universal', action:'doSearchBooks')}" class="btn btn-warning btn-lg btn-block"><span class="glyphicon glyphicon-book"></span><strong> Livres</strong></a>
         </div>
         <div class="col-md-1">
-            <a href="${createLink(controller:'user', action:'loginUser')}" class="btn btn-success btn-lg">Connexion</a>
+            <g:if test="${session["currentUser"] != null}">
+                <a href="${createLink(controller:'user', action:'index')}" class="btn btn-success btn-lg">Profile</a>
+            </g:if>
+            <g:else>
+                <a href="${createLink(controller:'user', action:'loginUser')}" class="btn btn-success btn-lg">Connexion</a>
+            </g:else>
         </div>
         <div class="col-md-1">
             <a href="${createLink(controller:'user', action:'create')}" class="btn btn-success btn-lg">Inscription</a>
@@ -80,7 +85,7 @@
         </g:form>
     </div>
 </div>
-
+<div></div>
 <g:layoutBody/>
 <div class="footer" role="contentinfo"></div>
 <div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
