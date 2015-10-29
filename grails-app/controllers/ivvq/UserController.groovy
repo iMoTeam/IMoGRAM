@@ -35,7 +35,7 @@ class UserController {
         params.type = params.type ?: null
         params.kind = params.kind ?: null
 
-        def nbRows = (int) Math.ceil(items.size()/nbItemByRow)
+        def nbRows = items.size() != 0 ? (int) Math.ceil(items.size()/nbItemByRow) : 0
 
         render(view : 'index', model:[items: items as List<ItemUser>, nbRows: nbRows, nbItemByRow: (int)nbItemByRow, itemsCount: items.getTotalCount(), params: params])
     }

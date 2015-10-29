@@ -25,30 +25,26 @@ class ItemUserService {
         ItemUser itemToAdd = null
 
         if (rating == null && (interested == null || !interested) && (favourite == null || !favourite)) {
-            //throw new ItemUserNotValidException("An item can't have rating, interested and favourite attrivute set to null.")
-            return null
+            throw new ItemUserNotValidException("An item can't have rating, interested and favourite attrivute set to null.")
         }
 
         if (item instanceof Book) {
             if (ItemUser.findByBookAndUser(item, user) == null) {
                 itemToAdd = new ItemUser(user: user, book: item).save(flush: true)
             } else {
-                //throw new ItemUserAlreadyAddedException("Cet item (id : " + item.googleID + ") existe deja pour cette utilisateur.")
-                return null
+                throw new ItemUserAlreadyAddedException("Cet item (id : " + item.googleID + ") existe deja pour cette utilisateur.")
             }
         } else if (item instanceof Movie) {
             if (ItemUser.findByMovieAndUser(item, user) == null) {
                 itemToAdd = new ItemUser(user: user, movie: item).save(flush: true)
             } else {
-                //throw new ItemUserAlreadyAddedException("Cet item (id : " + item.imdbID + ") existe deja pour cette utilisateur.")
-                return null
+                throw new ItemUserAlreadyAddedException("Cet item (id : " + item.imdbID + ") existe deja pour cette utilisateur.")
             }
         } else if (item instanceof TVShow) {
             if (ItemUser.findByTvShowAndUser(item, user) == null) {
                 itemToAdd = new ItemUser(user: user, tvShow: item).save(flush: true)
             } else {
-                //throw new ItemUserAlreadyAddedException("Cet item (id : " + item.imdbID + ") existe deja pour cette utilisateur.")
-                return null
+                throw new ItemUserAlreadyAddedException("Cet item (id : " + item.imdbID + ") existe deja pour cette utilisateur.")
             }
         }
 
@@ -78,27 +74,23 @@ class ItemUserService {
      */
     List<ItemUser> getAllUserItemDAO(User userSearch, Integer max, Integer offset, String type, String kind) {
 
-        if (User.findByUsername(userSearch.username)) {
-
-            def criteria = ItemUser.createCriteria()
-            def res = criteria.list(max: max, offset: offset) {
-                setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY)
-                eq('user', userSearch)
-                if (type) {
-                    isNotNull(type)
-                }
-                if (kind) {
-                    if (kind == "rating") {
-                        isNotNull(kind)
-                    } else {
-                        eq(kind, true)
-                    }
+        def criteria = ItemUser.createCriteria()
+        def res = criteria.list(max: max, offset: offset) {
+            setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY)
+            eq('user', userSearch)
+            if (type) {
+                isNotNull(type)
+            }
+            if (kind) {
+                if (kind == "rating") {
+                    isNotNull(kind)
+                } else {
+                    eq(kind, true)
                 }
             }
-
-            return res
         }
 
-        null
+        return res
+
     }
 }

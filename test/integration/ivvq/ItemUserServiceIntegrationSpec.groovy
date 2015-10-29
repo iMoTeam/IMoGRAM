@@ -24,7 +24,7 @@ class ItemUserServiceIntegrationSpec extends Specification {
         List<ItemUser> items = itemUserService.getAllUserItemDAO(user, 20, 0, "movie", null)
 
         then: "The size of the list is 7"
-        items.size() == 7
+        items.size() == 1
 
         and: "all the items are movies"
         items.each {
@@ -35,7 +35,7 @@ class ItemUserServiceIntegrationSpec extends Specification {
         List<ItemUser> items2 = itemUserService.getAllUserItemDAO(user, 20, 0, null, "rating")
 
         then: "The size of the list is 7"
-        items.size() == 7
+        items.size() == 1
 
         and: "all the items have a rate"
         items.each {
@@ -55,12 +55,21 @@ class ItemUserServiceIntegrationSpec extends Specification {
         def itemUser = itemUserService.insertItemUser(user, book, rating, interested, favourite)
 
         then: "the return value is null"
-        itemUser == null
+        ItemUserNotValidException eItemUser = thrown(Exception)
+        eItemUser.message == "An item can't have rating, interested and favourite attrivute set to null."
 
         when: "we try to create an item user with correct value"
         def itemUser2 = itemUserService.insertItemUser(user, Book.findByGoogleID("ERghoa8HhNoC"), 8, true, true)
 
         then: "the return value isn't null"
         itemUser2 != null
+
+        when: "We try to add an item user wich already exist for a user"
+        def itemSave = new ItemUser(user: user, book: Book.findByGoogleID("ERghoa8HhNoC"), rating: 6).save(flush: true)
+        def itemUserWithService = itemUserService.insertItemUser(user, Book.findByGoogleID("ERghoa8HhNoC"), 8, null, null)
+
+        then: "AN exception is thrown"
+        ItemUserAlreadyAddedException eItemUserService = thrown(Exception)
+        eItemUserService.message == "Cet item (id : " + Book.findByGoogleID("ERghoa8HhNoC").googleID + ") existe deja pour cette utilisateur."
     }
 }
