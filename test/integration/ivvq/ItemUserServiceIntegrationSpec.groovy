@@ -24,7 +24,7 @@ class ItemUserServiceIntegrationSpec extends Specification {
         List<ItemUser> items = itemUserService.getAllUserItemDAO(user, 20, 0, "movie", null)
 
         then: "The size of the list is 7"
-        items.size() == 1
+        items.size() == 7
 
         and: "all the items are movies"
         items.each {
@@ -35,7 +35,7 @@ class ItemUserServiceIntegrationSpec extends Specification {
         List<ItemUser> items2 = itemUserService.getAllUserItemDAO(user, 20, 0, null, "rating")
 
         then: "The size of the list is 7"
-        items.size() == 1
+        items.size() == 7
 
         and: "all the items have a rate"
         items.each {
