@@ -102,4 +102,8 @@ class BookController {
         }
     }
 
+    def fetchAllComments() {
+
+    }
+
 }

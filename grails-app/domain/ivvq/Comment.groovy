@@ -9,4 +9,7 @@ class Comment {
         comment blank: false, minSize: 20
         title blank: false
     }
+    String toString() {
+        comment
+    }
 }
