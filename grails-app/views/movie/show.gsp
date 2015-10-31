@@ -1,5 +1,5 @@
 
-<%@ page import="ivvq.Movie" %>
+<%@ page import="ivvq.Movie; ivvq.ItemUser" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -8,17 +8,14 @@
 		<title><g:message code="default.show.label" args="[entityName]" /></title>
 	</head>
 	<body>
-		<a href="#show-movie" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-
 		<div id="show-movie" class="content scaffold-show" role="main">
 
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
 
-			<ol class="property-list movie">
 
-                <table>
+                <table class="table">
                     <tr>
                         <g:if test="${movieInstance?.poster}">
                             <td><img src="${movieInstance.poster}" alt="${movieInstance.title}"></td>
@@ -26,57 +23,78 @@
 
 						<td>
                             <g:if test="${movieInstance?.title}">
-                                <h2><g:fieldValue bean="${movieInstance}" field="title"/></h2>
+                                <div class="row"><h2><strong><g:fieldValue bean="${movieInstance}" field="title"/></strong></h2></div>
                             </g:if>
-
                             <g:if test="${movieInstance?.director}">
-                                <li class="fieldcontain">
-                                    <g:fieldValue bean="${movieInstance}" field="director"/>
-                                </li>
+                                <div class="row"><g:fieldValue bean="${movieInstance}" field="director"/></div>
                             </g:if>
-
                             <g:if test="${movieInstance?.genre}">
-                                <li class="fieldcontain">
-                                    <g:fieldValue bean="${movieInstance}" field="genre"/>
-                                </li>
+                                <div class="row"><g:fieldValue bean="${movieInstance}" field="genre"/></div>
                             </g:if>
-
                             <g:if test="${movieInstance?.runtime}">
-                                <li class="fieldcontain">
-                                    <g:fieldValue bean="${movieInstance}" field="runtime"/>
-                                </li>
+                                <div class="row"><g:fieldValue bean="${movieInstance}" field="runtime"/></div>
                             </g:if>
-
                             <g:if test="${movieInstance?.releaseDate}">
-                                <li class="fieldcontain">
-                                    <g:fieldValue bean="${movieInstance}" field="releaseDate"/>
-                                </li>
+                                <div class="row"><g:fieldValue bean="${movieInstance}" field="releaseDate"/></div>
                             </g:if>
                         </td>
                     </tr>
                 </table>
 			
 				<g:if test="${movieInstance?.writers}">
-				<li class="fieldcontain">
-					<span  class="property-label">Scénariste(s)</span>
+					<h2>Scénariste(s)</h2>
 					<span class="property-value" aria-labelledby="writers-label"><g:fieldValue bean="${movieInstance}" field="writers"/></span>
-				</li>
 				</g:if>
 			
 				<g:if test="${movieInstance?.actors}">
-				<li class="fieldcontain">
-					<span id="actors-label" class="property-label">Acteurs principaux</span>
+					<h2>Acteurs principaux</h2>
                     <span class="property-value" aria-labelledby="actors-label"><g:fieldValue bean="${movieInstance}" field="actors"/></span>
-				</li>
 				</g:if>
 			
 				<g:if test="${movieInstance?.plot}">
-				<li class="fieldcontain">
-					<span id="plot-label" class="property-label">Résumé</span>
+					<h2>Résumé</h2>
                     <span class="property-value" aria-labelledby="plot-label"><g:fieldValue bean="${movieInstance}" field="plot"/></span>
-				</li>
 				</g:if>
-			</ol>
 		</div>
+    <%
+        ivvq.User currentUser = session['currentUser']
+    %>
+    <g:if test="${flash.error}">
+        <br>
+        <br>
+        <div class="errors" role="alert alert-error" style="display: block; color: red">${flash.error}</div>
+    </g:if>
+    <g:if test="${currentUser != null}">
+        <div>
+        <g:form controller="itemUser" action="commentItem">
+            <hr>Title : </hr>   <g:textField name="title">Saisissez le title</g:textField><br>
+            <textarea  name="itemComment" style="width: 80%" >
+            </textarea> <br>
+            <input type="hidden" name="itemMovieId" value="${movieInstance?.imdbID}">
+            <g:submitButton name="Commenter" value="Commenter" style="background-color: #999999"/>
+        </g:form>
+
+        </div>
+    </g:if>
+    <div>
+        <table style="width: 100%">
+            <g:each var="m" in="${ItemUser?.list()}">
+                <g:if test="${movieInstance?.imdbID == m.movie?.imdbID }" >
+                    <g:each var="n" in="${m.comments.toList()}">
+                        <tr>
+                            <td><a  style="color: rgba(36, 34, 255, 0.87); text-decoration: none" href="${createLink(controller:'user', action:'show', id: n.user.id)}">${n.user}</a></td>
+                            <td><h5>Title: ${n.title}</h5></td>
+                        </tr>
+                        <tr>
+                            <td>${n.date}</td>
+                            <td>${n.comment}</td>
+                        </tr>
+                    </g:each>
+                </g:if>
+            </g:each>
+        </table>
+
+
+    </div>
 	</body>
 </html>

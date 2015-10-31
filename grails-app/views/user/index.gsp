@@ -1,66 +1,95 @@
-
 <%@ page import="ivvq.User" %>
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'user.label', default: 'User')}" />
-		<title><g:message code="default.list.label" args="[entityName]" /></title>
-	</head>
-	<body>
-		<a href="#list-user" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
-			<ul>
-				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
-			</ul>
-		</div>
-		<div id="list-user" class="content scaffold-list" role="main">
-			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
-			<g:if test="${flash.message}">
-				<div class="message" role="status">${flash.message}</div>
-			</g:if>
-			<table>
-			<thead>
-					<tr>
-					
-						<g:sortableColumn property="email" title="${message(code: 'user.email.label', default: 'Email')}" />
-					
-						<g:sortableColumn property="username" title="${message(code: 'user.username.label', default: 'Username')}" />
-					
-						<g:sortableColumn property="password" title="${message(code: 'user.password.label', default: 'Password')}" />
-					
-						<g:sortableColumn property="firstName" title="${message(code: 'user.firstName.label', default: 'First Name')}" />
-					
-						<g:sortableColumn property="lastName" title="${message(code: 'user.lastName.label', default: 'Last Name')}" />
-					
-						<g:sortableColumn property="profilePhoto" title="${message(code: 'user.profilePhoto.label', default: 'Profile Photo')}" />
-					
-					</tr>
-				</thead>
-				<tbody>
-				<g:each in="${userInstanceList}" status="i" var="userInstance">
-					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-					
-						<td><g:link action="show" id="${userInstance.id}">${fieldValue(bean: userInstance, field: "email")}</g:link></td>
-					
-						<td>${fieldValue(bean: userInstance, field: "username")}</td>
-					
-						<td>${fieldValue(bean: userInstance, field: "password")}</td>
-					
-						<td>${fieldValue(bean: userInstance, field: "firstName")}</td>
-					
-						<td>${fieldValue(bean: userInstance, field: "lastName")}</td>
-					
-						<td>${fieldValue(bean: userInstance, field: "profilePhoto")}</td>
-					
-					</tr>
-				</g:each>
-				</tbody>
-			</table>
-			<div class="pagination">
-				<g:paginate total="${userInstanceCount ?: 0}" />
-			</div>
-		</div>
-	</body>
+<head>
+    <meta name="layout" content="main">
+    <g:set var="entityName" value="${message(code: 'user.label', default: 'User')}"/>
+    <title><g:message code="default.list.label" args="[entityName]"/></title>
+</head>
+
+<body>
+<br/><br/><br/>
+
+<div style="width: 50%; margin: auto">
+    <div class="panel panel-default">
+        <div class="panel-body" style="float:left; width:180px;">
+            <div class="dropdown dropdown-menu-right" >
+                Univers :
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="true">
+                    ${params.type ?: 'All'}
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><g:link controller="user" action="recherche ">All</g:link></li>
+                    <li><g:link controller="user" action="recherche" params="[type: 'movie']">Movies</g:link></li>
+                    <li><g:link controller="user" action="recherche" params="[type: 'book']">Books</g:link></li>
+                    <li><g:link controller="user" action="recherche" params="[type: 'tvShow']">Tv Shows</g:link></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body" style="margin-left: 190px;">
+            <div class="dropdown dropdown-menu-right" >
+               Type d'action :
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="true">
+                    ${params.kind ?: 'All'}
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><g:link controller="user" action="recherche ">All</g:link></li>
+                    <li><g:link controller="user" action="recherche" params="[kind: 'rating']">Notés</g:link></li>
+                    <li><g:link controller="user" action="recherche" params="[kind: 'interested']">Envie de voir</g:link></li>
+                    <li><g:link controller="user" action="recherche" params="[kind: 'favourite']">Coup de coeur</g:link></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <g:if test="${itemsCount == 0}">
+                <p>
+                    Aucun résultats ! Consulter les films, séries et livres afin qu'ils soient visible !
+                </p>
+            </g:if>
+            <g:else>
+                <table>
+                    <g:each in="${1..nbRows}" var="currentRow">
+                        <tr>
+                            <g:each in="${items.subList((currentRow - 1) * nbItemByRow, currentRow != nbRows ? (currentRow - 1) * nbItemByRow + (nbItemByRow) : items.size())}"
+                                    var="ItemUserInstance">
+                                <td>
+                                    <g:if test="${ItemUserInstance.book != null}">
+                                        <g:link controller="book" action="show" id="${ItemUserInstance.book.id}">
+                                            <img style="width: 150px;" src="${ItemUserInstance.book.image}"
+                                                 class="img-thumbnail"/>
+                                        </g:link>
+                                    </g:if>
+                                    <g:if test="${ItemUserInstance.movie != null}">
+                                        <g:link controller="movie" action="show" id="${ItemUserInstance.movie.id}">
+                                            <img style="width: 150px;" src="${ItemUserInstance.movie.poster}"
+                                                 class="img-thumbnail"/>
+                                        </g:link>
+                                    </g:if>
+                                    <g:if test="${ItemUserInstance.tvShow != null}">
+                                        <g:link controller="TVShow" action="show" id="${ItemUserInstance.tvShow.id}">
+                                            <img style="width: 150px;" src="${ItemUserInstance.tvShow.image}"
+                                                 class="img-thumbnail"/>
+                                        </g:link>
+                                    </g:if>
+                                </td>
+                            </g:each>
+                        </tr>
+                    </g:each>
+                </table>
+            </g:else>
+        </div>
+    </div>
+
+    <div class="pagination">
+        <g:paginate action="recherche" controller="user" total="${itemsCount}" params="${params}"/>
+    </div>
+</div>
+</body>
 </html>

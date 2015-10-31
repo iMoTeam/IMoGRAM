@@ -106,15 +106,43 @@ ItemUserService itemUserService
         String comment = params['itemComment']
         User user = session['currentUser']
         String title = params['title']
-        Book book = Book.findByIsbn13(params['itemId'])
-        boolean verif = comment != null && comment.trim() != "" && user != null && title != null && title.trim() != "" && book != null
+        def isBook =  false, isTVShow = false, isMovie = false
+        Book book
+        Movie movie
+        TVShow tvShow
+        if(params['itemBookId'] != null && params['itemBookId']?.toString().trim() != "")
+        {
+            book = Book.findByIsbn13(params['itemBookId'])
+            isBook = true
+        }
+
+        if(params['itemMovieId'] != null && params['itemMovieId']?.toString().trim() != "")
+        {
+            movie = Movie.findByImdbID(params['itemMovieId'])
+            isMovie = true
+        }
+
+        if(params['itemTVShowId'] != null && params['itemTVShowId']?.toString().trim() != "")
+        {
+            tvShow = TVShow.findByImdbID(params['itemTVShowId'])
+            isTVShow = true
+        }
+
+
+        boolean verif = comment != null && comment.trim() != "" && user != null && title != null && title.trim() != ""
         Comment newComment = new Comment(user: user, date: new Date(), title: title, comment: comment)
         if(verif) {
             newComment.save()
-
+            ItemUser newItemUser
             //Verify if the user has commented on this item before before creating another Item
             //To do
-            ItemUser newItemUser = new ItemUser(user: user,comments: [newComment],book: book )
+
+            if(isBook)
+                newItemUser = new ItemUser(user: user,comments: [newComment],book: book )
+            else if (isTVShow)
+                newItemUser = new ItemUser(user: user,comments: [newComment],tvShow: tvShow )
+            else
+                newItemUser = new ItemUser(user: user,comments: [newComment],movie: movie )
             if(!newComment.hasErrors()) {
                 newItemUser.save(flush: true)
             }
@@ -123,7 +151,13 @@ ItemUserService itemUserService
         else {
             flash.error = "Erreur: Votre commentaire n'est pas posté, verifiez que tous les champs sont saisis"
         }
-                redirect(controller: "book", action: "show", id: book.id)
+          if(isBook)
+              redirect(controller: "book", action: "show", id: book.id)
+          if(isMovie)
+             redirect(controller: "movie", action: "show", id: movie.id)
+          if(isTVShow)
+             redirect(controller: "TVShow", action: "show", id: tvShow.id)
+
 
 
 

@@ -1,5 +1,5 @@
 
-<%@ page import="ivvq.TVShow" %>
+<%@ page import="ivvq.TVShow; ivvq.ItemUser" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -10,11 +10,10 @@
 	<body>
 		<div id="show-TVShow" class="content scaffold-show" role="main">
 			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
+				<div class="message" role="status">${flash.message}</div>
 			</g:if>
-			<ol class="property-list TVShow">
 
-				<table>
+				<table class="table">
 					<tr>
 
 						<g:if test="${TVShowInstance?.image}">
@@ -23,60 +22,81 @@
 
 						<td>
                             <g:if test="${TVShowInstance?.title}">
-                                <li class="fieldcontain">
-                                    <h2><g:fieldValue bean="${TVShowInstance}" field="title"/></h2>
-                                </li>
+                                    <h1><strong><g:fieldValue bean="${TVShowInstance}" field="title"/></strong></h1>
                             </g:if>
 
                             <g:if test="${TVShowInstance?.network}">
-                                <li class="fieldcontain">
-                                    <g:fieldValue bean="${TVShowInstance}" field="network"/>
-                                </li>
+                                <div class="row"><g:fieldValue bean="${TVShowInstance}" field="network"/></div>
                             </g:if>
 
                             <g:if test="${TVShowInstance?.runtime}">
-                                <li class="fieldcontain">
-                                    <g:fieldValue bean="${TVShowInstance}" field="runtime"/> minutes.
-                                </li>
+                                <div class="row"><g:fieldValue bean="${TVShowInstance}" field="runtime"/> minutes.</div>
                             </g:if>
 
                             <g:if test="${TVShowInstance?.airedEpisodes}">
-                                <li class="fieldcontain">
-                                    <g:fieldValue bean="${TVShowInstance}" field="airedEpisodes"/> épisodes.
-                                </li>
+                                <div class="row"> <g:fieldValue bean="${TVShowInstance}" field="airedEpisodes"/> épisodes.</div>
                             </g:if>
 
                             <g:if test="${TVShowInstance?.releaseDate}">
-                                <li class="fieldcontain">
-                                    <g:fieldValue bean="${TVShowInstance}" field="releaseDate"/>
-                                </li>
+                                <div class="row"><g:fieldValue bean="${TVShowInstance}" field="releaseDate"/></div>
                             </g:if>
 						</td>
 					</tr>
 				</table>
 			
 				<g:if test="${TVShowInstance?.overview}">
-				<li class="fieldcontain">
-					<span id="overview-label" class="property-label">Résumé</span>
+					<h2>Résumé</h2>
 					
 						<span class="property-value" aria-labelledby="overview-label"><g:fieldValue bean="${TVShowInstance}" field="overview"/></span>
-					
-				</li>
+
 				</g:if>
 			
 				<g:if test="${TVShowInstance?.genres}">
-				<li class="fieldcontain">
-					<span id="genres-label" class="property-label">Genre</span>
-					
+					<h2>Genre</h2>
 						<g:each in="${TVShowInstance.genres}" var="g">
 						<span class="property-value" aria-labelledby="genres-label"><g:link controller="arrayClass" action="show" id="${g.id}">${g?.encodeAsHTML()}</g:link></span>
 						</g:each>
-					
-				</li>
 				</g:if>
 
-			
-			</ol>
+
 		</div>
+    <%
+        ivvq.User currentUser = session['currentUser']
+    %>
+    <g:if test="${flash.error}">
+        <br>
+        <br>
+        <div class="errors" role="alert alert-error" style="display: block; color: red">${flash.error}</div>
+    </g:if>
+    <g:if test="${currentUser != null}">
+        <div>
+        <g:form controller="itemUser" action="commentItem">
+            <hr>Title : </hr>   <g:textField name="title">Saisissez le title</g:textField><br>
+            <textarea  name="itemComment" style="width: 80%" >
+            </textarea> <br>
+            <input type="hidden" name="itemTVShowId" value="${TVShowInstance?.imdbID}">
+            <g:submitButton name="Commenter" value="Commenter" style="background-color: #999999"/>
+        </g:form>
+
+        </div>
+    </g:if>
+    <div>
+        <table style="width: 100%">
+            <g:each var="m" in="${ItemUser?.list()}">
+                <g:if test="${TVShowInstance?.imdbID == m.tvShow?.imdbID }" >
+                    <g:each var="n" in="${m.comments.toList()}">
+                        <tr>
+                            <td><a  style="color: rgba(36, 34, 255, 0.87); text-decoration: none" href="${createLink(controller:'user', action:'show', id: n.user.id)}">${n.user}</a></td>
+                            <td><h5>Title: ${n.title}</h5></td>
+                        </tr>
+                        <tr>
+                            <td>${n.date}</td>
+                            <td>${n.comment}</td>
+                        </tr>
+                    </g:each>
+                </g:if>
+            </g:each>
+        </table>
+    </div>
 	</body>
 </html>

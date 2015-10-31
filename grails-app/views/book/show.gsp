@@ -12,9 +12,8 @@
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
-			<ol class="property-list book">
 
-                <table>
+                <table class="table">
                     <tr>
 
                         <g:if test="${bookInstance?.image}">
@@ -23,71 +22,59 @@
 
                         <td>
                             <g:if test="${bookInstance?.title}">
-                                <li class="fieldcontain">
-                                   <h2><g:fieldValue bean="${bookInstance}" field="title"/></h2>
-                                </li>
+                                   <h2><strong><g:fieldValue bean="${bookInstance}" field="title"/></strong></h2>
                             </g:if>
 
                             <g:if test="${bookInstance?.author}">
-                                <li class="fieldcontain">
                                     <g:fieldValue bean="${bookInstance}" field="author"/>
-                                </li>
                             </g:if>
 
                             <g:if test="${bookInstance?.pageCount}">
-                                <li class="fieldcontain">
                                     <g:fieldValue bean="${bookInstance}" field="pageCount"/> pages.
-                                </li>
                             </g:if>
 
                             <g:if test="${bookInstance?.publishedDate}">
-                                <li class="fieldcontain">
                                     <g:fieldValue bean="${bookInstance}" field="publishedDate"/>
-                                </li>
                             </g:if>
                         </td>
                     </tr>
                 </table>
 			
 				<g:if test="${bookInstance?.isbn13}">
-				<li class="fieldcontain">
-					<span id="isbn13-label" class="property-label">ISBN13</span>
-					
+					<h2>ISBN13</h2>
 						<span class="property-value" aria-labelledby="isbn13-label"><g:fieldValue bean="${bookInstance}" field="isbn13"/></span>
-					
-				</li>
 				</g:if>
 			
 				<g:if test="${bookInstance?.description}">
-				<li class="fieldcontain">
-					<span id="description-label" class="property-label">Résumé</span>
+					<h2>Résumé</h2>
 					
 						<span class="property-value" aria-labelledby="description-label"><g:fieldValue bean="${bookInstance}" field="description"/></span>
-					
-				</li>
 				</g:if>
-			
-			</ol>
+
 		</div>
     <%
         ivvq.User currentUser = session['currentUser']
     %>
     <g:if test="${flash.error}">
-        <div class="errors" role="alert alert-error" style="display: block">${flash.error}</div>
+        <br>
+        <br>
+        <div class="errors" role="alert alert-error" style="display: block; color: red">${flash.error}</div>
     </g:if>
+    <g:if test="${currentUser != null}">
     <div>
         <g:form controller="itemUser" action="commentItem">
-         <hr>Title : </hr>   <g:textField name="title">Saisissez le title</g:textField>
+         <hr>Title : </hr>   <g:textField name="title">Saisissez le title</g:textField><br>
             <textarea  name="itemComment" style="width: 80%" >
-            </textarea>
-            <input type="hidden" name="itemId" value="${bookInstance?.isbn13}">
+            </textarea> <br>
+            <input type="hidden" name="itemBookId" value="${bookInstance?.isbn13}">
             <g:submitButton name="Commenter" value="Commenter" style="background-color: #999999"/>
         </g:form>
 
     </div>
+    </g:if>
     <div>
         <table style="width: 100%">
-        <g:each var="m" in="${ItemUser.list()}">
+        <g:each var="m" in="${ItemUser?.list()}">
             <g:if test="${bookInstance?.isbn13 == m.book?.isbn13 }" >
                 <g:each var="n" in="${m.comments.toList()}">
             <tr>
@@ -105,5 +92,6 @@
 
 
     </div>
+
 	</body>
 </html>
