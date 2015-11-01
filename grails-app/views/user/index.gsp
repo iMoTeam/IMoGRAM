@@ -4,7 +4,7 @@
 <head>
     <meta name="layout" content="main">
     <g:set var="entityName" value="${message(code: 'user.label', default: 'User')}"/>
-    <title><g:message code="default.list.label" args="[entityName]"/></title>
+    <title>Mon profil</title>
 </head>
 
 <body>
@@ -12,10 +12,11 @@
 
 <div style="width: 50%; margin: auto">
     <g:set var="user" value="${(User)session["currentUser"]}"/>
-    <h1>${user.username}</h1>
-    <g:if test="${userInstance}">
-        <div class="btn btn-primary">Suivre</div>
-    </g:if>
+    <div class="panel">
+        <div class="row vertical-align">
+            <h1>${user.username}</h1>
+        </div>
+     </div>
     <div class="panel panel-default">
         <div class="panel-body" style="float:left; width:180px;">
             <div class="dropdown dropdown-menu-right" >
@@ -97,11 +98,12 @@
     </div>
 
     <g:if test="${user.following}">
-        <div>
-            Utilisateurs suivis
-            <div>
+        <div class="panel">
+            <div class="row">
+                <h2>Utilisateurs suivis</h2>
+            </div>
                 <g:each in="${user.following}" var="f">
-                    <g:link action="show" id="${f.id}">${f.username}</g:link>
+                    <div class="row"><g:link action="show" id="${f.id}"><div class="text-info glyphicon glyphicon-user"><strong> ${f.username}</strong></div></g:link></div>
                 </g:each>
             </div>
         </div>

@@ -4,15 +4,20 @@
 <head>
 	<meta name="layout" content="main">
 	<g:set var="entityName" value="${message(code: 'user.label', default: 'User')}"/>
-	<title><g:message code="default.list.label" args="[entityName]"/></title>
+	<title>${userInstance.username}</title>
 </head>
 
 <body>
 <br/><br/><br/>
 
 <div style="width: 50%; margin: auto">
-	<h1>${userInstance.username}</h1>
-		<div class="btn btn-primary">Suivre</div>
+	<div class="panel">
+        <div class="row vertical-align">
+            <h1 class="col-md-2">${userInstance.username}</h1>
+            <div class="btn btn-primary col-md-2">Suivre</div>
+        </div>
+    </div>
+
 	<div class="panel panel-default">
 		<div class="panel-body" style="float:left; width:180px;">
 			<div class="dropdown dropdown-menu-right" >
@@ -23,10 +28,10 @@
 					<span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-					<li><g:link controller="user" action="recherche ">All</g:link></li>
-					<li><g:link controller="user" action="recherche" params="[type: 'movie']">Movies</g:link></li>
-					<li><g:link controller="user" action="recherche" params="[type: 'book']">Books</g:link></li>
-					<li><g:link controller="user" action="recherche" params="[type: 'tvShow']">Tv Shows</g:link></li>
+					<li><g:link controller="user" action="show ">All</g:link></li>
+					<li><g:link controller="user" action="show" params="[type: 'movie']">Movies</g:link></li>
+					<li><g:link controller="user" action="show" params="[type: 'book']">Books</g:link></li>
+					<li><g:link controller="user" action="show" params="[type: 'tvShow']">Tv Shows</g:link></li>
 				</ul>
 			</div>
 		</div>
@@ -39,10 +44,10 @@
 					<span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-					<li><g:link controller="user" action="recherche ">All</g:link></li>
-					<li><g:link controller="user" action="recherche" params="[kind: 'rating']">Notés</g:link></li>
-					<li><g:link controller="user" action="recherche" params="[kind: 'interested']">Envie de voir</g:link></li>
-					<li><g:link controller="user" action="recherche" params="[kind: 'favourite']">Coup de coeur</g:link></li>
+					<li><g:link controller="user" action="show">All</g:link></li>
+					<li><g:link controller="user" action="show" params="[kind: 'rating']">Notés</g:link></li>
+					<li><g:link controller="user" action="show" params="[kind: 'interested']">Envie de voir</g:link></li>
+					<li><g:link controller="user" action="show" params="[kind: 'favourite']">Coup de coeur</g:link></li>
 				</ul>
 			</div>
 		</div>
@@ -94,14 +99,14 @@
 	</div>
 
 	<g:if test="${userInstance.following}">
-		<div>
-			Utilisateurs suivis
-			<div>
-				<g:each in="${userInstance.following}" var="f">
-					<g:link action="show" id="${f.id}">${f.username}</g:link>
-				</g:each>
-			</div>
-		</div>
+        <div class="panel">
+            <div class="row">
+                <h2>Utilisateurs suivis</h2>
+            </div>
+            <g:each in="${userInstance.following}" var="f">
+                <div class="row"><g:link action="show" id="${f.id}"><div class="text-info glyphicon glyphicon-user"><strong> ${f.username}</strong></div></g:link></div>
+            </g:each>
+        </div>
 	</g:if>
 </div>
 </body>
