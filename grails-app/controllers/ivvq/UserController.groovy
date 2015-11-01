@@ -57,7 +57,18 @@ class UserController {
     }
 
     def show(User userInstance) {
-        respond userInstance
+        //respond userInstance
+        def offsetTmp = params.int('offset') ?: 0
+        def items = itemUserService.getAllUserItemDAO(userInstance, nbItemByPage, offsetTmp, params.type, params.kind)
+
+
+        params.max = nbItemByPage
+        params.type = params.type ?: null
+        params.kind = params.kind ?: null
+
+        def nbRows = items.size() != 0 ? (int) Math.ceil(items.size()/nbItemByRow) : 0
+
+        render(view : 'index', model:[items: items as List<ItemUser>, nbRows: nbRows, nbItemByRow: (int)nbItemByRow, itemsCount: items.getTotalCount(), params: params, userInstance: userInstance])
     }
 
     def create() {

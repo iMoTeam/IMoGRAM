@@ -98,7 +98,7 @@
             Utilisateurs suivis
             <div>
                 <g:each in="${user.following}" var="f">
-                    ${f.username}
+                    <g:link action="show" id="${f.id}">${f.username}</g:link>
                 </g:each>
             </div>
         </div>

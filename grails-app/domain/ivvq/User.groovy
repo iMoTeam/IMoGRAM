@@ -11,7 +11,7 @@ class User {
     static hasMany = [following:User]
 
     static mapping = {
-            following fetch:"join"
+            following lazy: false
     }
 
     static constraints = {
