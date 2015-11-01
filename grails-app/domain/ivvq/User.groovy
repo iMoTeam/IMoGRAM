@@ -22,4 +22,17 @@ class User {
         lastName blank: false
         profilePhoto nullable: true;
         }
+
+    @Override
+    boolean equals(Object o){
+        boolean same = false
+        if (o != null && o instanceof User)
+        {
+            same = this.id == ((User) o).id
+        }
+        return same;
     }
+
+    }
+
+

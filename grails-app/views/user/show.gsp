@@ -14,7 +14,12 @@
 	<div class="panel">
         <div class="row vertical-align">
             <h1 class="col-md-2">${userInstance.username}</h1>
-            <div class="btn btn-primary col-md-2">Suivre</div>
+            <g:if test="${((User)session["currentUser"]).following.asList().contains(userInstance)}">
+                <div class="btn btn-primary col-md-2">Ne plus suivre</div>
+            </g:if>
+            <g:else>
+                <div class="btn btn-primary col-md-2">Suivre</div>
+            </g:else>
         </div>
     </div>
 
