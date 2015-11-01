@@ -73,24 +73,7 @@ ItemUserService itemUserService
         }
     }
 
-    @Transactional
-    def delete(ItemUser itemUserInstance) {
-        if (itemUserInstance == null) {
-            notFound()
-            return
-        }
 
-        itemUserInstance.delete flush:true
-        //itemUserService.deleteItemUser(itemUserInstance)
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'ItemUser.label', default: 'ItemUser'), itemUserInstance.id])
-                redirect action:"index", method:"GET"
-            }
-            '*'{ render status: NO_CONTENT }
-        }
-    }
 
     protected void notFound() {
         request.withFormat {
@@ -157,10 +140,6 @@ ItemUserService itemUserService
              redirect(controller: "movie", action: "show", id: movie.id)
           if(isTVShow)
              redirect(controller: "TVShow", action: "show", id: tvShow.id)
-
-
-
-
     }
 
 }

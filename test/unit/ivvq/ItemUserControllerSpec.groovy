@@ -5,7 +5,7 @@ import grails.test.mixin.*
 import spock.lang.*
 
 @TestFor(ItemUserController)
-@Mock(ItemUser)
+@Mock([ItemUser,Book])
 class ItemUserControllerSpec extends Specification {
 
     def populateValidParams(params) {
@@ -136,35 +136,55 @@ class ItemUserControllerSpec extends Specification {
         flash.message != null
     }
 
-    void "Test that the delete action deletes an instance if it exists"() {
+    def populateValidBookParams(params) {
+        assert params != null
+        params["googleID"] = "SteVfQT2WY0C"
+        params["title"] = "Titre"
+        params["publishedDate"] = "22-05-15"
+        params["author"] = "Auteur"
+        params["publisher"] = "Maison des Cartes"
+        params["pageCount"] = 50
+        params["isbn13"] = "9782709637404"
+    }
 
-        when: "The delete action is called for a null instance"
-        request.contentType = FORM_CONTENT_TYPE
-        controller.delete(null)
+    def populateValidUserParams(params) {
+        params["firstName"] = "firstname"
+        params["lastName"] = "lastname"
+        params["username"] = "toto"
+        params["email"] = "toto@toto.com"
+        params["password"] = "pwd1234"
+        params["profilePhoto"] = null
+    }
 
-        then: "A 404 is returned"
-        response.redirectedUrl == '/itemUser/index'
-        flash.message != null
+    void "Test that the CommentItem action posts the comment and redirects to the right page"() {
+        given: "an item and a user"
+        populateValidBookParams(params)
+        populateValidUserParams(params)
+        Book book = new Book(params)
+        User user = Mock(User)
 
-        when: "A domain instance is created"
-        response.reset()
-        populateValidParams(params)
-        def itemUser = new ItemUser(params).save(flush: true)
+        when: "It is added into the database "
+        book.save(flush: true)
 
-        then: "It exists"
-        ItemUser.count() == 1
-        itemUser != null
-        controller != null
-        itemUser.id == 1
+        then: "It exists in the database ready to for a user to comment"
+        Book.findByIsbn13("9782709637404").title == "Titre"
 
-        when: "The domain instance is passed to the delete action"
-        controller.delete(itemUser)
-        //itemUser.delete(flush: true)
+        when: "User tries to comment an item with an empty comment title and an empty comment text"
+        controller.session['currentUser'] = user;
+        params['itemComment'] = ""
+        params['title'] = ""
+        params['itemBookId'] = book.id
+
+        controller.commentItem()
+
+        then: "The user has an error message and the comment isnt posted"
+        flash.error != ""
 
 
-        then: "The instance is deleted"
-        ItemUser.count() == 0
-        response.redirectedUrl == '/itemUser/index'
-        flash.message != null
+
+
+
+
+
     }
 }
