@@ -8,6 +8,8 @@ class User {
     String password
     byte[] profilePhoto
 
+    static hasMany = [following:User]
+
     static constraints = {
         email email: true
         username blank: false, unique: true
