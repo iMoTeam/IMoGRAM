@@ -11,8 +11,10 @@
 <br/><br/><br/>
 
 <div style="width: 50%; margin: auto">
+    <g:set var="user" value="${(User)session["currentUser"]}"/>
     <div class="panel panel-default">
         <div class="panel-body" style="float:left; width:180px;">
+            <h1>${user.username}</h1>
             <div class="dropdown dropdown-menu-right" >
                 Univers :
                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
@@ -91,11 +93,11 @@
         <g:paginate action="recherche" controller="user" total="${itemsCount}" params="${params}"/>
     </div>
 
-    <g:if test="${following}">
+    <g:if test="${user.following}">
         <div>
             Utilisateurs suivis
             <div>
-                <g:each in="${following}" var="f">
+                <g:each in="${user.following}" var="f">
                     ${f.username}
                 </g:each>
             </div>

@@ -10,6 +10,10 @@ class User {
 
     static hasMany = [following:User]
 
+    static mapping = {
+            following fetch:"join"
+    }
+
     static constraints = {
         email email: true
         username blank: false, unique: true
