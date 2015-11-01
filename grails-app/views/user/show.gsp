@@ -15,10 +15,10 @@
         <div class="row vertical-align">
             <h1 class="col-md-2">${userInstance.username}</h1>
             <g:if test="${((User)session["currentUser"]).following.asList().contains(userInstance)}">
-                <div class="btn btn-primary col-md-2">Ne plus suivre</div>
+                <div class="col-md-2"><g:link action="unfollow" id="${userInstance.id}"><div class="btn btn-lg btn-primary">Ne plus suivre</div></g:link></div>
             </g:if>
             <g:else>
-                <div class="btn btn-primary col-md-2">Suivre</div>
+               <div class=" col-md-2"><g:link action="follow" id="${userInstance.id}"><div class="btn btn-lg btn-primary">Suivre</div></g:link></div>
             </g:else>
         </div>
     </div>

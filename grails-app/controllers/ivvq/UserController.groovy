@@ -149,6 +149,30 @@ class UserController {
             '*' { render status: NOT_FOUND }
         }
     }
+
+    @Transactional
+    def follow(User userInstance){
+
+        User currentUser = session["currentUser"]
+        currentUser.following.add(userInstance)
+
+        show(userInstance)
+
+    }
+
+    @Transactional
+    def unfollow(User userInstance){
+
+        User currentUser = session["currentUser"]
+        println(currentUser.following.contains(userInstance))
+
+        currentUser.following.remove(userInstance)
+        println("After: " + currentUser.following.contains(userInstance))
+
+        show(userInstance)
+
+    }
+
     @Transactional
     def loginUser() {
 
