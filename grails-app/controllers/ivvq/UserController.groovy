@@ -31,13 +31,15 @@ class UserController {
         def offsetTmp = params.int('offset') ?: 0
         def items = itemUserService.getAllUserItemDAO(currentUser, nbItemByPage, offsetTmp, params.type, params.kind)
 
+        def following = currentUser.following
+
         params.max = nbItemByPage
         params.type = params.type ?: null
         params.kind = params.kind ?: null
 
         def nbRows = items.size() != 0 ? (int) Math.ceil(items.size()/nbItemByRow) : 0
 
-        render(view : 'index', model:[items: items as List<ItemUser>, nbRows: nbRows, nbItemByRow: (int)nbItemByRow, itemsCount: items.getTotalCount(), params: params])
+        render(view : 'index', model:[items: items as List<ItemUser>, nbRows: nbRows, nbItemByRow: (int)nbItemByRow, itemsCount: items.getTotalCount(), params: params, following: following])
     }
 
     @Transactional

@@ -65,7 +65,12 @@ class BootStrap {
             }
         }
 
-        User user = new User(username: "Veoth", firstName: "Hugues", lastName: "Odegaard", email: "ho@gmail.com", password: "groscaca").save(flus: true)
+        User user = new User(username: "Veoth", firstName: "Hugues", lastName: "Odegaard", email: "ho@gmail.com", password: "groscaca").save(flush: true)
+        User user1 = new User(username: "Melo", firstName: "Manantsoa", lastName: "Razanajatovo", email: "lala@gmail.com", password: "lalala").save(flush: true)
+        User user2 = new User(username: "Django", firstName: "Jackie", lastName: "Chan", email: "chan@gmail.com", password: "lalala").save(flush: true)
+        User user3 = new User(username: "Rails", firstName: "Nathan", lastName: "Drake", email: "drake@gmail.com", password: "lalala").save(flush: true)
+
+
 
         def itemBook1 = new ItemUser(user: User.findByUsername("Veoth"), book: Book.findByGoogleID("4hNrYIhNqUEC"), rating: 7,interested: true).save(flush: true)
         def itemBook2 = new ItemUser(user: User.findByUsername("Veoth"), book: Book.findByGoogleID("PawQ51UXVGEC"),rating: null, favourite: true).save(flush: true)

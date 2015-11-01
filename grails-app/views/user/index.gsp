@@ -90,6 +90,17 @@
     <div class="pagination">
         <g:paginate action="recherche" controller="user" total="${itemsCount}" params="${params}"/>
     </div>
+
+    <g:if test="${following}">
+        <div>
+            Utilisateurs suivis
+            <div>
+                <g:each in="${following}" var="f">
+                    ${f.username}
+                </g:each>
+            </div>
+        </div>
+    </g:if>
 </div>
 </body>
 </html>
