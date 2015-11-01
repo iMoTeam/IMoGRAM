@@ -12,9 +12,12 @@
 
 <div style="width: 50%; margin: auto">
     <g:set var="user" value="${(User)session["currentUser"]}"/>
+    <h1>${user.username}</h1>
+    <g:if test="${userInstance}">
+        <div class="btn btn-primary">Suivre</div>
+    </g:if>
     <div class="panel panel-default">
         <div class="panel-body" style="float:left; width:180px;">
-            <h1>${user.username}</h1>
             <div class="dropdown dropdown-menu-right" >
                 Univers :
                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"

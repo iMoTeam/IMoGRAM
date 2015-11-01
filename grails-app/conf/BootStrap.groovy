@@ -71,10 +71,6 @@ class BootStrap {
         User user3 = new User(username: "Rails", firstName: "Nathan", lastName: "Drake", email: "drake@gmail.com", password: "lalala").save(flush: true)
 
         User user1 = new User(username: "Melo", firstName: "Manantsoa", lastName: "Razanajatovo", email: "lala@gmail.com", password: "lalala", following: [user, user2, user3]).save(flush: true)
-        /*user1.following.add(user)
-        user1.following.add(user2)
-        user1.following.add(user3)
-        user1.save(flush: true)*/
 
         user1.attach()
 

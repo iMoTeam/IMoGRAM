@@ -68,7 +68,7 @@ class UserController {
 
         def nbRows = items.size() != 0 ? (int) Math.ceil(items.size()/nbItemByRow) : 0
 
-        render(view : 'index', model:[items: items as List<ItemUser>, nbRows: nbRows, nbItemByRow: (int)nbItemByRow, itemsCount: items.getTotalCount(), params: params, userInstance: userInstance])
+        render(view : 'show', model:[items: items as List<ItemUser>, nbRows: nbRows, nbItemByRow: (int)nbItemByRow, itemsCount: items.getTotalCount(), params: params, userInstance: userInstance])
     }
 
     def create() {
