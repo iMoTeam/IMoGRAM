@@ -27,8 +27,21 @@ class UserControllerSpec extends Specification {
         params["email"] = 'yeeree@mailless.com'
         params["password"] = 'kiki1234'
         params["profilePhoto"] = null
+        params["following"] = new HashSet()
     }
 
+
+    def populateValidParams2(params) {
+        assert params != null
+        // TODO: Populate valid properties like...
+        params["firstName"] = 'Barry'
+        params["lastName"] = 'Lindon'
+        params["username"] = 'deNiro'
+        params["email"] = 'smala@maill.com'
+        params["password"] = 'lalala'
+        params["profilePhoto"] = null
+        params["following"] = new HashSet()
+    }
     /*void "Test the index action returns the correct model"() {
 
         setup:
@@ -207,6 +220,39 @@ class UserControllerSpec extends Specification {
         User.count() == 0
         response.redirectedUrl == '/user/index'
         flash.message != null
+    }
+
+    void "Test that the follow action add an user to the session user"() {
+       /* when: "The follow action is executed with an invalid instance"
+        def user = new User()
+        user.validate()
+        controller.follow(user)
+
+        then: "The create view is rendered again with the correct model"
+        model.id != null
+        view == '/'*/
+
+        given: "two users initialized"
+        populateValidParams(params)
+        def user = new User(params).save(flush: true)
+        populateValidParams(params)
+        def user2 = new User(params).save(flush: true)
+
+        when: "a user is added in session"
+        session["currentUser"] = user
+
+        then: "User exists in session"
+        session["currentUser"] != null
+
+        /*when: "the follow action is executed with a valid instance"
+        controller.follow(user2)
+
+        then:"there is one user in the following user list"
+        user.following.size() == 1
+
+        and:"this is the valid user"
+        user.following.getAt(0) == user2*/
+
     }
 
 }
