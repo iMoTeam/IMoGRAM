@@ -103,7 +103,7 @@
                 <h2>Utilisateurs suivis</h2>
             </div>
                 <g:each in="${user.following}" var="f">
-                    <div class="row"><g:link action="show" id="${f.id}"><div class="text-info glyphicon glyphicon-user"><strong> ${f.username}</strong></div></g:link></div>
+                    <div class="row"><g:link action="show" id="${f.id}"><div class="btn btn-lg text-primary"><span class="glyphicon glyphicon-user"></span> <strong>${f.username}</strong></g:link></div></div>
                 </g:each>
             </div>
         </div>

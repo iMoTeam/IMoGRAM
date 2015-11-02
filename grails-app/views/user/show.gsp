@@ -33,10 +33,10 @@
 					<span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-					<li><g:link controller="user" action="show ">All</g:link></li>
-					<li><g:link controller="user" action="show" params="[type: 'movie']">Movies</g:link></li>
-					<li><g:link controller="user" action="show" params="[type: 'book']">Books</g:link></li>
-					<li><g:link controller="user" action="show" params="[type: 'tvShow']">Tv Shows</g:link></li>
+					<li><g:link controller="user" action="show" id="${userInstance.id}">All</g:link></li>
+					<li><g:link controller="user" action="show" params="[type: 'movie']" id="${userInstance.id}">Movies</g:link></li>
+					<li><g:link controller="user" action="show" params="[type: 'book']" id="${userInstance.id}">Books</g:link></li>
+					<li><g:link controller="user" action="show" params="[type: 'tvShow']" id="${userInstance.id}">Tv Shows</g:link></li>
 				</ul>
 			</div>
 		</div>
@@ -109,7 +109,7 @@
                 <h2>Utilisateurs suivis</h2>
             </div>
             <g:each in="${userInstance.following}" var="f">
-                <div class="row"><g:link action="show" id="${f.id}"><div class="text-info glyphicon glyphicon-user"><strong> ${f.username}</strong></div></g:link></div>
+                <div class="row"><g:link action="show" id="${f.id}"><div class="btn btn-lg text-primary"><span class="glyphicon glyphicon-user"></span><strong> ${f.username}</strong></div></g:link></div>
             </g:each>
         </div>
 	</g:if>

@@ -57,7 +57,11 @@ class UserController {
     }
 
     def show(User userInstance) {
-        //respond userInstance
+
+        if(userInstance == session["currentUser"]) {
+            redirect(action: 'index')
+        }
+
         def offsetTmp = params.int('offset') ?: 0
         def items = itemUserService.getAllUserItemDAO(userInstance, nbItemByPage, offsetTmp, params.type, params.kind)
 
@@ -156,7 +160,7 @@ class UserController {
         User currentUser = session["currentUser"]
         currentUser.following.add(userInstance)
 
-        show(userInstance)
+        redirect(action: 'show', id: userInstance.id)
 
     }
 
@@ -164,12 +168,10 @@ class UserController {
     def unfollow(User userInstance){
 
         User currentUser = session["currentUser"]
-        println(currentUser.following.contains(userInstance))
 
         currentUser.following.remove(userInstance)
-        println("After: " + currentUser.following.contains(userInstance))
 
-        show(userInstance)
+        redirect(action: 'show', id: userInstance.id)
 
     }
 
