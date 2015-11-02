@@ -58,6 +58,11 @@ class UserController {
 
     def show(User userInstance) {
 
+        if (userInstance == null){
+            notFound()
+            return
+        }
+
         if(userInstance == session["currentUser"]) {
             redirect(action: 'index')
         }

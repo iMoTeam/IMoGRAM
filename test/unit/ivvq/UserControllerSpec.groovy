@@ -8,7 +8,7 @@ import org.springframework.transaction.TransactionStatus
 import spock.lang.*
 
 @TestFor(UserController)
-@Mock(User)
+@Mock([User,ItemUser])
 class UserControllerSpec extends Specification {
 
     def itemUserService
@@ -98,7 +98,10 @@ class UserControllerSpec extends Specification {
         User.count() == 1
     }
 
-    void "Test that the recherche action returns the correct model"() {
+    /*void "Test that the recherche action returns the correct model"() {
+        setup:
+        controller.itemUserService = itemUserService
+
         when: "The recherche action is executed with a null domain"
         controller.show(null)
 
@@ -112,9 +115,12 @@ class UserControllerSpec extends Specification {
 
         then: "A model is populated containing the domain instance"
         model.userInstance == user
-    }
+    }*/
 
     void "Test that the show action returns the correct model"() {
+        setup:
+        controller.itemUserService = itemUserService
+
         when: "The show action is executed with a null domain"
         controller.show(null)
 
