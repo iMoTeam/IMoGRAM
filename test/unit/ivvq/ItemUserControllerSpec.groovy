@@ -180,11 +180,13 @@ class ItemUserControllerSpec extends Specification {
         then: "The user has an error message and the comment isnt posted"
         flash.error != ""
 
+        and: "The error message is Erreur: Votre commentaire n'est pas posté, verifiez que tous les champs sont saisis"
+         flash.error == "Erreur: Votre commentaire n'est pas posté, verifiez que tous les champs sont saisis"
+
+        and: "The user is redirected to the show page of the item they were commenting"
+          controller.response.redirectedUrl != null
+          controller.response.redirectedUrl == "/book/show"
 
 
-
-
-
-
-    }
+}
 }

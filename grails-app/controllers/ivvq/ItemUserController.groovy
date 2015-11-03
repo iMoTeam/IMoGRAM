@@ -135,11 +135,11 @@ ItemUserService itemUserService
             flash.error = "Erreur: Votre commentaire n'est pas posté, verifiez que tous les champs sont saisis"
         }
           if(isBook)
-              redirect(controller: "book", action: "show", id: book.id)
+              redirect(uri: "/book/show/" + book.id)
           if(isMovie)
-             redirect(controller: "movie", action: "show", id: movie.id)
+              redirect(uri: "/movie/show/" + movie.id)
           if(isTVShow)
-             redirect(controller: "TVShow", action: "show", id: tvShow.id)
+              redirect(uri: "/TVShow/show/" + tvShow.id)
     }
 
 }
