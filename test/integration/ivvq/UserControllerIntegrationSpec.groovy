@@ -36,7 +36,7 @@ class UserControllerIntegrationSpec extends Specification {
         def user = new User(controller.params).save(flush: true)
 
         then: "It exists"
-        User.count() == 2
+        User.count() == 5
 
         when: "A user logs in"
         //response.reset()

@@ -163,6 +163,11 @@ class UserController {
     def follow(User userInstance){
 
         User currentUser = session["currentUser"]
+
+        if (currentUser == null) {
+            redirect(uri:'/')
+        }
+
         currentUser.following.add(userInstance)
 
         redirect(action: 'show', id: userInstance.id)
@@ -173,6 +178,10 @@ class UserController {
     def unfollow(User userInstance){
 
         User currentUser = session["currentUser"]
+
+        if (currentUser == null) {
+            redirect(uri:'/')
+        }
 
         currentUser.following.remove(userInstance)
 

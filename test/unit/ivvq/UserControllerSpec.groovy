@@ -42,28 +42,29 @@ class UserControllerSpec extends Specification {
         params["profilePhoto"] = null
         params["following"] = new HashSet()
     }
-    /*void "Test the index action returns the correct model"() {
+
+    void "Test the index action returns the correct model"() {
 
         setup:
         controller.itemUserService = itemUserService
-
-        when: "The index action is executed"
-        populateValidParams(params)
-        controller.session["currentUser"] = new User(params).save(flush: true)
-        controller.index()
-
-        then: "The model is correct"
-        model.items != null
-        model.itemsCount != null
 
         when: "The index action is executed but none of the users are logged in"
         controller.index()
 
         then: "The user is redirected to the home page"
         response.redirectedUrl == '/'
+
+        when: "The index action is executed"
+        populateValidParams(params)
+        session["currentUser"] = new User(params).save(flush: true)
+        controller.index()
+
+        then: "The model is correct"
+        model.items != null
+        model.itemsCount != null
     }
 
-    void "Test the search action return correct model"() {
+    /*void "Test the search action return correct model"() {
 
         setup:
         controller.itemUserService = itemUserService
@@ -223,20 +224,48 @@ class UserControllerSpec extends Specification {
     }
 
     void "Test that the follow action add an user to the session user"() {
-       /* when: "The follow action is executed with an invalid instance"
-        def user = new User()
-        user.validate()
-        controller.follow(user)
-
-        then: "The create view is rendered again with the correct model"
-        model.id != null
-        view == '/'*/
-
         given: "two users initialized"
         populateValidParams(params)
         def user = new User(params).save(flush: true)
         populateValidParams(params)
         def user2 = new User(params).save(flush: true)
+
+        /*when: "The follow action is executed but the user isn't logged in"
+        controller.follow(user2)
+
+        then: "The user is redirected to the home page"
+        response.redirectedUrl == '/'*/
+
+
+        when: "a user is added in session"
+        session["currentUser"] = user
+
+        then: "User exists in session"
+        session["currentUser"] != null
+
+        /*when: "the follow action is executed with a valid instance"
+        controller.follow(user2)
+
+        then:"there is one user in the following user list"
+        user.following.size() == 1
+
+        and:"this is the valid user"
+        user.following.getAt(0) == user2*/
+
+    }
+
+    void "Test that the unfollow action delete an user to the session user"() {
+        given: "two users initialized"
+        populateValidParams(params)
+        def user = new User(params).save(flush: true)
+        populateValidParams(params)
+        def user2 = new User(params).save(flush: true)
+
+        /*when: "The unfollow action is executed but the user isn't logged in"
+        controller.unfollow(user2)
+
+        then: "The user is redirected to the home page"
+        response.redirectedUrl == '/'*/
 
         when: "a user is added in session"
         session["currentUser"] = user
