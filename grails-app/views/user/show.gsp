@@ -49,7 +49,7 @@
 					<span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-					<li><g:link controller="user" action="show">All</g:link></li>
+					<li><g:link controller="user" action="show" id="${userInstance.id}">All</g:link></li>
 					<li><g:link controller="user" action="show" params="[kind: 'rating']" id="${userInstance.id}">Notés</g:link></li>
 					<li><g:link controller="user" action="show" params="[kind: 'interested']" id="${userInstance.id}">Envie de voir</g:link></li>
 					<li><g:link controller="user" action="show" params="[kind: 'favourite']" id="${userInstance.id}">Coup de coeur</g:link></li>
