@@ -120,6 +120,9 @@ ItemUserService itemUserService
             //Verify if the user has commented on this item before before creating another Item
             //To do
 
+
+
+
             if(isBook)
                 newItemUser = new ItemUser(user: user,comments: [newComment],book: book )
             else if (isTVShow)
@@ -133,7 +136,9 @@ ItemUserService itemUserService
             }
         else {
             flash.error = "Erreur: Votre commentaire n'est pas posté, verifiez que tous les champs sont saisis"
-        }
+           }
+
+
           if(isBook)
               redirect(uri: "/book/show/" + book.id)
           if(isMovie)
