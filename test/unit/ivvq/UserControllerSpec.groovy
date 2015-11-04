@@ -12,10 +12,13 @@ import spock.lang.*
 class UserControllerSpec extends Specification {
 
     def itemUserService
+    def userService
 
     def setup() {
         itemUserService = new ItemUserService()
         itemUserService.transactionManager = Mock(PlatformTransactionManager) {getTransaction(_) >> Mock(TransactionStatus)}
+        userService = new UserService()
+        userService.transactionManager = Mock(PlatformTransactionManager) {getTransaction(_) >> Mock(TransactionStatus)}
     }
 
     def populateValidParams(params) {
@@ -281,6 +284,35 @@ class UserControllerSpec extends Specification {
 
         and:"this is the valid user"
         user.following.getAt(0) == user2*/
+
+    }
+
+    void "Test that the logged in user is in the session"(){
+        setup:
+        controller.userService = userService
+
+        when: "A domain instance is created"
+        populateValidParams(params)
+        def user = new User(params).save(flush: true)
+
+        then: "It exists"
+        User.count() == 1
+
+        when: "A user logs in"
+        controller.loggedInUser()
+        User userLoggedIn = session.getAttribute("currentUser")
+
+        then: "The user logged in is in the session"
+        userLoggedIn != null
+
+        then:
+        userLoggedIn.username == 'kangaroo'
+
+        then:
+        userLoggedIn.password == 'kiki1234'
+
+        then:
+        userLoggedIn.email == 'yeeree@mailless.com'
 
     }
 

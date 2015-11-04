@@ -50,9 +50,9 @@
 				</button>
 				<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 					<li><g:link controller="user" action="show">All</g:link></li>
-					<li><g:link controller="user" action="show" params="[kind: 'rating']">Notés</g:link></li>
-					<li><g:link controller="user" action="show" params="[kind: 'interested']">Envie de voir</g:link></li>
-					<li><g:link controller="user" action="show" params="[kind: 'favourite']">Coup de coeur</g:link></li>
+					<li><g:link controller="user" action="show" params="[kind: 'rating']" id="${userInstance.id}">Notés</g:link></li>
+					<li><g:link controller="user" action="show" params="[kind: 'interested']" id="${userInstance.id}">Envie de voir</g:link></li>
+					<li><g:link controller="user" action="show" params="[kind: 'favourite']" id="${userInstance.id}">Coup de coeur</g:link></li>
 				</ul>
 			</div>
 		</div>
