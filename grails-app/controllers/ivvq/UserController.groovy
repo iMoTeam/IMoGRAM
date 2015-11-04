@@ -166,6 +166,7 @@ class UserController {
 
         if (currentUser == null) {
             redirect(uri:'/')
+            return
         }
 
         currentUser.following.add(userInstance)
@@ -181,6 +182,7 @@ class UserController {
 
         if (currentUser == null) {
             redirect(uri:'/')
+            return
         }
 
         currentUser.following.remove(userInstance)

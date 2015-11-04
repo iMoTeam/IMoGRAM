@@ -8,9 +8,6 @@ import org.hibernate.criterion.CriteriaSpecification
 @Transactional
 class ItemUserService {
 
-    def serviceMethod() {
-
-    }
 
     /**
      * Try to add an Itemuser instance

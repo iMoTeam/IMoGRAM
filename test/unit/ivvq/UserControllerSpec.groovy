@@ -233,11 +233,11 @@ class UserControllerSpec extends Specification {
         populateValidParams(params)
         def user2 = new User(params).save(flush: true)
 
-        /*when: "The follow action is executed but the user isn't logged in"
+        when: "The follow action is executed but the user isn't logged in"
         controller.follow(user2)
 
         then: "The user is redirected to the home page"
-        response.redirectedUrl == '/'*/
+        response.redirectedUrl == '/'
 
 
         when: "a user is added in session"
@@ -264,11 +264,11 @@ class UserControllerSpec extends Specification {
         populateValidParams(params)
         def user2 = new User(params).save(flush: true)
 
-        /*when: "The unfollow action is executed but the user isn't logged in"
+        when: "The unfollow action is executed but the user isn't logged in"
         controller.unfollow(user2)
 
         then: "The user is redirected to the home page"
-        response.redirectedUrl == '/'*/
+        response.redirectedUrl == '/'
 
         when: "a user is added in session"
         session["currentUser"] = user
