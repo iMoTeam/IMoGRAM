@@ -165,7 +165,7 @@ class UserController {
         User currentUser = session["currentUser"]
 
         if (currentUser == null) {
-            redirect(uri:'/')
+            notFound()
             return
         }
 
@@ -181,7 +181,7 @@ class UserController {
         User currentUser = session["currentUser"]
 
         if (currentUser == null) {
-            redirect(uri:'/')
+            notFound()
             return
         }
 

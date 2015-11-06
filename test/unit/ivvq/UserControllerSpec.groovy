@@ -67,21 +67,6 @@ class UserControllerSpec extends Specification {
         model.itemsCount != null
     }
 
-    /*void "Test the search action return correct model"() {
-
-        setup:
-        controller.itemUserService = itemUserService
-
-        when: "The search action is executed with a user previously logged"
-        populateValidParams(params)
-        controller.session["currentUser"] = new User(params).save(flush: true)
-        controller.recherche()
-
-        then: "The model is correctly set"
-        model.items != null
-        model.itemsCount != null
-    }*/
-
     void "Test the create action returns the correct model"() {
         when: "The create action is executed"
         controller.create()
@@ -114,25 +99,6 @@ class UserControllerSpec extends Specification {
         controller.flash.message != null
         User.count() == 1
     }
-
-    /*void "Test that the recherche action returns the correct model"() {
-        setup:
-        controller.itemUserService = itemUserService
-
-        when: "The recherche action is executed with a null domain"
-        controller.show(null)
-
-        then: "A 404 error is returned"
-        response.status == 404
-
-        when: "A domain instance is passed to the show action"
-        populateValidParams(params)
-        def user = new User(params)
-        controller.show(user)
-
-        then: "A model is populated containing the domain instance"
-        model.userInstance == user
-    }*/
 
     void "Test that the show action returns the correct model"() {
         setup:
@@ -230,14 +196,14 @@ class UserControllerSpec extends Specification {
         given: "two users initialized"
         populateValidParams(params)
         def user = new User(params).save(flush: true)
-        populateValidParams(params)
+        populateValidParams2(params)
         def user2 = new User(params).save(flush: true)
 
         when: "The follow action is executed but the user isn't logged in"
         controller.follow(user2)
 
-        then: "The user is redirected to the home page"
-        response.redirectedUrl == '/'
+        then: "A 404 is returned"
+        response.status == 404
 
 
         when: "a user is added in session"
@@ -246,14 +212,14 @@ class UserControllerSpec extends Specification {
         then: "User exists in session"
         session["currentUser"] != null
 
-        /*when: "the follow action is executed with a valid instance"
+        when: "the follow action is executed with a valid instance"
         controller.follow(user2)
 
         then:"there is one user in the following user list"
         user.following.size() == 1
 
         and:"this is the valid user"
-        user.following.getAt(0) == user2*/
+        user.following.getAt(0) == user2
 
     }
 
@@ -261,29 +227,29 @@ class UserControllerSpec extends Specification {
         given: "two users initialized"
         populateValidParams(params)
         def user = new User(params).save(flush: true)
-        populateValidParams(params)
+        populateValidParams2(params)
         def user2 = new User(params).save(flush: true)
 
         when: "The unfollow action is executed but the user isn't logged in"
         controller.unfollow(user2)
 
         then: "The user is redirected to the home page"
-        response.redirectedUrl == '/'
+        response.status == 404
 
-        when: "a user is added in session"
+        when: "user has a user following"
+        user.following.add(user2)
+
+        and: "the user is added in session"
         session["currentUser"] = user
 
         then: "User exists in session"
         session["currentUser"] != null
 
-        /*when: "the follow action is executed with a valid instance"
-        controller.follow(user2)
+        when: "the unfollow action is executed with a valid instance"
+        controller.unfollow(user2)
 
-        then:"there is one user in the following user list"
-        user.following.size() == 1
-
-        and:"this is the valid user"
-        user.following.getAt(0) == user2*/
+        then:"there is no one user in the following user list"
+        user.following.size() == 0
 
     }
 
