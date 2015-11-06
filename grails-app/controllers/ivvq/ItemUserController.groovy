@@ -95,19 +95,20 @@ ItemUserService itemUserService
         TVShow tvShow
         if(params['itemBookId'] != null && params['itemBookId']?.toString().trim() != "")
         {
-            book = Book.findByIsbn13(params['itemBookId'])
+            book = Book.findById(params['itemBookId'])
+            println(params['itemBookId'])
             isBook = true
         }
 
         if(params['itemMovieId'] != null && params['itemMovieId']?.toString().trim() != "")
         {
-            movie = Movie.findByImdbID(params['itemMovieId'])
+            movie = Movie.findById(params['itemMovieId'])
             isMovie = true
         }
 
         if(params['itemTVShowId'] != null && params['itemTVShowId']?.toString().trim() != "")
         {
-            tvShow = TVShow.findByImdbID(params['itemTVShowId'])
+            tvShow = TVShow.findById(params['itemTVShowId'])
             isTVShow = true
         }
 
@@ -117,11 +118,9 @@ ItemUserService itemUserService
         if(verif) {
             newComment.save()
             ItemUser newItemUser
+
             //Verify if the user has commented on this item before before creating another Item
             //To do
-
-
-
 
             if(isBook)
                 newItemUser = new ItemUser(user: user,comments: [newComment],book: book )

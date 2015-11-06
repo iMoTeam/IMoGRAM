@@ -5,14 +5,16 @@ import grails.test.mixin.*
 import spock.lang.*
 
 @TestFor(ItemUserController)
-@Mock([ItemUser,Book, Comment])
+@Mock([ItemUser,Book, Comment,Movie, TVShow])
 class ItemUserControllerSpec extends Specification {
+
 
     def populateValidParams(params) {
         assert params != null
-        // TODO: Populate valid properties like...
+        populateValidMovieParams(params)
+        Movie movie = new Movie(params)
         params["user"] = Mock(User)
-        params["movie"] = Mock(Movie)
+        params["movie"] = movie
         params["tvShow"] = null
         params["book"] = null
         params["rating"] = 1
@@ -175,7 +177,7 @@ class ItemUserControllerSpec extends Specification {
         params["country"] = "Madagascar"
     }
 
-    void "Test that the CommentItem action posts the comment and redirects to the right page"() {
+    void "Test that the CommentItem action posts the correctly filled comment on a Book and redirects to the right page"() {
         given: "an item and a user"
         populateValidBookParams(params)
         Book book = new Book(params)
@@ -196,46 +198,58 @@ class ItemUserControllerSpec extends Specification {
         params['itemBookId'] = book.id
         controller.commentItem()
 
-        then: "There is no error message posted"
-        controller.flash.error == ""
-
-        and: "The user is redirected to the show page of the item they were commenting"
+        then: "The user is redirected to the show page of the item they were commenting"
         response.redirectedUrl != null
         response.redirectedUrl == "/book/show/" + book.id
 
         and: "A new comment is added into the database"
-        Comment.findByUser(user) != null
+        Comment.count() == 1
+}
+    void "Test that the CommentItem action doesn't post the incorrectly filled comment on a Book but redirects to the right page"() {
+        given: "an item and a user"
+        populateValidBookParams(params)
+        Book book = new Book(params)
+        User user = Mock(User)
 
-        when: "User tries to comment an item with an empty comment title and an empty comment text"
-        controller.session['currentUser'] = user;
-        params['itemComment'] = ""
-        params['title'] = ""
-        params['itemBookId'] = book.id
+        when: "It is added into the database "
+        book.save(flush: true)
 
-        controller.commentItem()
+        then: "It exists in the database ready to for a user to comment"
+        Book.findByIsbn13("9782709637404").title == "Titre"
+        Book.count() ==  1
 
-        then: "The user has an error message and the comment isnt posted"
-        controller.flash.error != ""
+         when: "User tries to comment an item with an empty comment title and an empty comment text"
+         controller.session['currentUser'] = user;
+         params['itemComment'] = ""
+         params['title'] = ""
+         params['itemBookId'] = book.id
 
-        and: "The error message is Erreur: Votre commentaire n'est pas posté, verifiez que tous les champs sont saisis"
-        controller.flash.error == "Erreur: Votre commentaire n'est pas posté, verifiez que tous les champs sont saisis"
+         controller.commentItem()
 
-        and: "The user is redirected to the show page of the item they were commenting"
-        response.redirectedUrl != null
-        response.redirectedUrl == "/book/show/" + book.id
+         then: "The user has an error message and the comment isnt posted"
+         controller.flash.error != ""
 
+         and: "The error message is Erreur: Votre commentaire n'est pas posté, verifiez que tous les champs sont saisis"
+         controller.flash.error == "Erreur: Votre commentaire n'est pas posté, verifiez que tous les champs sont saisis"
 
-        when: "A movie and TVShow are added into the database"
+         and: "The user is redirected to the show page of the item they were commenting"
+         response.redirectedUrl != null
+         response.redirectedUrl == "/book/show/" + book.id
+
+    }
+
+    void "Test that the CommentItem action posts the correctly filled comment on a Movie and redirects to the right page"() {
+        given: "an item and a user"
         populateValidMovieParams(params)
         Movie movie = new Movie(params)
-        populateValidTVShowParams(params)
-        TVShow tvShow = new TVShow(params)
-        movie.save(flush: true)
-        tvShow.save(flush: true)
+        User user = Mock(User)
 
-        then: "They're correctly added and they exist"
+        when: "It is added into the database "
+        movie.save(flush: true)
+
+        then: "It exists in the database ready to for a user to comment"
         Movie.findByImdbID("tt4545341").title == "title"
-        TVShow.findByImdbID("tt0107290").title == "The Movie"
+        Movie.count() ==  1
 
 
         when: "The user Comments on a movie with correct title and comment"
@@ -245,15 +259,28 @@ class ItemUserControllerSpec extends Specification {
         params['itemMovieId'] = movie.id
         controller.commentItem()
 
-        then: "There is no error message posted"
-        flash.error == ""
-
-        and: "The user is redirected to the show page of the item they were commenting"
-        controller.response.redirectedUrl != null
-        controller.response.redirectedUrl == "/movie/show/" + movie.id
+        then: "The user is redirected to the show page of the item they were commenting"
+        response.redirectedUrl != null
+        response.redirectedUrl == "/movie/show/" + movie.id
 
         and: "A new comment is added into the database"
-        Comment.findByUser(user) != null
+        Comment.count() == 1
+
+    }
+
+    void "Test that the CommentItem action posts the correctly filled comment on a TVShow and redirects to the right page"() {
+        given: "an item and a user"
+        populateValidTVShowParams(params)
+        TVShow tvShow = new TVShow(params)
+        User user = Mock(User)
+
+        when: "It is added into the database "
+        tvShow.save(flush: true)
+
+        then: "It exists in the database ready to for a user to comment"
+        TVShow.findByImdbID("tt0107290").title == "The Movie"
+        TVShow.count() ==  1
+
 
         when: "The user Comments on a TVShow with correct title and comment"
         controller.session['currentUser'] = user;
@@ -262,17 +289,12 @@ class ItemUserControllerSpec extends Specification {
         params['itemTVShowId'] = tvShow.id
         controller.commentItem()
 
-        then: "There is no error message posted"
-        controller.flash.error == ""
-
-        and: "The user is redirected to the show page of the item they were commenting"
-        controller.response.redirectedUrl != null
-        controller.response.redirectedUrl == "/TVShow/show" + tvShow.id
+        then: "The user is redirected to the show page of the item they were commenting"
+        response.redirectedUrl != null
+        controller.response.redirectedUrl == "/TVShow/show/" + tvShow.id
 
         and: "A new comment is added into the database"
-        Comment.findByUser(user) != null
+        Comment.count() == 1
 
-
-
-}
+    }
 }
