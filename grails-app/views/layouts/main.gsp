@@ -68,7 +68,12 @@
             </g:else>
         </div>
         <div class="col-md-1">
-            <a href="${createLink(controller:'user', action:'create')}" class="btn btn-success btn-lg">Inscription</a>
+            <g:if test="${session["currentUser"] != null}">
+                <a href="${createLink(controller:'user', action:'logout')}" class="btn btn-success btn-lg">Déconnexion</a>
+            </g:if>
+            <g:else>
+                <a href="${createLink(controller:'user', action:'create')}" class="btn btn-success btn-lg">Inscription</a>
+            </g:else>
         </div>
     </div>
 </div>

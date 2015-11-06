@@ -17,4 +17,19 @@ class UserService {
         }
         return User.findByUsernameAndPassword(username,password)
     }
+
+    /**
+     * Delete the user and all the ItemUser related to the user
+     * @param user The user to delete
+     */
+    def deleteUser(User user) {
+
+        List<ItemUser> items = ItemUser.findAllByUser(user)
+
+        items.each {
+            it.delete(flush: true)
+        }
+
+        user.delete(flush: true)
+    }
 }

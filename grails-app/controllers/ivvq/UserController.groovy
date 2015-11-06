@@ -55,6 +55,17 @@ class UserController {
         }
     }
 
+    def deleteUser() {
+        User currentUser = session["currentUser"];
+
+        if (currentUser != null) {
+            userService.deleteUser(currentUser)
+            session["currentUser"] = null
+        }
+
+        redirect(uri:'/')
+    }
+
     def show(User userInstance) {
         respond userInstance
     }
@@ -106,25 +117,6 @@ class UserController {
                 redirect userInstance
             }
             '*' { respond userInstance, [status: OK] }
-        }
-    }
-
-    @Transactional
-    def delete(User userInstance) {
-
-        if (userInstance == null) {
-            notFound()
-            return
-        }
-
-        userInstance.delete flush: true
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'User.label', default: 'User'), userInstance.id])
-                redirect action: "index", method: "GET"
-            }
-            '*' { render status: NO_CONTENT }
         }
     }
 

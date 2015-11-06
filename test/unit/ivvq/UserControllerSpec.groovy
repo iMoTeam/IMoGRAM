@@ -8,14 +8,18 @@ import org.springframework.transaction.TransactionStatus
 import spock.lang.*
 
 @TestFor(UserController)
-@Mock(User)
+@Mock([User, ItemUser])
 class UserControllerSpec extends Specification {
 
     def itemUserService
+    def userService
 
     def setup() {
         itemUserService = new ItemUserService()
         itemUserService.transactionManager = Mock(PlatformTransactionManager) {getTransaction(_) >> Mock(TransactionStatus)}
+
+        userService = new UserService()
+        userService.transactionManager = Mock(PlatformTransactionManager) {getTransaction(_) >> Mock(TransactionStatus)}
     }
 
     def populateValidParams(params) {
@@ -29,7 +33,7 @@ class UserControllerSpec extends Specification {
         params["profilePhoto"] = null
     }
 
-    /*void "Test the index action returns the correct model"() {
+    void "Test the index action returns the correct model"() {
 
         setup:
         controller.itemUserService = itemUserService
@@ -37,17 +41,16 @@ class UserControllerSpec extends Specification {
         when: "The index action is executed"
         populateValidParams(params)
         controller.session["currentUser"] = new User(params).save(flush: true)
+
+        then: "The user exist"
+        User.count == 1
+
+        when: "The index action is called"
         controller.index()
 
         then: "The model is correct"
         model.items != null
         model.itemsCount != null
-
-        when: "The index action is executed but none of the users are logged in"
-        controller.index()
-
-        then: "The user is redirected to the home page"
-        response.redirectedUrl == '/'
     }
 
     void "Test the search action return correct model"() {
@@ -63,7 +66,29 @@ class UserControllerSpec extends Specification {
         then: "The model is correctly set"
         model.items != null
         model.itemsCount != null
-    }*/
+    }
+
+
+    void "test that the delete action return the correct model"() {
+        setup:
+        controller.userService = userService
+
+        when: "The search action is executed with a user previously logged"
+        populateValidParams(params)
+        controller.session["currentUser"] = new User(params).save(flush: true)
+
+        then: "The user exist"
+        User.count == 1
+
+        when: "The delete action is called"
+        controller.deleteUser()
+
+        then: "The user is deleted"
+        User.count == 0
+
+        and: "the session user is set to null"
+        controller.session["curretnUser"] == null
+    }
 
     void "Test the create action returns the correct model"() {
         when: "The create action is executed"
@@ -176,31 +201,4 @@ class UserControllerSpec extends Specification {
         response.redirectedUrl == "/user/show/$user.id"
         flash.message != null
     }
-
-    void "Test that the delete action deletes an instance if it exists"() {
-        when: "The delete action is called for a null instance"
-        request.contentType = FORM_CONTENT_TYPE
-        controller.delete(null)
-
-        then: "A 404 is returned"
-        response.redirectedUrl == '/user/index'
-        flash.message != null
-
-        when: "A domain instance is created"
-        response.reset()
-        populateValidParams(params)
-        def user = new User(params).save(flush: true)
-
-        then: "It exists"
-        User.count() == 1
-
-        when: "The domain instance is passed to the delete action"
-        controller.delete(user)
-
-        then: "The instance is deleted"
-        User.count() == 0
-        response.redirectedUrl == '/user/index'
-        flash.message != null
-    }
-
 }
