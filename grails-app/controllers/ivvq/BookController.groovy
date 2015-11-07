@@ -111,4 +111,29 @@ class BookController {
         }
     }
 
+    @Transactional
+    def deleteToFavourite(Book bookInstance) {
+        User user = session["currentUser"]
+
+        ItemUser itemUser = itemUserService.getItemUser(user, bookInstance)
+
+        itemUser.favourite = false
+        itemUser.save(flush: true)
+
+        redirect(action: "show", id: bookInstance.id)
+    }
+
+    @Transactional
+    def addToFavourite(Book bookInstance) {
+        User user = session["currentUser"]
+
+        ItemUser itemUser = itemUserService.getItemUser(user, bookInstance)
+
+        itemUser.favourite = true
+        itemUser.save(flush: true)
+
+        redirect(action: "show", id: bookInstance.id)
+
+    }
+
 }

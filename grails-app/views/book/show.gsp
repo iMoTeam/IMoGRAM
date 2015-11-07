@@ -36,13 +36,14 @@
                             <g:if test="${bookInstance?.publishedDate}">
                                     <g:fieldValue bean="${bookInstance}" field="publishedDate"/>
                             </g:if>
-
-                            <g:if test="${((User)session["currentUser"]) && isFavourite}">
-                                <div><g:link action="deleteToFavourite"><div class="btn btn-lg btn-primary">Supprimer de mes favoris</div></g:link></div>
+                            <g:if test="${((User)session["currentUser"])}">
+                                <g:if test="${isFavourite}">
+                                    <div><g:link action="deleteToFavourite" id="${bookInstance.id}"><div class="btn btn-lg btn-primary">Supprimer de mes favoris</div></g:link></div>
+                                </g:if>
+                                <g:else>
+                                    <div><g:link action="addToFavourite" id="${bookInstance.id}"><div class="btn btn-lg btn-primary">Ajouter à mes favoris</div></g:link></div>
+                                </g:else>
                             </g:if>
-                            <g:else>
-                                <div><g:link action="addToFavourite"><div class="btn btn-lg btn-primary">Ajouter à mes favoris</div></g:link></div>
-                            </g:else>
                         </td>
                     </tr>
                 </table>
