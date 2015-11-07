@@ -148,7 +148,7 @@ class ItemUserService {
 
     def saveItemUser(ItemUser itemUser) {
 
-        if(!itemUser.favourite && itemUser.comments.empty && !itemUser.interested && !itemUser.rating) {
+        if(!itemUser.favourite && !itemUser.interested && !itemUser.rating) {
             itemUser.delete()
         } else {
             itemUser.save()
