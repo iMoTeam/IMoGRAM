@@ -95,20 +95,19 @@ ItemUserService itemUserService
         TVShow tvShow
         if(params['itemBookId'] != null && params['itemBookId']?.toString().trim() != "")
         {
-            book = Book.findById(params['itemBookId'])
-            println(params['itemBookId'])
+            book = Book.findByIsbn13(params['itemBookId'])
             isBook = true
         }
 
         if(params['itemMovieId'] != null && params['itemMovieId']?.toString().trim() != "")
         {
-            movie = Movie.findById(params['itemMovieId'])
+            movie = Movie.findByImdbID(params['itemMovieId'])
             isMovie = true
         }
 
         if(params['itemTVShowId'] != null && params['itemTVShowId']?.toString().trim() != "")
         {
-            tvShow = TVShow.findById(params['itemTVShowId'])
+            tvShow = TVShow.findByImdbID(params['itemTVShowId'])
             isTVShow = true
         }
 

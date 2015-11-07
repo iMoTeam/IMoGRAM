@@ -195,7 +195,7 @@ class ItemUserControllerSpec extends Specification {
         controller.session['currentUser'] = user;
         params['itemComment'] = "loved this book, wish every one gets to read this"
         params['title'] = "The best book ever"
-        params['itemBookId'] = book.id
+        params['itemBookId'] = book.isbn13
         controller.commentItem()
 
         then: "The user is redirected to the show page of the item they were commenting"
@@ -222,7 +222,7 @@ class ItemUserControllerSpec extends Specification {
          controller.session['currentUser'] = user;
          params['itemComment'] = ""
          params['title'] = ""
-         params['itemBookId'] = book.id
+         params['itemBookId'] = book.isbn13
 
          controller.commentItem()
 
@@ -256,7 +256,7 @@ class ItemUserControllerSpec extends Specification {
         controller.session['currentUser'] = user;
         params['itemComment'] = "loved this movie, wish every one gets to see this"
         params['title'] = "Boom Boom Poow"
-        params['itemMovieId'] = movie.id
+        params['itemMovieId'] = movie.imdbID
         controller.commentItem()
 
         then: "The user is redirected to the show page of the item they were commenting"
@@ -286,7 +286,7 @@ class ItemUserControllerSpec extends Specification {
         controller.session['currentUser'] = user;
         params['itemComment'] = "This is what we call a down to earth Tvshow"
         params['title'] = "Best Tv show ever"
-        params['itemTVShowId'] = tvShow.id
+        params['itemTVShowId'] = tvShow.imdbID
         controller.commentItem()
 
         then: "The user is redirected to the show page of the item they were commenting"
