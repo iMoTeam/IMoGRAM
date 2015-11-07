@@ -92,4 +92,35 @@ class ItemUserService {
         return res
 
     }
+
+    boolean isItemOfUser(User user, def item) {
+
+        boolean isItem = false
+
+        if(item instanceof Book) {
+            isItem = (ItemUser.findByUserAndBook(user, item) != null)
+        } else if (item instanceof Movie) {
+            isItem = (ItemUser.findByUserAndMovie(user, item) != null)
+        } else {
+            isItem = (ItemUser.findByUserAndTvShow(user, item) != null)
+        }
+        isItem
+    }
+
+    boolean isFavourite(User user, def item) {
+
+        boolean isFavourite = false
+
+
+        if (isItemOfUser(user, item)) {
+            if(item instanceof Book) {
+                isFavourite = ItemUser.findByUserAndBook(user, item).favourite
+            } else if (item instanceof Movie) {
+                isFavourite = ItemUser.findByUserAndMovie(user, item)
+            } else {
+                isFavourite = ItemUser.findByUserAndTvShow(user, item)
+            }
+        }
+        isFavourite
+    }
 }

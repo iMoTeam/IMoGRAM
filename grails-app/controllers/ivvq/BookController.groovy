@@ -9,6 +9,7 @@ class BookController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     BookService bookService
+    def itemUserService
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -16,7 +17,15 @@ class BookController {
     }
 
     def show(Book bookInstance) {
-        respond bookInstance
+
+        User user = session["currentUser"]
+        boolean isFavourite = false
+
+        if (user != null) {
+            isFavourite = itemUserService.isFavourite(user, bookInstance)
+        }
+
+        respond bookInstance, model: [isFavourite: isFavourite]
     }
 
     def create() {
