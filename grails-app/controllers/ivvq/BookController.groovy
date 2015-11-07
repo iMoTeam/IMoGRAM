@@ -118,7 +118,7 @@ class BookController {
         ItemUser itemUser = itemUserService.getItemUser(user, bookInstance)
 
         itemUser.favourite = false
-        itemUser.save(flush: true)
+        itemUserService.saveItemUser(itemUser)
 
         redirect(action: "show", id: bookInstance.id)
     }
@@ -130,7 +130,7 @@ class BookController {
         ItemUser itemUser = itemUserService.getItemUser(user, bookInstance)
 
         itemUser.favourite = true
-        itemUser.save(flush: true)
+        itemUserService.saveItemUser(itemUser)
 
         redirect(action: "show", id: bookInstance.id)
 

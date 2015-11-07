@@ -10,6 +10,7 @@ class MovieController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     MovieService movieService
+    def itemUserService
 
 
     def index(Integer max) {
@@ -18,7 +19,15 @@ class MovieController {
     }
 
     def show(Movie movieInstance) {
-        respond movieInstance
+
+        User user = session["currentUser"]
+        boolean isFavourite = false
+
+        if (user != null) {
+            isFavourite = itemUserService.isFavourite(user, movieInstance)
+        }
+
+        respond movieInstance, model: [isFavourite: isFavourite]
     }
 
     def create() {
@@ -102,6 +111,31 @@ class MovieController {
             }
             '*' { render status: NOT_FOUND }
         }
+    }
+
+    @Transactional
+    def deleteToFavourite(Movie movieInstance) {
+        User user = session["currentUser"]
+
+        ItemUser itemUser = itemUserService.getItemUser(user, movieInstance)
+
+        itemUser.favourite = false
+        itemUserService.saveItemUser(itemUser)
+
+        redirect(action: "show", id: movieInstance.id)
+    }
+
+    @Transactional
+    def addToFavourite(Movie movieInstance) {
+        User user = session["currentUser"]
+
+        ItemUser itemUser = itemUserService.getItemUser(user, movieInstance)
+
+        itemUser.favourite = true
+        itemUserService.saveItemUser(itemUser)
+
+        redirect(action: "show", id: movieInstance.id)
+
     }
 
 }
