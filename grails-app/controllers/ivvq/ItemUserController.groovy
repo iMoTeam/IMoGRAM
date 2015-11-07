@@ -114,6 +114,7 @@ ItemUserService itemUserService
 
         boolean verif = comment != null && comment.trim() != "" && user != null && title != null && title.trim() != ""
         Comment newComment = new Comment(user: user, date: new Date(), title: title, comment: comment)
+        if(comment.size() <20) verif = false
         if(verif) {
             newComment.save()
             ItemUser newItemUser
@@ -133,7 +134,7 @@ ItemUserService itemUserService
 
             }
         else {
-            flash.error = "Erreur: Votre commentaire n'est pas posté, verifiez que tous les champs sont saisis"
+            flash.error = "Erreur: Votre commentaire n'est pas posté, verifiez que tous les champs sont saisis et que votre commentaire contient au moins 20 caracteres"
            }
 
 

@@ -229,8 +229,8 @@ class ItemUserControllerSpec extends Specification {
          then: "The user has an error message and the comment isnt posted"
          controller.flash.error != ""
 
-         and: "The error message is Erreur: Votre commentaire n'est pas posté, verifiez que tous les champs sont saisis"
-         controller.flash.error == "Erreur: Votre commentaire n'est pas posté, verifiez que tous les champs sont saisis"
+         and: "The error message is Erreur: Votre commentaire n'est pas posté, verifiez que tous les champs sont saisis et que votre commentaire contient au moins 20 caracteres"
+         controller.flash.error == "Erreur: Votre commentaire n'est pas posté, verifiez que tous les champs sont saisis et que votre commentaire contient au moins 20 caracteres"
 
          and: "The user is redirected to the show page of the item they were commenting"
          response.redirectedUrl != null
