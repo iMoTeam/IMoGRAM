@@ -81,17 +81,20 @@
         </div>
     </g:if>
     <div>
-        <table style="width: 100%">
+        <table style="width: 100%; margin-top: 20px">
             <g:each var="m" in="${ItemUser?.list()}">
                 <g:if test="${TVShowInstance?.imdbID == m.tvShow?.imdbID }" >
                     <g:each var="n" in="${m.comments.toList()}">
-                        <tr>
-                            <td><a  style="color: rgba(36, 34, 255, 0.87); text-decoration: none" href="${createLink(controller:'user', action:'show', id: n.user.id)}">${n.user}</a></td>
-                            <td><h5>Title: ${n.title}</h5></td>
+                        <tr class="bg-info">
+                            <td><a  style="color: rgba(36, 34, 255, 0.87); text-decoration: none" href="${createLink(controller:'user', action:'show', id: n.user.id)}"><strong>${n.user}</strong></a></td>
+                            <td><strong>Title: ${n.title}</strong></td>
                         </tr>
-                        <tr>
-                            <td>${n.date}</td>
+                        <tr class="bg-info">
+                            <td><g:formatDate format="yyyy-MM-dd HH:mm" date="${n.date}"/></td>
                             <td>${n.comment}</td>
+                        </tr>
+                        <tr style="height: 5px; background-color: #ffffff; !important;">
+                            <td colspan="2"></td>
                         </tr>
                     </g:each>
                 </g:if>
