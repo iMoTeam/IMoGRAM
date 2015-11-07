@@ -4,13 +4,19 @@
 <head>
     <meta name="layout" content="main">
     <g:set var="entityName" value="${message(code: 'user.label', default: 'User')}"/>
-    <title><g:message code="default.list.label" args="[entityName]"/></title>
+    <title>Mon profil</title>
 </head>
 
 <body>
 <br/><br/><br/>
 
 <div style="width: 50%; margin: auto">
+    <g:set var="user" value="${(User)session["currentUser"]}"/>
+    <div class="panel">
+        <div class="row vertical-align">
+            <h1>${user.username}</h1>
+        </div>
+     </div>
     <div class="panel panel-default">
         <div class="panel-body" style="float:left; width:180px;">
             <div class="dropdown dropdown-menu-right" >
@@ -90,6 +96,18 @@
     <div class="pagination">
         <g:paginate action="recherche" controller="user" total="${itemsCount}" params="${params}"/>
     </div>
+
+    <g:if test="${user.following}">
+        <div class="panel">
+            <div class="row">
+                <h2>Utilisateurs suivis</h2>
+            </div>
+                <g:each in="${user.following}" var="f">
+                    <div class="row"><g:link action="show" id="${f.id}"><div class="btn btn-lg text-primary"><span class="glyphicon glyphicon-user"></span> <strong>${f.username}</strong></g:link></div></div>
+                </g:each>
+            </div>
+        </div>
+    </g:if>
 </div>
 </body>
 </html>

@@ -1,5 +1,9 @@
 package ivvq
 
+import groovy.transform.EqualsAndHashCode
+
+
+@EqualsAndHashCode(includes = 'firstName, lastName, username')
 class User {
     String firstName
     String lastName
@@ -7,6 +11,12 @@ class User {
     String email
     String password
     byte[] profilePhoto
+
+    static hasMany = [following:User]
+
+    static mapping = {
+            following lazy: false
+    }
 
     static constraints = {
         email email: true
@@ -16,4 +26,8 @@ class User {
         lastName blank: false
         profilePhoto nullable: true;
         }
+
+
     }
+
+

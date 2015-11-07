@@ -1,87 +1,118 @@
-
 <%@ page import="ivvq.User" %>
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'user.label', default: 'User')}" />
-		<title><g:message code="default.show.label" args="[entityName]" /></title>
-	</head>
-	<body>
-		<a href="#show-user" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
-			<ul>
-				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
-			</ul>
+<head>
+	<meta name="layout" content="main">
+	<g:set var="entityName" value="${message(code: 'user.label', default: 'User')}"/>
+	<title>${userInstance.username}</title>
+</head>
+
+<body>
+<br/><br/><br/>
+
+<div style="width: 50%; margin: auto">
+	<div class="panel">
+        <div class="row vertical-align">
+            <h1 class="col-md-2">${userInstance.username}</h1>
+            <g:if test="${((User)session["currentUser"]).following.asList().contains(userInstance)}">
+                <div class="col-md-2"><g:link action="unfollow" id="${userInstance.id}"><div class="btn btn-lg btn-primary">Ne plus suivre</div></g:link></div>
+            </g:if>
+            <g:else>
+               <div class=" col-md-2"><g:link action="follow" id="${userInstance.id}"><div class="btn btn-lg btn-primary">Suivre</div></g:link></div>
+            </g:else>
+        </div>
+    </div>
+
+	<div class="panel panel-default">
+		<div class="panel-body" style="float:left; width:180px;">
+			<div class="dropdown dropdown-menu-right" >
+				Univers :
+				<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="true">
+					${params.type ?: 'All'}
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+					<li><g:link controller="user" action="show" id="${userInstance.id}">All</g:link></li>
+					<li><g:link controller="user" action="show" params="[type: 'movie']" id="${userInstance.id}">Movies</g:link></li>
+					<li><g:link controller="user" action="show" params="[type: 'book']" id="${userInstance.id}">Books</g:link></li>
+					<li><g:link controller="user" action="show" params="[type: 'tvShow']" id="${userInstance.id}">Tv Shows</g:link></li>
+				</ul>
+			</div>
 		</div>
-		<div id="show-user" class="content scaffold-show" role="main">
-			<h1><g:message code="default.show.label" args="[entityName]" /></h1>
-			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
+		<div class="panel-body" style="margin-left: 190px;">
+			<div class="dropdown dropdown-menu-right" >
+				Type d'action :
+				<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="true">
+					${params.kind ?: 'All'}
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+					<li><g:link controller="user" action="show" id="${userInstance.id}">All</g:link></li>
+					<li><g:link controller="user" action="show" params="[kind: 'rating']" id="${userInstance.id}">Notés</g:link></li>
+					<li><g:link controller="user" action="show" params="[kind: 'interested']" id="${userInstance.id}">Envie de voir</g:link></li>
+					<li><g:link controller="user" action="show" params="[kind: 'favourite']" id="${userInstance.id}">Coup de coeur</g:link></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<g:if test="${itemsCount == 0}">
+				<p>
+					Aucun résultats ! Consulter les films, séries et livres afin qu'ils soient visible !
+				</p>
 			</g:if>
-			<ol class="property-list user">
-			
-				<g:if test="${userInstance?.email}">
-				<li class="fieldcontain">
-					<span id="email-label" class="property-label"><g:message code="user.email.label" default="Email" /></span>
-					
-						<span class="property-value" aria-labelledby="email-label"><g:fieldValue bean="${userInstance}" field="email"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${userInstance?.username}">
-				<li class="fieldcontain">
-					<span id="username-label" class="property-label"><g:message code="user.username.label" default="Username" /></span>
-					
-						<span class="property-value" aria-labelledby="username-label"><g:fieldValue bean="${userInstance}" field="username"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${userInstance?.password}">
-				<li class="fieldcontain">
-					<span id="password-label" class="property-label"><g:message code="user.password.label" default="Password" /></span>
-					
-						<span class="property-value" aria-labelledby="password-label"><g:fieldValue bean="${userInstance}" field="password"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${userInstance?.firstName}">
-				<li class="fieldcontain">
-					<span id="firstName-label" class="property-label"><g:message code="user.firstName.label" default="First Name" /></span>
-					
-						<span class="property-value" aria-labelledby="firstName-label"><g:fieldValue bean="${userInstance}" field="firstName"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${userInstance?.lastName}">
-				<li class="fieldcontain">
-					<span id="lastName-label" class="property-label"><g:message code="user.lastName.label" default="Last Name" /></span>
-					
-						<span class="property-value" aria-labelledby="lastName-label"><g:fieldValue bean="${userInstance}" field="lastName"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${userInstance?.profilePhoto}">
-				<li class="fieldcontain">
-					<span id="profilePhoto-label" class="property-label"><g:message code="user.profilePhoto.label" default="Profile Photo" /></span>
-					
-				</li>
-				</g:if>
-			
-			</ol>
-			<g:form url="[resource:userInstance, action:'delete']" method="DELETE">
-				<fieldset class="buttons">
-					<g:link class="edit" action="edit" resource="${userInstance}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
-					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
-				</fieldset>
-			</g:form>
+			<g:else>
+				<table>
+					<g:each in="${1..nbRows}" var="currentRow">
+						<tr>
+							<g:each in="${items.subList((currentRow - 1) * nbItemByRow, currentRow != nbRows ? (currentRow - 1) * nbItemByRow + (nbItemByRow) : items.size())}"
+									var="ItemUserInstance">
+								<td>
+									<g:if test="${ItemUserInstance.book != null}">
+										<g:link controller="book" action="show" id="${ItemUserInstance.book.id}">
+											<img style="width: 150px;" src="${ItemUserInstance.book.image}"
+												 class="img-thumbnail"/>
+										</g:link>
+									</g:if>
+									<g:if test="${ItemUserInstance.movie != null}">
+										<g:link controller="movie" action="show" id="${ItemUserInstance.movie.id}">
+											<img style="width: 150px;" src="${ItemUserInstance.movie.poster}"
+												 class="img-thumbnail"/>
+										</g:link>
+									</g:if>
+									<g:if test="${ItemUserInstance.tvShow != null}">
+										<g:link controller="TVShow" action="show" id="${ItemUserInstance.tvShow.id}">
+											<img style="width: 150px;" src="${ItemUserInstance.tvShow.image}"
+												 class="img-thumbnail"/>
+										</g:link>
+									</g:if>
+								</td>
+							</g:each>
+						</tr>
+					</g:each>
+				</table>
+			</g:else>
 		</div>
-	</body>
+	</div>
+
+	<div class="pagination">
+		<g:paginate action="show" controller="user" total="${itemsCount}" params="${params}"/>
+	</div>
+
+	<g:if test="${userInstance.following}">
+        <div class="panel">
+            <div class="row">
+                <h2>Utilisateurs suivis</h2>
+            </div>
+            <g:each in="${userInstance.following}" var="f">
+                <div class="row"><g:link action="show" id="${f.id}"><div class="btn btn-lg text-primary"><span class="glyphicon glyphicon-user"></span><strong> ${f.username}</strong></div></g:link></div>
+            </g:each>
+        </div>
+	</g:if>
+</div>
+</body>
 </html>

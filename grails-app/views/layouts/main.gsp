@@ -47,28 +47,28 @@
 <body>
 <div class="banner">
     <div class="row vertical-align">
-        <div class="col-md-2">
+        <div class="col-md-3">
             <a href="${createLink(uri: "/")}"><img src="${resource(dir: 'images', file: 'imogram.png')}" alt="imo_logo"/></a>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
             <a href="${createLink(controller:'universal', action:'doSearchMovies')}" class="btn btn-primary btn-lg btn-block"><span class="glyphicon glyphicon-film"></span><strong> Films</strong></a>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
             <a href="${createLink(controller:'universal', action:'doSearchTvShow')}" class="btn btn-danger btn-lg btn-block"><span class="glyphicon glyphicon-sound-dolby"></span><strong> S&eacute;ries</strong></a>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
             <a href="${createLink(controller:'universal', action:'doSearchBooks')}" class="btn btn-warning btn-lg btn-block"><span class="glyphicon glyphicon-book"></span><strong> Livres</strong></a>
         </div>
-        <div class="col-md-1">
-            <g:if test="${session["currentUser"] != null}">
-                <a href="${createLink(controller:'user', action:'index')}" class="btn btn-success btn-lg">Profile</a>
+        <div class="col-md-2">
+            <g:if test="${session["currentUser"]}">
+                <a href="${createLink(controller:'user', action:'index')}" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-user"></span> Mon Compte</a>
             </g:if>
             <g:else>
                 <a href="${createLink(controller:'user', action:'loginUser')}" class="btn btn-success btn-lg">Connexion</a>
             </g:else>
         </div>
-        <div class="col-md-1">
-            <a href="${createLink(controller:'user', action:'create')}" class="btn btn-success btn-lg">Inscription</a>
+        <div class="col-md-2">
+            <a href="${createLink(controller:'user', action:'create')}" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-pencil"></span> Inscription</a>
         </div>
     </div>
 </div>

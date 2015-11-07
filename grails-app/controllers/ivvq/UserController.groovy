@@ -31,6 +31,7 @@ class UserController {
         def offsetTmp = params.int('offset') ?: 0
         def items = itemUserService.getAllUserItemDAO(currentUser, nbItemByPage, offsetTmp, params.type, params.kind)
 
+
         params.max = nbItemByPage
         params.type = params.type ?: null
         params.kind = params.kind ?: null
@@ -56,7 +57,27 @@ class UserController {
     }
 
     def show(User userInstance) {
-        respond userInstance
+
+        if (userInstance == null){
+            notFound()
+            return
+        }
+
+        if(userInstance == session["currentUser"]) {
+            redirect(action: 'index')
+        }
+
+        def offsetTmp = params.int('offset') ?: 0
+        def items = itemUserService.getAllUserItemDAO(userInstance, nbItemByPage, offsetTmp, params.type, params.kind)
+
+
+        params.max = nbItemByPage
+        params.type = params.type ?: null
+        params.kind = params.kind ?: null
+
+        def nbRows = items.size() != 0 ? (int) Math.ceil(items.size()/nbItemByRow) : 0
+
+        render(view : 'show', model:[items: items as List<ItemUser>, nbRows: nbRows, nbItemByRow: (int)nbItemByRow, itemsCount: items.getTotalCount(), params: params, userInstance: userInstance])
     }
 
     def create() {
@@ -137,6 +158,39 @@ class UserController {
             '*' { render status: NOT_FOUND }
         }
     }
+
+    @Transactional
+    def follow(User userInstance){
+
+        User currentUser = session["currentUser"]
+
+        if (currentUser == null) {
+            notFound()
+            return
+        }
+
+        currentUser.following.add(userInstance)
+
+        redirect(action: 'show', id: userInstance.id)
+
+    }
+
+    @Transactional
+    def unfollow(User userInstance){
+
+        User currentUser = session["currentUser"]
+
+        if (currentUser == null) {
+            notFound()
+            return
+        }
+
+        currentUser.following.remove(userInstance)
+
+        redirect(action: 'show', id: userInstance.id)
+
+    }
+
     @Transactional
     def loginUser() {
 

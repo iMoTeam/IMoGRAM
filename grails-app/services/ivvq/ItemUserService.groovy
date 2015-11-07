@@ -1,14 +1,13 @@
 package ivvq
 
+import grails.gorm.CriteriaBuilder
 import grails.transaction.Transactional
+import org.hibernate.Criteria
 import org.hibernate.criterion.CriteriaSpecification
 
 @Transactional
 class ItemUserService {
 
-    def serviceMethod() {
-
-    }
 
     /**
      * Try to add an Itemuser instance
@@ -76,7 +75,7 @@ class ItemUserService {
 
         def criteria = ItemUser.createCriteria()
         def res = criteria.list(max: max, offset: offset) {
-            setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY)
+            //setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY)
             eq('user', userSearch)
             if (type) {
                 isNotNull(type)
