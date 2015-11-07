@@ -40,6 +40,15 @@
                             <g:if test="${TVShowInstance?.releaseDate}">
                                 <div class="row"><g:fieldValue bean="${TVShowInstance}" field="releaseDate"/></div>
                             </g:if>
+
+							<g:if test="${session["currentUser"]}">
+								<g:if test="${isFavourite}">
+									<div><g:link action="deleteToFavourite" id="${TVShowInstance.id}"><div class="btn btn-lg btn-primary">Supprimer de mes favoris</div></g:link></div>
+								</g:if>
+								<g:else>
+									<div><g:link action="addToFavourite" id="${TVShowInstance.id}"><div class="btn btn-lg btn-primary">Ajouter à mes favoris</div></g:link></div>
+								</g:else>
+							</g:if>
 						</td>
 					</tr>
 				</table>
