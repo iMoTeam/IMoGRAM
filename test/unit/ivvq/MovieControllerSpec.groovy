@@ -2,11 +2,21 @@ package ivvq
 
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
+import org.springframework.transaction.PlatformTransactionManager
+import org.springframework.transaction.TransactionStatus
 import spock.lang.Specification
 
 @TestFor(MovieController)
-@Mock(Movie)
+@Mock([Movie, ItemUser, User])
 class MovieControllerSpec extends Specification {
+
+    def itemUserService
+
+    def setup() {
+        itemUserService = new ItemUserService()
+        itemUserService.transactionManager = Mock(PlatformTransactionManager) {getTransaction(_) >> Mock(TransactionStatus)}
+        controller.itemUserService = itemUserService
+    }
 
     def populateValidParams(params) {
         assert params != null
@@ -21,6 +31,18 @@ class MovieControllerSpec extends Specification {
         params["country"] = "Kinder"
         params["plot"] = "Il était une fois la vie"
         params["poster"] = "Image"
+    }
+
+    def populateValidParamsUser(params) {
+        assert params != null
+
+        params["firstName"] = 'Barry'
+        params["lastName"] = 'Lindon'
+        params["username"] = 'deNiro'
+        params["email"] = 'smala@maill.com'
+        params["password"] = 'lalala'
+        params["profilePhoto"] = null
+        params["following"] = new HashSet()
     }
 
     void "Test the index action returns the correct model"() {
@@ -153,5 +175,46 @@ class MovieControllerSpec extends Specification {
         Movie.count() == 0
         response.redirectedUrl == '/movie/index'
         flash.message != null
+    }
+
+    void "test that the deletion of a favourite movie works" () {
+
+        when: "the itemUser favourite is created with movie and user"
+        populateValidParams(params)
+        Movie movie = new Movie(params).save(flush: true)
+        populateValidParamsUser(params)
+        User user = new User(params).save(flush: true)
+        ItemUser itemUser = new ItemUser(user: user, movie: movie, favourite: true).save(flush: true)
+
+        then: "the itemUser exists"
+        ItemUser.count() == 1
+
+        when: "the movie is deleted to the favourite"
+        session.currentUser = user
+        controller.deleteToFavourite(movie)
+
+        then: "the itemUser doesn't exist anymore"
+        ItemUser.count() == 0
+
+    }
+
+    void "test that the add of a favourite movie works" () {
+
+        given: "a movie and a user"
+        populateValidParams(params)
+        Movie movie = new Movie(params).save(flush: true)
+        populateValidParamsUser(params)
+        User user = new User(params).save(flush: true)
+
+        when: "the itemUser favourite is created with movie and user"
+        session.currentUser = user
+        controller.addToFavourite(movie)
+
+        then: "the itemUser exists"
+        ItemUser.count() == 1
+
+        and: "it's favourite"
+        itemUserService.getItemUser(user, movie).favourite == true
+
     }
 }
