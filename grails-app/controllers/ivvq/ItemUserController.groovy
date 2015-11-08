@@ -103,8 +103,9 @@ class ItemUserController {
         }
     }
 
-    def ratingItem() {
-        Integer rating = Integer.parseInt(params['ratingItem'])
+    def rateItem() {
+        Integer rating = Integer.parseInt(params['itemRating'])
+        def rated = params['rated']
         User user = session['currentUser']
         Boolean isBook = false, isMovie = false, isTVShow = false
         Book book
@@ -114,63 +115,57 @@ class ItemUserController {
         if (params['bookId'] != null) {
             book = Book.findByIsbn13(params['bookId'])
             isBook = true
-            
         }
 
         if (params['movieId'] != null) {
             movie = Movie.findByImdbID(params['movieId'])
             isMovie = true
-
         }
 
         if (params['tvShowId'] != null) {
             tvShow = TVShow.findByImdbID(params['tvShowId'])
             isTVShow = true
-
         }
 
-        ItemUser newItemUser
-        def item
+        ItemUser newItemUser, itemUser
+
         if (isBook) {
-            item = ItemUser.findByBookAndUser(book, user)
-            if (item == null)
+            if (rated == "false")
                 newItemUser = new ItemUser(user: user, book: book, rating: rating)
             else
-                item.rating = rating
+                itemUser = ItemUser.findByBookAndUser(book, user)
         }
 
         if (isMovie) {
-            item = ItemUser.findByMovieAndUser(movie, user)
-            if (item == null)
+            if (rated == "false")
                 newItemUser = new ItemUser(user: user, movie: movie, rating: rating)
             else
-                item.rating = rating
+                itemUser = ItemUser.findByMovieAndUser(movie, user)
         }
 
         if (isTVShow) {
-            item = ItemUser.findByTvShowAndUser(tvShow, user)
-            if (item == null)
+            if (rated == "false")
                 newItemUser = new ItemUser(user: user, tvShow: tvShow, rating: rating)
             else
-                item.rating = rating
+                itemUser = ItemUser.findByTvShowAndUser(tvShow, user)
         }
 
+        if (rated == "false")
+            newItemUser.save(flush: true)
+        else {
+            itemUser.rating = rating
+            itemUser.save(flush: true)
+        }
 
-        newItemUser.save(flush: true)
-
-        if (isBook) {
-
+        if (isBook)
             redirect(uri: "/book/show/" + book.id)
 
-        }
-        if(isMovie) {
+
+        if(isMovie)
             redirect(uri: "/movie/show/" + movie.id)
 
-        }
-        if(isTVShow) {
+        if(isTVShow)
             redirect(uri: "/TVShow/show/" + tvShow.id)
-
-        }
 
     }
 
