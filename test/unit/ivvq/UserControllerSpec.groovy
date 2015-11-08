@@ -87,7 +87,7 @@ class UserControllerSpec extends Specification {
         User.count == 0
 
         and: "the session user is set to null"
-        controller.session["curretnUser"] == null
+        controller.session["currentUser"] == null
     }
 
     void "Test the create action returns the correct model"() {
