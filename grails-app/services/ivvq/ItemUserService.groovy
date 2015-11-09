@@ -8,7 +8,6 @@ import org.hibernate.criterion.CriteriaSpecification
 @Transactional
 class ItemUserService {
 
-
     /**
      * Try to add an Itemuser instance
      * @param user The user to link with the item

@@ -133,6 +133,10 @@ class BookController {
         itemUserService.saveItemUser(itemUser)
 
         redirect(action: "show", id: bookInstance.id)
+    }
+
+    def fetchAllComments() {
+
 
     }
 

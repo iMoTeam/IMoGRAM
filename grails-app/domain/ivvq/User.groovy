@@ -27,6 +27,9 @@ class User {
         profilePhoto nullable: true;
         }
 
+    String toString() {
+        username
+    }
 
     }
 
