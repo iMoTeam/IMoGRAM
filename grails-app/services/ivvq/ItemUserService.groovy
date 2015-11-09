@@ -92,4 +92,66 @@ class ItemUserService {
         return res
 
     }
+
+    boolean isItemOfUser(User user, def item) {
+
+        boolean isItem = false
+
+        if(item instanceof Book) {
+            isItem = (ItemUser.findByUserAndBook(user, item) != null)
+        } else if (item instanceof Movie) {
+            isItem = (ItemUser.findByUserAndMovie(user, item) != null)
+        } else {
+            isItem = (ItemUser.findByUserAndTvShow(user, item) != null)
+        }
+        isItem
+    }
+
+    boolean isFavourite(User user, def item) {
+
+        boolean isFavourite = false
+
+
+        if (isItemOfUser(user, item)) {
+            if(item instanceof Book) {
+                isFavourite = ItemUser.findByUserAndBook(user, item).favourite
+            } else if (item instanceof Movie) {
+                isFavourite = ItemUser.findByUserAndMovie(user, item).favourite
+            } else {
+                isFavourite = ItemUser.findByUserAndTvShow(user, item).favourite
+            }
+        }
+        isFavourite
+    }
+
+    ItemUser getItemUser(User user, def item) {
+
+        if(isItemOfUser(user, item)) {
+            if(item instanceof Book) {
+                return ItemUser.findByUserAndBook(user, item)
+            } else if (item instanceof Movie) {
+                return ItemUser.findByUserAndMovie(user, item)
+            } else {
+                return ItemUser.findByUserAndTvShow(user, item)
+            }
+        } else {
+            if(item instanceof Book) {
+                return new ItemUser(user: user, book: item)
+            } else if (item instanceof Movie) {
+                return new ItemUser(user: user, movie: item)
+            } else {
+                return new ItemUser(user: user, tvShow:  item)
+            }
+        }
+        return
+    }
+
+    def saveItemUser(ItemUser itemUser) {
+
+        if(!itemUser.favourite && !itemUser.interested && !itemUser.rating) {
+            itemUser.delete()
+        } else {
+            itemUser.save()
+        }
+    }
 }

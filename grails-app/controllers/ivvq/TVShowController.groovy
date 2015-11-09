@@ -7,6 +7,8 @@ import grails.transaction.Transactional
 @Transactional(readOnly = true)
 class TVShowController {
 
+    def itemUserService
+
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
@@ -15,7 +17,14 @@ class TVShowController {
     }
 
     def show(TVShow TVShowInstance) {
-        respond TVShowInstance
+        User user = session["currentUser"]
+        boolean isFavourite = false
+
+        if (user != null) {
+            isFavourite = itemUserService.isFavourite(user, TVShowInstance)
+        }
+
+        respond TVShowInstance, model: [isFavourite: isFavourite]
     }
 
     def create() {
@@ -99,5 +108,30 @@ class TVShowController {
             }
             '*' { render status: NOT_FOUND }
         }
+    }
+
+    @Transactional
+    def deleteToFavourite(TVShow tvShowInstance) {
+        User user = session["currentUser"]
+
+        ItemUser itemUser = itemUserService.getItemUser(user, tvShowInstance)
+
+        itemUser.favourite = false
+        itemUserService.saveItemUser(itemUser)
+
+        redirect(action: "show", id: tvShowInstance.id)
+    }
+
+    @Transactional
+    def addToFavourite(TVShow tvShowInstance) {
+        User user = session["currentUser"]
+
+        ItemUser itemUser = itemUserService.getItemUser(user, tvShowInstance)
+
+        itemUser.favourite = true
+        itemUserService.saveItemUser(itemUser)
+
+        redirect(action: "show", id: tvShowInstance.id)
+
     }
 }

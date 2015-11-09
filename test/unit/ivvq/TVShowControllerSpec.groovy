@@ -2,11 +2,21 @@ package ivvq
 
 
 import grails.test.mixin.*
+import org.springframework.transaction.PlatformTransactionManager
+import org.springframework.transaction.TransactionStatus
 import spock.lang.*
 
 @TestFor(TVShowController)
-@Mock(TVShow)
+@Mock([TVShow, ItemUser, User])
 class TVShowControllerSpec extends Specification {
+
+    def itemUserService
+
+    def setup() {
+        itemUserService = new ItemUserService()
+        itemUserService.transactionManager = Mock(PlatformTransactionManager) {getTransaction(_) >> Mock(TransactionStatus)}
+        controller.itemUserService = itemUserService
+    }
 
     def populateValidParams(params) {
         assert params != null
@@ -18,6 +28,18 @@ class TVShowControllerSpec extends Specification {
         params["overview"] = "Résume"
         params["airedEpisodes"] = 50
         params["country"] = "Madagascar"
+    }
+
+    def populateValidParamsUser(params) {
+        assert params != null
+
+        params["firstName"] = 'Barry'
+        params["lastName"] = 'Lindon'
+        params["username"] = 'deNiro'
+        params["email"] = 'smala@maill.com'
+        params["password"] = 'lalala'
+        params["profilePhoto"] = null
+        params["following"] = new HashSet()
     }
 
     void "Test the index action returns the correct model"() {
@@ -150,5 +172,46 @@ class TVShowControllerSpec extends Specification {
         TVShow.count() == 0
         response.redirectedUrl == '/TVShow/index'
         flash.message != null
+    }
+
+    void "test that the deletion of a favourite tvShow works" () {
+
+        when: "the itemUser favourite is created with tvShow and user"
+        populateValidParams(params)
+        TVShow tvShow = new TVShow(params).save(flush: true)
+        populateValidParamsUser(params)
+        User user = new User(params).save(flush: true)
+        ItemUser itemUser = new ItemUser(user: user, tvShow: tvShow, favourite: true).save(flush: true)
+
+        then: "the itemUser exists"
+        ItemUser.count() == 1
+
+        when: "the tvShwo is deleted to the favourite"
+        session.currentUser = user
+        controller.deleteToFavourite(tvShow)
+
+        then: "the itemUser doesn't exist anymore"
+        ItemUser.count() == 0
+
+    }
+
+    void "test that the add of a favourite tvShow works" () {
+
+        given: "a tvShow and a user"
+        populateValidParams(params)
+        TVShow tvShow = new TVShow(params).save(flush: true)
+        populateValidParamsUser(params)
+        User user = new User(params).save(flush: true)
+
+        when: "the itemUser favourite is created with tvShow and user"
+        session.currentUser = user
+        controller.addToFavourite(tvShow)
+
+        then: "the itemUser exists"
+        ItemUser.count() == 1
+
+        and: "it's favourite"
+        itemUserService.getItemUser(user, tvShow).favourite == true
+
     }
 }

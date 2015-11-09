@@ -1,5 +1,5 @@
 
-<%@ page import="ivvq.Book" %>
+<%@ page import="ivvq.User; ivvq.Book" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -35,6 +35,14 @@
 
                             <g:if test="${bookInstance?.publishedDate}">
                                     <g:fieldValue bean="${bookInstance}" field="publishedDate"/>
+                            </g:if>
+                            <g:if test="${((User)session["currentUser"])}">
+                                <g:if test="${isFavourite}">
+                                    <div><g:link action="deleteToFavourite" id="${bookInstance.id}"><div class="btn btn-lg btn-primary">Supprimer de mes favoris</div></g:link></div>
+                                </g:if>
+                                <g:else>
+                                    <div><g:link action="addToFavourite" id="${bookInstance.id}"><div class="btn btn-lg btn-primary">Ajouter à mes favoris</div></g:link></div>
+                                </g:else>
                             </g:if>
                         </td>
                     </tr>

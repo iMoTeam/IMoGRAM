@@ -2,11 +2,21 @@ package ivvq
 
 
 import grails.test.mixin.*
+import org.springframework.transaction.PlatformTransactionManager
+import org.springframework.transaction.TransactionStatus
 import spock.lang.*
 
 @TestFor(BookController)
-@Mock(Book)
+@Mock([Book, ItemUser, User])
 class BookControllerSpec extends Specification {
+
+    def itemUserService
+
+    def setup() {
+        itemUserService = new ItemUserService()
+        itemUserService.transactionManager = Mock(PlatformTransactionManager) {getTransaction(_) >> Mock(TransactionStatus)}
+        controller.itemUserService = itemUserService
+    }
 
     def populateValidParams(params) {
         assert params != null
@@ -16,6 +26,18 @@ class BookControllerSpec extends Specification {
         params["author"] = "Auteur"
         params["publisher"] = "Maison des Cartes"
         params["pageCount"] = 50
+    }
+
+    def populateValidParamsUser(params) {
+        assert params != null
+
+        params["firstName"] = 'Barry'
+        params["lastName"] = 'Lindon'
+        params["username"] = 'deNiro'
+        params["email"] = 'smala@maill.com'
+        params["password"] = 'lalala'
+        params["profilePhoto"] = null
+        params["following"] = new HashSet()
     }
 
     void "Test the index action returns the correct model"() {
@@ -148,5 +170,46 @@ class BookControllerSpec extends Specification {
         Book.count() == 0
         response.redirectedUrl == '/book/index'
         flash.message != null
+    }
+
+    void "test that the deletion of a favourite book works" () {
+
+        when: "the itemUser favourite is created with book and user"
+        populateValidParams(params)
+        Book book = new Book(params).save(flush: true)
+        populateValidParamsUser(params)
+        User user = new User(params).save(flush: true)
+        ItemUser itemUser = new ItemUser(user: user, book: book, favourite: true).save(flush: true)
+
+        then: "the itemUser exists"
+        ItemUser.count() == 1
+
+        when: "the movie is deleted to the favourite"
+        session.currentUser = user
+        controller.deleteToFavourite(book)
+
+        then: "the itemUser doesn't exist anymore"
+        ItemUser.count() == 0
+
+    }
+
+    void "test that the add of a favourite book works" () {
+
+        given: "a book and a user"
+        populateValidParams(params)
+        Book book = new Book(params).save(flush: true)
+        populateValidParamsUser(params)
+        User user = new User(params).save(flush: true)
+
+        when: "the itemUser favourite is created with movie and user"
+        session.currentUser = user
+        controller.addToFavourite(book)
+
+        then: "the itemUser exists"
+        ItemUser.count() == 1
+
+        and: "it's favourite"
+        itemUserService.getItemUser(user, book).favourite == true
+
     }
 }
