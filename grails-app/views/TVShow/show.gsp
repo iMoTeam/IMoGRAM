@@ -43,20 +43,23 @@
 						</td>
 					</tr>
 				</table>
-			
-				<g:if test="${TVShowInstance?.overview}">
-					<h2>Résumé</h2>
-					
-						<span class="property-value" aria-labelledby="overview-label"><g:fieldValue bean="${TVShowInstance}" field="overview"/></span>
 
-				</g:if>
-			
-				<g:if test="${TVShowInstance?.genres}">
-					<h2>Genre</h2>
-						<g:each in="${TVShowInstance.genres}" var="g">
-						<span class="property-value" aria-labelledby="genres-label"><g:link controller="arrayClass" action="show" id="${g.id}">${g?.encodeAsHTML()}</g:link></span>
-						</g:each>
-				</g:if>
+            <div class="panel panel-info">
+                <g:if test="${TVShowInstance?.overview}">
+                    <h2>Résumé</h2>
+
+                    <span class="property-value" aria-labelledby="overview-label"><g:fieldValue bean="${TVShowInstance}" field="overview"/></span>
+
+                </g:if>
+
+                <g:if test="${TVShowInstance?.genres}">
+                    <h2>Genre</h2>
+                    <g:each in="${TVShowInstance.genres}" var="g">
+                        <span class="property-value" aria-labelledby="genres-label"><g:link controller="arrayClass" action="show" id="${g.id}">${g?.encodeAsHTML()}</g:link></span>
+                    </g:each>
+                </g:if>
+            </div>
+
 
 
 		</div>
@@ -69,37 +72,47 @@
         <div class="errors" role="alert alert-error" style="display: block; color: red">${flash.error}</div>
     </g:if>
     <g:if test="${currentUser != null}">
-        <div>
-        <g:form controller="itemUser" action="commentItem">
-            <hr>Title : </hr>   <g:textField name="title">Saisissez le title</g:textField><br>
-            <textarea  name="itemComment" style="width: 80%" >
-            </textarea> <br>
-            <input type="hidden" name="itemTVShowId" value="${TVShowInstance?.imdbID}">
-            <g:submitButton name="Commenter" value="Commenter" style="background-color: #999999"/>
-        </g:form>
+        <div class="panel panel-danger">
+        <div class="panel-heading"><h2><strong>Donnez votre avis!</strong></h2></div>
+            <div class="panel-body">
+                <g:form controller="itemUser" action="commentItem">
+                    <input id="titre" class="input-field" type="text"  name="title" placeholder="Saisissez le titre..." /><br />
+                    <textarea  name="itemComment" class="input-field" rows="4" cols="120" placeholder="Tapez votre commentaire ici..."></textarea><br />
+                    <input type="hidden" name="itemTVShowId" value="${TVShowInstance?.imdbID}">
+                    <g:submitButton name="Commenter" value="Commenter" style="background-color: #999999"/>
+                </g:form>
+            </div>
+
 
         </div>
     </g:if>
     <div>
-        <table style="width: 100%; margin-top: 20px">
-            <g:each var="m" in="${ItemUser?.list()}">
-                <g:if test="${TVShowInstance?.imdbID == m.tvShow?.imdbID }" >
-                    <g:each var="n" in="${m.comments.toList()}">
-                        <tr class="bg-info">
-                            <td><a  style="color: rgba(36, 34, 255, 0.87); text-decoration: none" href="${createLink(controller:'user', action:'show', id: n.user.id)}"><strong>${n.user}</strong></a></td>
-                            <td><strong>Title: ${n.title}</strong></td>
-                        </tr>
-                        <tr class="bg-info">
-                            <td><g:formatDate format="yyyy-MM-dd HH:mm" date="${n.date}"/></td>
-                            <td>${n.comment}</td>
-                        </tr>
-                        <tr style="height: 5px; background-color: #ffffff; !important;">
-                            <td colspan="2"></td>
-                        </tr>
+        <div class="panel panel-danger">
+            <div class="panel-heading"><h2><strong>Commentaires</strong></h2></div>
+            <div class="panel-body">
+                <table class="table">
+                    <g:each var="m" in="${ItemUser?.list()}">
+                        <g:if test="${TVShowInstance?.imdbID == m.tvShow?.imdbID }" >
+                            <g:each var="n" in="${m.comments.toList()}">
+                                <tr class="bg-danger">
+                                    <td><a href="${createLink(controller:'user', action:'show', id: n.user.id)}"><h2 class="text-danger">${n.user}</h2</a></td>
+                                    <td><strong><h2>${n.title}</h2></strong></td>
+                                </tr>
+                                <tr class="bg-danger">
+                                    <td><g:formatDate format="yyyy-MM-dd HH:mm" date="${n.date}"/></td>
+                                    <td>${n.comment}</td>
+                                </tr>
+                                <tr style="height: 5px; background-color: #ffffff; !important;">
+                                    <td colspan="2"></td>
+                                </tr>
+                            </g:each>
+                        </g:if>
                     </g:each>
-                </g:if>
-            </g:each>
-        </table>
+                </table>
+            </div>
+
+        </div>
+
     </div>
 	</body>
 </html>

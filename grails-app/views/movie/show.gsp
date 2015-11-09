@@ -82,26 +82,30 @@
         </div>
     </g:if>
     <div>
-        <div class="panel panel-body">
-            <table class="table">
-                <g:each var="m" in="${ItemUser?.list()}">
-                    <g:if test="${movieInstance?.imdbID == m.movie?.imdbID }" >
-                        <g:each var="n" in="${m.comments.toList()}">
-                            <tr class="bg-info">
-                                <td><a href="${createLink(controller:'user', action:'show', id: n.user.id)}"><h2>${n.user}</h2></a></td>
-                                <td><h2><strong>${n.title}</strong></h2></td>
-                            </tr>
-                            <tr class="bg-info">
-                                <td><g:formatDate format="yyyy-MM-dd HH:mm" date="${n.date}"/></td>
-                                <td>${n.comment}</td>
-                            </tr>
-                            <tr style="height: 5px; background-color: #ffffff; !important;">
-                                <td colspan="2"></td>
-                            </tr>
-                        </g:each>
-                    </g:if>
-                </g:each>
-            </table>
+        <div class="panel panel-info">
+            <div class="panel-heading"><h2><strong>Commentaires</strong></h2></div>
+            <div class="panel-body">
+                <table class="table">
+                    <g:each var="m" in="${ItemUser?.list()}">
+                        <g:if test="${movieInstance?.imdbID == m.movie?.imdbID }" >
+                            <g:each var="n" in="${m.comments.toList()}">
+                                <tr class="bg-info">
+                                    <td><a href="${createLink(controller:'user', action:'show', id: n.user.id)}"><h2>${n.user}</h2></a></td>
+                                    <td><h2><strong>${n.title}</strong></h2></td>
+                                </tr>
+                                <tr class="bg-info">
+                                    <td><g:formatDate format="yyyy-MM-dd HH:mm" date="${n.date}"/></td>
+                                    <td>${n.comment}</td>
+                                </tr>
+                                <tr style="height: 5px; background-color: #ffffff; !important;">
+                                    <td colspan="2"></td>
+                                </tr>
+                            </g:each>
+                        </g:if>
+                    </g:each>
+                </table>
+            </div>
+
         </div>
 
 
