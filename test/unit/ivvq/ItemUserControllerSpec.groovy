@@ -5,13 +5,26 @@ import grails.test.mixin.*
 import spock.lang.*
 
 @TestFor(ItemUserController)
-@Mock([ItemUser, Book, Movie, TVShow])
+@Mock([ItemUser, Book, Movie, TVShow, User])
 class ItemUserControllerSpec extends Specification {
+
+    def populateValidParamsUser() {
+        assert params != null
+        params["firstName"] = 'Brother'
+        params["lastName"] = 'Kaka'
+        params["username"] = 'kangaroo'
+        params["email"] = 'yeeree@mailless.com'
+        params["password"] = 'kiki1234'
+        params["profilePhoto"] = null
+        params["following"] = new HashSet()
+    }
 
     def populateValidParamsMovie(params) {
         assert params != null
+        populateValidParamsUser()
         Movie movie = new Movie(params)
-        params["user"] = Mock(User)
+        movie.save(flush: true)
+        params["user"] = new User(params)
         params["movie"] = movie
         params["tvShow"] = null
         params["book"] = null
@@ -22,9 +35,12 @@ class ItemUserControllerSpec extends Specification {
         given: "An item and a user"
         populateValidParamsMovie(params)
         Movie movie = new Movie(params)
+        movie.save(flush: true)
         params['movieId'] = movie.id
         params['itemRating'] = '5'
-        User user = Mock(User)
+        populateValidParamsUser()
+        User user = new User(params)
+        user.save(flush: true)
 
         when: "The user rate the movie"
         controller.rateItem()
@@ -35,14 +51,14 @@ class ItemUserControllerSpec extends Specification {
 
         and: "The rating is added for the user"
         ItemUser.findByBookAndUser(movie, user) != null
-        Integer oldRating = ItemUser.findByBookAndUser(movie, user).rating
+        Integer oldRating = ItemUser.findByMovieAndUser(movie, user).rating
         oldRating != null
 
         when: "The user update his rating for the movie"
         controller.rateItem()
 
         then: "The rating is updated for the movie"
-        Integer newRating = ItemUser.findByBookAndUser(movie, user).rating
+        Integer newRating = ItemUser.findByMovieAndUser(movie, user).rating
         newRating != oldRating
 
     }
