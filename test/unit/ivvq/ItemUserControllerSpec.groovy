@@ -8,7 +8,7 @@ import spock.lang.*
 @Mock([ItemUser, Book, Movie, TVShow, User])
 class ItemUserControllerSpec extends Specification {
 
-    def populateValidParamsUser() {
+    def populateValidParamsUser(params) {
         assert params != null
         params["firstName"] = 'Brother'
         params["lastName"] = 'Kaka'
@@ -21,28 +21,30 @@ class ItemUserControllerSpec extends Specification {
 
     def populateValidParamsMovie(params) {
         assert params != null
-        populateValidParamsUser()
-        Movie movie = new Movie(params)
-        movie.save(flush: true)
-        params["user"] = new User(params)
-        params["movie"] = movie
-        params["tvShow"] = null
-        params["book"] = null
-        params["rating"] = null
+        params["imdbID"] = "tt4545341"
+        params["title"] = "title"
+        params["releaseDate"] = "22-09-15"
+        params["runtime"] = "127 min"
+        params["genre"] = "Snuff"
+        params["director"] = "Michael Bay"
+        params["writers"] = "M. Pokora"
+        params["actors"] = "Jackie Chan"
+        params["country"] = "Kinder"
+        params["plot"] = "Il était une fois la vie"
+        params["poster"] = "Image"
     }
 
-    void "Test that the rateItem action rate on a movie"() {
+    void "Test that the rateItem action rate on a movie not rated"() {
         given: "An item and a user"
         populateValidParamsMovie(params)
-        Movie movie = new Movie(params)
-        movie.save(flush: true)
-        params['movieId'] = movie.id
-        params['itemRating'] = '5'
-        populateValidParamsUser()
-        User user = new User(params)
-        user.save(flush: true)
+        Movie movie = new Movie(params).save(flush: true)
+        populateValidParamsUser(params)
+        User user = new User(params).save(flush: true)
 
         when: "The user rate the movie"
+        session['currentUser'] = user
+        params['movieId'] = movie.imdbID
+        params['itemRating'] = '5'
         controller.rateItem()
 
         then: "The user is redirected to the show page of the item he have rated"
@@ -50,16 +52,29 @@ class ItemUserControllerSpec extends Specification {
         response.redirectedUrl == "/movie/show/"+movie.id
 
         and: "The rating is added for the user"
-        ItemUser.findByBookAndUser(movie, user) != null
+        ItemUser.findByMovieAndUser(movie, user) != null
         Integer oldRating = ItemUser.findByMovieAndUser(movie, user).rating
         oldRating != null
 
-        when: "The user update his rating for the movie"
+    }
+
+    void "Test that the rateItem action rate on a movie already rated"() {
+        given: "An item and a user and the itemUser associated"
+        populateValidParamsMovie(params)
+        Movie movie = new Movie(params).save(flush: true)
+        populateValidParamsUser(params)
+        User user = new User(params).save(flush: true)
+        ItemUser itemUser = new ItemUser(movie: movie, user: user, rating: 10).save(flush: true)
+
+        when: "The user rate the movie"
+        session['currentUser'] = user
+        params['movieId'] = movie.imdbID
+        params['itemRating'] = '5'
         controller.rateItem()
 
         then: "The rating is updated for the movie"
         Integer newRating = ItemUser.findByMovieAndUser(movie, user).rating
-        newRating != oldRating
+        newRating == 5
 
     }
 

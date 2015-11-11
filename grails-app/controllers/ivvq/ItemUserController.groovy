@@ -135,6 +135,7 @@ class ItemUserController {
 
     }
 
+    @Transactional
     def rateItem() {
         Integer rating = Integer.parseInt(params['itemRating'])
         User user = session['currentUser']
