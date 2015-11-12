@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<div id="create-user" class="content scaffold-create" role="main">
-			<h1>Saisissez vos Informations:</h1>
+			<h1 align="center">Saisissez vos Informations:</h1>
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
@@ -18,7 +18,7 @@
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
-			<g:form url="[resource:userInstance, action:'save']"  enctype="multipart/form-data">
+			<g:form url="[resource:userInstance, action:'save']"  enctype="multipart/form-data" style="margin-left: 35%">
 				<fieldset class="form">
 					<g:render template="form"/>
 				</fieldset>
