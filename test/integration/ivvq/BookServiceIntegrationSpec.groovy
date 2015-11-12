@@ -27,7 +27,7 @@ class BookServiceIntegrationSpec extends Specification {
 
         when: "The book is searched"
         def params = [stringToSearch: '9780809502509']
-        def list = bookService.searchBooks(params)
+        def list = bookService.searchBooks(params,50,0)
 
         then: "The list returned is not empty"
         list.size() == 1

@@ -9,6 +9,8 @@ class UniversalController {
     BookService bookService
     TVShowService TVShowService
 
+    static nbItemByPage = 5
+
     /**
      * Searches movies,books corresponding to a search string passed in params
      * @return a list of movies, books as search result
@@ -28,9 +30,12 @@ class UniversalController {
      * @return a list of books as search result
      */
     def doSearchBooks() {
-        params.max = 5
-        def booksList = bookService.searchBooks(params)
-        render(view: '/results', model: [bookInstanceList:booksList, bookInstanceCount: booksList.size()])
+
+        def offsetTmp = params.int('offset') ?: 0
+        params.max =nbItemByPage
+        def booksList = bookService.searchBooks(params, nbItemByPage, offsetTmp)
+
+        render(view: '/results', model: [bookInstanceList:booksList, itemsCount: booksList.getTotalCount()])
     }
 
     /**

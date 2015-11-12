@@ -8,17 +8,10 @@
 </head>
 
 <body>
-<br/><br/><br/>
 
-<div style="width: 50%; margin: auto">
-    <g:set var="user" value="${(User)session["currentUser"]}"/>
-    <div class="panel">
-        <div class="row vertical-align">
-            <h1>${user.username}</h1>
-        </div>
-     </div>
-    <div class="panel panel-default">
-        <div class="panel-body" style="float:left; width:180px;">
+<div class="row" style="width: 50%; margin: auto">
+    <div class="row panel panel-default">
+        <div class="col-md-4 panel-body">
             <div class="dropdown dropdown-menu-right" >
                 Univers :
                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
@@ -34,7 +27,7 @@
                 </ul>
             </div>
         </div>
-        <div class="panel-body" style="margin-left: 190px;">
+        <div class="col-md-5 panel-body">
             <div class="dropdown dropdown-menu-right" >
                Type d'action :
                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown"
@@ -49,6 +42,11 @@
                     <li><g:link controller="user" action="recherche" params="[kind: 'favourite']">Coup de coeur</g:link></li>
                 </ul>
             </div>
+        </div>
+        <div class="panel-body">
+            <g:link controller="user" action="deleteUser">
+                <button class="btn btn-default" type="submit">Supp. compte</button>
+            </g:link>
         </div>
     </div>
 
@@ -65,22 +63,22 @@
                         <tr>
                             <g:each in="${items.subList((currentRow - 1) * nbItemByRow, currentRow != nbRows ? (currentRow - 1) * nbItemByRow + (nbItemByRow) : items.size())}"
                                     var="ItemUserInstance">
-                                <td>
+                                <td style="height: 95px;">
                                     <g:if test="${ItemUserInstance.book != null}">
                                         <g:link controller="book" action="show" id="${ItemUserInstance.book.id}">
-                                            <img style="width: 150px;" src="${ItemUserInstance.book.image}"
+                                            <img width="150" height="150" src="${ItemUserInstance.book.image}"
                                                  class="img-thumbnail"/>
                                         </g:link>
                                     </g:if>
                                     <g:if test="${ItemUserInstance.movie != null}">
                                         <g:link controller="movie" action="show" id="${ItemUserInstance.movie.id}">
-                                            <img style="width: 150px;" src="${ItemUserInstance.movie.poster}"
+                                            <img width="150" height="150" src="${ItemUserInstance.movie.poster}"
                                                  class="img-thumbnail"/>
                                         </g:link>
                                     </g:if>
                                     <g:if test="${ItemUserInstance.tvShow != null}">
                                         <g:link controller="TVShow" action="show" id="${ItemUserInstance.tvShow.id}">
-                                            <img style="width: 150px;" src="${ItemUserInstance.tvShow.image}"
+                                            <img width="150" height="150" src="${ItemUserInstance.tvShow.image}"
                                                  class="img-thumbnail"/>
                                         </g:link>
                                     </g:if>
@@ -97,12 +95,12 @@
         <g:paginate action="recherche" controller="user" total="${itemsCount}" params="${params}"/>
     </div>
 
-    <g:if test="${user.following}">
+    <g:if test="${session["currentUser"].following}">
         <div class="panel">
             <div class="row">
                 <h2>Utilisateurs suivis</h2>
             </div>
-                <g:each in="${user.following}" var="f">
+                <g:each in="${session["currentUser"].following}" var="f">
                     <div class="row"><g:link action="show" id="${f.id}"><div class="btn btn-lg text-primary"><span class="glyphicon glyphicon-user"></span> <strong>${f.username}</strong></g:link></div></div>
                 </g:each>
             </div>

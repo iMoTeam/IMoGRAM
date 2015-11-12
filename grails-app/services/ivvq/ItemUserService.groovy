@@ -74,7 +74,7 @@ class ItemUserService {
 
         def criteria = ItemUser.createCriteria()
         def res = criteria.list(max: max, offset: offset) {
-            //setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY)
+
             eq('user', userSearch)
             if (type) {
                 isNotNull(type)

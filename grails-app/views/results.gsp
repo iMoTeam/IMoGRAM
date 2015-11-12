@@ -115,6 +115,9 @@
             </g:each>
         </table>
     </div>
+    <div class="pagination">
+        <g:paginate action="doSearchBooks" controller="universal" total="${itemsCount}" params="${params}"/>
+    </div>
 <hr class="separ">
 </g:if>
 </body>

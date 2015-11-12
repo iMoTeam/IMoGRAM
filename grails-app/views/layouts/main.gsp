@@ -61,14 +61,19 @@
         </div>
         <div class="col-md-2">
             <g:if test="${session["currentUser"]}">
-                <a href="${createLink(controller:'user', action:'index')}" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-user"></span> Mon Compte</a>
+                <a href="${createLink(controller:'user', action:'index')}" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-user"></span>${session["currentUser"].username}</a>
             </g:if>
             <g:else>
                 <a href="${createLink(controller:'user', action:'loginUser')}" class="btn btn-success btn-lg">Connexion</a>
             </g:else>
         </div>
-        <div class="col-md-2">
-            <a href="${createLink(controller:'user', action:'create')}" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-pencil"></span> Inscription</a>
+        <div class="col-md-1">
+            <g:if test="${session["currentUser"] != null}">
+                <a href="${createLink(controller:'user', action:'logout')}" class="btn btn-success btn-lg">Déconnexion</a>
+            </g:if>
+            <g:else>
+                <a href="${createLink(controller:'user', action:'create')}" class="btn btn-success btn-lg">Inscription</a>
+            </g:else>
         </div>
     </div>
 </div>
