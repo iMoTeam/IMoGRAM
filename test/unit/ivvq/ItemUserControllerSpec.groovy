@@ -8,7 +8,7 @@ import spock.lang.*
 @Mock([ItemUser, Book, Movie, TVShow, User])
 class ItemUserControllerSpec extends Specification {
 
-    def populateValidParamsUser() {
+    def populateValidParamsUser(params) {
         assert params != null
         params["firstName"] = 'Brother'
         params["lastName"] = 'Kaka'
@@ -21,180 +21,168 @@ class ItemUserControllerSpec extends Specification {
 
     def populateValidParamsMovie(params) {
         assert params != null
-        populateValidParamsUser()
-        Movie movie = new Movie(params)
-        movie.save(flush: true)
-        params["user"] = new User(params)
-        params["movie"] = movie
-        params["tvShow"] = null
-        params["book"] = null
-        params["rating"] = null
+        params["imdbID"] = "tt4545341"
+        params["title"] = "title"
+        params["releaseDate"] = "22-09-15"
+        params["runtime"] = "127 min"
+        params["genre"] = "Snuff"
+        params["director"] = "Michael Bay"
+        params["writers"] = "M. Pokora"
+        params["actors"] = "Jackie Chan"
+        params["country"] = "Kinder"
+        params["plot"] = "Il ¨¦tait une fois la vie"
+        params["poster"] = "Image"
     }
 
-    void "Test that the rateItem action rate on a movie"() {
+    def populateValidParamsBook(params) {
+        assert params != null
+        params["googleID"] = "SteVfQT2WY0C"
+        params["isbn13"] = "9782709637404"
+        params["title"] = "Da Vinci code"
+        params["publishedDate"] = "22-05-15"
+        params["author"] = "Auteur"
+        params["publisher"] = "Maison des Cartes"
+        params["pageCount"] = 50
+    }
+
+    def populateValidParamsTVShow(params) {
+        assert params != null
+        params["imdbID"] = "tt0107290"
+        params["title"] = "The Movie"
+        params["releaseDate"] = "22-09-15"
+        params["runtime"] = "127"
+        params["network"] = "OCS"
+        params["overview"] = "R¨¦sume"
+        params["airedEpisodes"] = 50
+        params["country"] = "Madagascar"
+    }
+
+    void "Test that the rateItem action rate on a movie not rated"() {
         given: "An item and a user"
         populateValidParamsMovie(params)
-        Movie movie = new Movie(params)
-        movie.save(flush: true)
-        params['movieId'] = movie.id
-        params['itemRating'] = '5'
-        populateValidParamsUser()
-        User user = new User(params)
-        user.save(flush: true)
+        Movie movie = new Movie(params).save(flush: true)
+        populateValidParamsUser(params)
+        User user = new User(params).save(flush: true)
 
         when: "The user rate the movie"
+        session['currentUser'] = user
+        params['movieId'] = movie.imdbID
+        params['itemRating'] = '5'
         controller.rateItem()
 
         then: "The user is redirected to the show page of the item he have rated"
         response.redirectedUrl != null
-        response.redirectedUrl == "/movie/show/"+movie.id
+        response.redirectedUrl == "/movie/show/" + movie.id
 
         and: "The rating is added for the user"
-        ItemUser.findByBookAndUser(movie, user) != null
+        ItemUser.findByMovieAndUser(movie, user) != null
         Integer oldRating = ItemUser.findByMovieAndUser(movie, user).rating
         oldRating != null
 
-        when: "The user update his rating for the movie"
+    }
+
+    void "Test that the rateItem action rate on a movie already rated"() {
+        given: "An item and a user and the itemUser associated"
+        populateValidParamsMovie(params)
+        Movie movie = new Movie(params).save(flush: true)
+        populateValidParamsUser(params)
+        User user = new User(params).save(flush: true)
+        ItemUser itemUser = new ItemUser(movie: movie, user: user, rating: 10).save(flush: true)
+
+        when: "The user rate the movie"
+        session['currentUser'] = user
+        params['movieId'] = movie.imdbID
+        params['itemRating'] = '5'
         controller.rateItem()
 
         then: "The rating is updated for the movie"
         Integer newRating = ItemUser.findByMovieAndUser(movie, user).rating
-        newRating != oldRating
+        newRating == 5
+    }
 
+    void "Test that the rateItem action rate on a book not rated"() {
+        given: "An item and a user"
+        populateValidParamsBook(params)
+        Book book = new Book(params).save(flush: true)
+        populateValidParamsUser(params)
+        User user = new User(params).save(flush: true)
+
+        when: "The user rate the book"
+        session['currentUser'] = user
+        params['bookId'] = book.isbn13
+        params['itemRating'] = '5'
+        controller.rateItem()
+
+        then: "The user is redirected to the show page of the item he have rated"
+        response.redirectedUrl != null
+        response.redirectedUrl == "/book/show/" + book.id
+
+        and: "The rating is added for the user"
+        ItemUser.findByBookAndUser(book, user) != null
+        Integer oldRating = ItemUser.findByBookAndUser(book, user).rating
+        oldRating != null
+    }
+
+    void "Test that the rateItem action rate on a book already rated"() {
+        given: "An item and a user and the itemUser associated"
+        populateValidParamsBook(params)
+        Book book = new Book(params).save(flush: true)
+        populateValidParamsUser(params)
+        User user = new User(params).save(flush: true)
+        ItemUser itemUser = new ItemUser(book: book, user: user, rating: 10).save(flush: true)
+
+        when: "The user rate the book"
+        session['currentUser'] = user
+        params['bookId'] = book.isbn13
+        params['itemRating'] = '5'
+        controller.rateItem()
+
+        then: "The rating is updated for the book"
+        Integer newRating = ItemUser.findByBookAndUser(book, user).rating
+        newRating == 5
+    }
+
+    void "Test that the rateItem action rate on a TVShow not rated"() {
+        given: "An item and a user"
+        populateValidParamsTVShow(params)
+        TVShow tvShow = new TVShow(params).save(flush: true)
+        populateValidParamsUser(params)
+        User user = new User(params).save(flush: true)
+
+        when: "The user rate the TVShow"
+        session['currentUser'] = user
+        params['tvShowId'] = tvShow.imdbID
+        params['itemRating'] = '5'
+        controller.rateItem()
+
+        then: "The user is redirected to the show page of the item he have rated"
+        response.redirectedUrl != null
+        response.redirectedUrl == "/TVShow/show/" + tvShow.id
+
+        and: "The rating is added for the user"
+        ItemUser.findByTvShowAndUser(tvShow, user) != null
+        Integer oldRating = ItemUser.findByTvShowAndUser(tvShow, user).rating
+        oldRating != null
+    }
+
+    void "Test that the rateItem action rate on a TVShow already rated"() {
+        given: "An item and a user and the itemUser associated"
+        populateValidParamsTVShow(params)
+        TVShow tvShow = new TVShow(params).save(flush: true)
+        populateValidParamsUser(params)
+        User user = new User(params).save(flush: true)
+        ItemUser itemUser = new ItemUser(TVShow: tvShow, user: user, rating: 10).save(flush: true)
+
+        when: "The user rate the TVShow"
+        session['currentUser'] = user
+        params['tvShowId'] = tvShow.imdbID
+        params['itemRating'] = '5'
+        controller.rateItem()
+
+        then: "The rating is updated for the TVShow"
+        Integer newRating = ItemUser.findByTvShowAndUser(tvShow, user).rating
+        newRating == 5
     }
 
 
-
-
-    /*void "Test the index action returns the correct model"() {
-
-        when: "The index action is executed"
-        controller.index()
-
-        then: "The model is correct"
-        !model.itemUserInstanceList
-        model.itemUserInstanceCount == 0
-    }
-
-    void "Test the create action returns the correct model"() {
-        when: "The create action is executed"
-        controller.create()
-
-        then: "The model is correctly created"
-        model.itemUserInstance != null
-    }
-
-    void "Test the save action correctly persists an instance"() {
-
-        when: "The save action is executed with an invalid instance"
-        request.contentType = FORM_CONTENT_TYPE
-        def itemUser = new ItemUser()
-        itemUser.validate()
-        controller.save(itemUser)
-
-        then: "The create view is rendered again with the correct model"
-        model.itemUserInstance != null
-        view == 'create'
-
-        when: "The save action is executed with a valid instance"
-        response.reset()
-        populateValidParams(params)
-        itemUser = new ItemUser(params)
-
-        controller.save(itemUser)
-
-        then: "A redirect is issued to the show action"
-        response.redirectedUrl == '/itemUser/show/1'
-        controller.flash.message != null
-        ItemUser.count() == 1
-    }
-
-    void "Test that the show action returns the correct model"() {
-        when: "The show action is executed with a null domain"
-        controller.show(null)
-
-        then: "A 404 error is returned"
-        response.status == 404
-
-        when: "A domain instance is passed to the show action"
-        populateValidParams(params)
-        def itemUser = new ItemUser(params)
-        controller.show(itemUser)
-
-        then: "A model is populated containing the domain instance"
-        model.itemUserInstance == itemUser
-    }
-
-    void "Test that the edit action returns the correct model"() {
-        when: "The edit action is executed with a null domain"
-        controller.edit(null)
-
-        then: "A 404 error is returned"
-        response.status == 404
-
-        when: "A domain instance is passed to the edit action"
-        populateValidParams(params)
-        def itemUser = new ItemUser(params)
-        controller.edit(itemUser)
-
-        then: "A model is populated containing the domain instance"
-        model.itemUserInstance == itemUser
-    }
-
-    void "Test the update action performs an update on a valid domain instance"() {
-        when: "Update is called for a domain instance that doesn't exist"
-        request.contentType = FORM_CONTENT_TYPE
-        controller.update(null)
-
-        then: "A 404 error is returned"
-        response.redirectedUrl == '/itemUser/index'
-        flash.message != null
-
-
-        when: "An invalid domain instance is passed to the update action"
-        response.reset()
-        def itemUser = new ItemUser()
-        itemUser.validate()
-        controller.update(itemUser)
-
-        then: "The edit view is rendered again with the invalid instance"
-        view == 'edit'
-        model.itemUserInstance == itemUser
-
-        when: "A valid domain instance is passed to the update action"
-        response.reset()
-        populateValidParams(params)
-        itemUser = new ItemUser(params).save(flush: true)
-        controller.update(itemUser)
-
-        then: "A redirect is issues to the show action"
-        response.redirectedUrl == "/itemUser/show/$itemUser.id"
-        flash.message != null
-    }
-
-    void "Test that the delete action deletes an instance if it exists"() {
-        when: "The delete action is called for a null instance"
-        request.contentType = FORM_CONTENT_TYPE
-        controller.delete(null)
-
-        then: "A 404 is returned"
-        response.redirectedUrl == '/itemUser/index'
-        flash.message != null
-
-        when: "A domain instance is created"
-        response.reset()
-        populateValidParams(params)
-        def itemUser = new ItemUser(params).save(flush: true)
-
-        then: "It exists"
-        ItemUser.count() == 1
-
-        when: "The domain instance is passed to the delete action"
-        controller.delete(itemUser)
-
-        then: "The instance is deleted"
-        ItemUser.count() == 0
-        response.redirectedUrl == '/itemUser/index'
-        flash.message != null
-    }*/
 }
