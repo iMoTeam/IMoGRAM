@@ -48,6 +48,9 @@
             </g:each>
         </table>
     </div>
+    <div class="pagination">
+        <g:paginate action="doSearchMovies" controller="universal" total="${itemsCount}" params="${params}"/>
+    </div>
     <hr class="separ">
 </g:if>
 
@@ -80,6 +83,9 @@
                 </tr>
             </g:each>
         </table>
+    </div>
+    <div class="pagination">
+        <g:paginate action="doSearchTvShow" controller="universal" total="${itemsCount}" params="${params}"/>
     </div>
     <hr class="separ">
 </g:if>
