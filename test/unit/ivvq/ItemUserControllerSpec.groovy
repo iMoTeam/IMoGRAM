@@ -42,7 +42,7 @@ class ItemUserControllerSpec extends Specification {
         params["publishedDate"] = "22-05-15"
         params["author"] = "Auteur"
         params["publisher"] = "Maison des Cartes"
-        params["pageCount"] = 50
+        params["pageCount"] = 100
     }
 
     def populateValidParamsTVShow(params) {
