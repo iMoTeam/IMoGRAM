@@ -67,7 +67,8 @@ grails {
 grails.converters.encoding = "UTF-8"
 // scaffolding templates configuration
 grails.scaffolding.templates.domainSuffix = 'Instance'
-
+//Bootstraap pagination
+grails.plugins.twitterbootstrap.fixtaglib = true
 // Set to false to use the new Grails 1.2 JSONBuilder in the render method
 grails.json.legacy.builder = false
 // enabled native2ascii conversion of i18n properties files

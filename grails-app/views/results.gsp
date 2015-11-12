@@ -43,13 +43,13 @@
                 <tr class="info">
                     <td>${m.plot}</td>
                 </tr>
-
-
             </g:each>
         </table>
     </div>
-    <div class="pagination">
-        <g:paginate action="doSearchMovies" controller="universal" total="${itemsCount}" params="${params}"/>
+    <div class="row" style="width: 50%;margin: auto">
+        <div class="pagination">
+            <g:paginate action="doSearchMovies" controller="universal" total="${itemsCount}" params="${params}"/>
+        </div>
     </div>
     <hr class="separ">
 </g:if>
@@ -84,8 +84,10 @@
             </g:each>
         </table>
     </div>
-    <div class="pagination">
-        <g:paginate action="doSearchTvShow" controller="universal" total="${itemsCount}" params="${params}"/>
+    <div class="row" style="width: 50%;margin: auto">
+        <div class="pagination">
+            <g:paginate action="doSearchTvShow" controller="universal" total="${itemsCount}" params="${params}"/>
+        </div>
     </div>
     <hr class="separ">
 </g:if>
@@ -121,8 +123,10 @@
             </g:each>
         </table>
     </div>
-    <div class="pagination">
-        <g:paginate action="doSearchBooks" controller="universal" total="${itemsCount}" params="${params}"/>
+    <div class="row" style="width: 50%;margin: auto">
+        <div class="pagination">
+            <g:paginate action="doSearchBooks" controller="universal" total="${itemsCount}" params="${params}"/>
+        </div>
     </div>
 <hr class="separ">
 </g:if>
