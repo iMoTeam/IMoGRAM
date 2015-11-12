@@ -116,6 +116,22 @@ class UserControllerSpec extends Specification {
         model.userInstance != null
     }
 
+    void "Test the logout action correcty logout the user"() {
+
+        when: "A user is previously logged"
+        populateValidParams(params)
+        controller.session["currentUser"] = new User(params).save(flush: true)
+
+        then: "THe session isn't null"
+        controller.session["currentUser"] != null
+
+        when: "logout action is called"
+        controller.logout()
+
+        then: "The session is set to null"
+        controller.session["currentUser"] == null
+    }
+
     void "Test the save action correctly persists an instance"() {
 
         when: "The save action is executed with an invalid instance"

@@ -45,7 +45,7 @@
         </div>
         <div class="panel-body">
             <g:link controller="user" action="deleteUser">
-                <button class="btn btn-default" type="submit">Supp. compte</button>
+                <button class="btn btn-danger" type="submit">Supp. compte</button>
             </g:link>
         </div>
     </div>

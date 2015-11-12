@@ -56,12 +56,25 @@ class UserController {
         }
     }
 
+    /**
+     * Delete the current user logged in. Delete all the items related to + the followers
+     */
     def deleteUser() {
         User currentUser = session["currentUser"];
 
         if (currentUser != null) {
             session["currentUser"] = null
             userService.deleteUser(currentUser)
+        }
+
+        redirect(uri:'/')
+    }
+
+    def logout() {
+        User currentUser = session["currentUser"];
+
+        if (currentUser != null) {
+            session["currentUser"] = null
         }
 
         redirect(uri:'/')
